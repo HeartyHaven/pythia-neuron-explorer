@@ -146,7 +146,7 @@ table.evo td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
       <div class="muted small" id="t-mapdesc"></div>
       <svg id="map" viewBox="0 0 360 260" role="img"></svg>
       <div class="small" id="anchorbar" hidden><span id="anchorlbl"></span> <button id="anchorclear" type="button"></button></div>
-      <div class="timebar"><button id="mapplay" type="button">▶</button><input type="range" id="mapstep" min="0" max="19" value="19"><span class="lbl" id="mapsteplabel"></span></div>
+      <div class="timebar"><button id="mapplay" type="button">▶</button><input type="range" id="mapstep" min="0" max="39" value="39"><span class="lbl" id="mapsteplabel"></span></div>
     </div>
     <div class="panel">
       <h2 id="gtitle"></h2>
@@ -163,7 +163,7 @@ table.evo td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 <script>
 const $ = id => document.getElementById(id);
-const S = { mapIdx: 19, playing: null, anchor: null, sim: null, mapPos: {}, anim: null, meta: null, layers: {}, grouping: "category", group: null, sel: null, step: null, cmp: null, topn: 5, query: "", lang: "zh" };
+const S = { mapIdx: 39, playing: null, anchor: null, sim: null, mapPos: {}, anim: null, meta: null, layers: {}, grouping: "category", group: null, sel: null, step: null, cmp: null, topn: 5, query: "", lang: "zh" };
 
 // ---------- 界面文字 ----------
 const T = {
@@ -174,7 +174,7 @@ const T = {
     panelTitle: "它响应的概念如何演化", panelDesc: "颜色是概念产生时的机制：派生出来的概念都从父概念的线分叉（递归泛化）；替换在同一条线上接替死去的概念；无关共存从外面直接进入；零散特征只出现一次，集中在最下面。粗线是核心概念。",
     coreTag: "核心概念", treeReplaces: p => `接替了“${p}”（它在此之后消失）`,
     neurons: "神经元", all: "全部", nomatch: "没有找到符合条件的神经元。", loading: l => `正在加载第 ${l} 层的数据…`,
-    intro: `<h2>这是什么</h2><p class="about">这里记录了 Pythia-160M 语言模型中 240 个神经元在训练过程中的变化。在 20 个训练阶段，AI 阅读了每个神经元反应最强的文字，描述它在响应什么。从左边选一个神经元开始看。</p>`,
+    intro: `<h2>这是什么</h2><p class="about">这里记录了 Pythia-160M 语言模型中 240 个神经元在训练过程中的变化。在 40 个训练阶段，AI 阅读了每个神经元反应最强的文字，描述它在响应什么。从左边选一个神经元开始看。</p>`,
     type: "内容类型", traj: "演化曲线", evo: "演化方式", denoise: "像不像去噪", lateDom: "后期主体",
     rgCard: "AI 总结：它是怎么演化的", diffCard: "AI 总结：是否像去噪一样逐步变清晰", core: "核心内容", unrelated: "与核心无关的内容", chain: "延伸路径", evidence: "AI 的判断理由",
     commit: "最终内容第一次出现", saturation: "从这里起不再变清晰", cbf: "先定大方向、后定细节", trend: "清晰程度的变化",
@@ -204,7 +204,7 @@ const T = {
     panelTitle: "How the concepts it responds to evolved", panelDesc: "Color is the mechanism that produced each concept: every derived concept forks off its parent's line (recursive generalization); a replacement continues the line of a concept that died; unrelated coexistence enters directly from outside; sporadic features appear only once and sit along the bottom. The thick line is the core concept.",
     coreTag: "core concept", treeReplaces: p => `took the place of "${p}", which disappeared here`,
     neurons: "Neurons", all: "All", nomatch: "No neurons match.", loading: l => `Loading layer ${l}…`,
-    intro: `<h2>What this is</h2><p class="about">This tool follows 240 neurons of the Pythia-160M language model through training. At 20 stages of training, an AI read the text each neuron responded to most strongly and described what it responds to. Pick a neuron on the left to start.</p>`,
+    intro: `<h2>What this is</h2><p class="about">This tool follows 240 neurons of the Pythia-160M language model through training. At 40 stages of training, an AI read the text each neuron responded to most strongly and described what it responds to. Pick a neuron on the left to start.</p>`,
     type: "Content type", traj: "Curve shape", evo: "How it evolved", denoise: "Like denoising?", lateDom: "Late-training makeup",
     rgCard: "AI summary: how it evolved", diffCard: "AI summary: did it sharpen gradually, like denoising?", core: "Core idea", unrelated: "Unrelated to the core", chain: "How it extended", evidence: "AI's reasoning",
     commit: "Final idea first appears", saturation: "Stops getting clearer at", cbf: "Broad direction settled before details", trend: "How clarity changed",
@@ -412,7 +412,7 @@ function renderMap(animate) {
   if (S.anim) cancelAnimationFrame(S.anim);
   const from = S.mapPos && Object.keys(S.mapPos).length ? S.mapPos : target;
   if (!animate || reduce || typeof requestAnimationFrame !== "function") { placeMap(target); return; }
-  const t0 = performance.now(), dur = 550;
+  const t0 = performance.now(), dur = S.playing ? 380 : 550;
   const ease = x => x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
   const frame = now => {
     const u = ease(Math.min(1, (now - t0) / dur)), cur = {};
@@ -475,7 +475,7 @@ function togglePlay() {
   S.playing = setInterval(() => {
     if (S.mapIdx >= S.meta.steps.length - 1) return togglePlay();
     setMapIdx(S.mapIdx + 1);
-  }, 900);
+  }, 600);
 }
 function renderLeft() { renderGroups(); renderList(); renderMap(); }
 
