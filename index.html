@@ -171,7 +171,7 @@ const T = {
     title: "神经元演化浏览器", grouping: "分组方式", search: "搜索", searchPh: "如 L6/N201，或解释里的词",
     info: (n, k) => `Pythia-160M 语言模型 · ${n} 个神经元 · ${k} 个训练阶段`,
     map: "解释相近的神经元", mapdesc: "描述越相近，点越靠近。单击换神经元；双击设为锚点，锚点居中，其他点离它越近，描述越像。", anchorOn: x => `锚点：${x}`, anchorClear: "取消锚点", mapAxis: "训练阶段", play: "播放",
-    panelTitle: "它响应的概念如何演化", panelDesc: "颜色是概念产生时的机制：分支从已有的线分叉，替换在同一条线上接替死去的概念，无关共存从上方汇入，零散特征只出现一次、集中在最下面。粗线是核心概念。",
+    panelTitle: "它响应的概念如何演化", panelDesc: "颜色是概念产生时的机制：派生出来的概念都从父概念的线分叉（递归泛化）；替换在同一条线上接替死去的概念；无关共存从外面直接进入；零散特征只出现一次，集中在最下面。粗线是核心概念。",
     coreTag: "核心概念", treeReplaces: p => `接替了“${p}”（它在此之后消失）`,
     neurons: "神经元", all: "全部", nomatch: "没有找到符合条件的神经元。", loading: l => `正在加载第 ${l} 层的数据…`,
     intro: `<h2>这是什么</h2><p class="about">这里记录了 Pythia-160M 语言模型中 240 个神经元在训练过程中的变化。在 20 个训练阶段，AI 阅读了每个神经元反应最强的文字，描述它在响应什么。从左边选一个神经元开始看。</p>`,
@@ -201,7 +201,7 @@ const T = {
     title: "Neuron Evolution Explorer", grouping: "Group by", search: "Search", searchPh: "e.g. L6/N201, or a word",
     info: (n, k) => `Pythia-160M language model · ${n} neurons · ${k} training stages`,
     map: "Neurons with similar explanations", mapdesc: "The more alike the descriptions, the closer the dots. Click to switch neurons; double-click to make one the anchor, centered, with closer dots described more alike.", anchorOn: x => `Anchor: ${x}`, anchorClear: "Clear anchor", mapAxis: "Training stage", play: "Play",
-    panelTitle: "How the concepts it responds to evolved", panelDesc: "Color is the mechanism that produced each concept: a branch forks off an existing line, a replacement continues the line of a concept that died, unrelated coexistence merges in from above, and sporadic features appear only once and sit along the bottom. The thick line is the core concept.",
+    panelTitle: "How the concepts it responds to evolved", panelDesc: "Color is the mechanism that produced each concept: every derived concept forks off its parent's line (recursive generalization); a replacement continues the line of a concept that died; unrelated coexistence enters directly from outside; sporadic features appear only once and sit along the bottom. The thick line is the core concept.",
     coreTag: "core concept", treeReplaces: p => `took the place of "${p}", which disappeared here`,
     neurons: "Neurons", all: "All", nomatch: "No neurons match.", loading: l => `Loading layer ${l}…`,
     intro: `<h2>What this is</h2><p class="about">This tool follows 240 neurons of the Pythia-160M language model through training. At 20 stages of training, an AI read the text each neuron responded to most strongly and described what it responds to. Pick a neuron on the left to start.</p>`,
@@ -563,10 +563,10 @@ function evolutionPanel(n) {
   </div>`;
 }
 // 画法规则：
-//   初始就有  从最左边开始一条线；
-//   无关共存  从上方汇入，单独一条新线；
-//   替换      接在刚死去的概念那条线上，同一位置继续，只换颜色；
-//   分支      从父概念的线上分叉出来，放在父概念那条线的下面。
+//   分支（递归泛化）：凡是派生出来的概念，都从父概念的线上分叉，放在父概念那条线的下面；
+//   替换：接在刚死去的概念那条线上，同一位置继续，只换颜色；
+//   无关共存：在自己的新线上从外面直接进入（空心圈起点的短箭头），不碰其他线；
+//   零散：只出现一次、不是派生的概念，集中在最下面一条线上。
 function treeLayout(n) {
   const k = S.meta.steps.length;
   const items = n.lineages.map((g, i) => {
@@ -577,23 +577,34 @@ function treeLayout(n) {
     return { ...g, i, pres, first, last };
   }).filter(g => g.first >= 0 && g.birth);
   const sporadic = items.filter(g => g.birth === "sporadic");
-  const order = { replace: 0, branch: 1, coexist: 2 };
-  items.sort((a, b) => a.first - b.first || order[a.birth] - order[b.birth]);
+  const byIdL = Object.fromEntries(items.map(g => [g.id, g]));
+  // 按依赖逐个放置：替换要等被接替的概念放好，分支要等父概念放好；按出现先后反复扫描
   const lanes = [], laneOf = {};
-  for (const g of items.filter(x => x.birth !== "sporadic")) {
-    let li;
-    if (g.birth === "replace" && laneOf[g.replaces] != null) {
-      li = laneOf[g.replaces];
-      lanes[li].items.push(g);
-    } else {
-      li = lanes.length;
-      const parentLane = g.birth === "branch" && laneOf[g.birth_parent] != null ? laneOf[g.birth_parent] : null;
-      lanes.push({ items: [g], parentLane, children: [] });
-      if (parentLane != null) lanes[parentLane].children.push(li);
+  let rest = items.filter(g => g.birth !== "sporadic").sort((a, b) => a.first - b.first);
+  for (let round = 0; rest.length && round < 100; round++) {
+    const next = [];
+    for (const g of rest) {
+      if (g.birth === "replace" && byIdL[g.replaces]) {
+        if (laneOf[g.replaces] == null) { next.push(g); continue; }
+        laneOf[g.id] = laneOf[g.replaces];
+        lanes[laneOf[g.id]].items.push(g);
+      } else if (g.birth === "branch" && byIdL[g.birth_parent]) {
+        const pl = laneOf[g.birth_parent];
+        if (pl == null) { next.push(g); continue; }
+        laneOf[g.id] = lanes.length;
+        lanes.push({ items: [g], parentLane: pl, children: [] });
+        lanes[pl].children.push(laneOf[g.id]);
+      } else {
+        laneOf[g.id] = lanes.length;
+        lanes.push({ items: [g], parentLane: null, children: [] });
+      }
     }
-    laneOf[g.id] = li;
+    if (next.length === rest.length) {  // 依赖画不出来（缺失或成环），只能单独成线
+      for (const g of next) { laneOf[g.id] = lanes.length; lanes.push({ items: [g], parentLane: null, children: [] }); }
+      break;
+    }
+    rest = next;
   }
-  // 显示顺序：根线按出现先后，分支线紧跟在父线下面
   const rows = [];
   const walk = li => { rows.push(li); for (const c of lanes[li].children) walk(c); };
   lanes.forEach((l, li) => { if (l.parentLane == null) walk(li); });
@@ -607,7 +618,7 @@ function treeChart(n) {
   const { lanes, rows, rowOf, laneOf, items, sporadic, k } = treeLayout(n), steps = S.meta.steps;
   const W = svg.clientWidth || 640, pl = 14, pr = 14, edge = 14, gap = 13, pb = 4;
   const yOf = li => edge + 8 + rowOf[li] * gap;
-  const spY = edge + 8 + rows.length * gap + 4;  // 零散特征共用的底部线
+  const spY = edge + 8 + rows.length * gap + 4;
   const H = (sporadic.length ? spY + 6 : edge + 8 + Math.max(rows.length - 1, 0) * gap) + edge + pb;
   svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
   svg.style.height = H + "px";
@@ -622,55 +633,57 @@ function treeChart(n) {
   if (si >= 0) h += `<line x1="${X(si)}" x2="${X(si)}" y1="${top}" y2="${bottom}" stroke="var(--text-primary)" stroke-dasharray="4 3"/>`;
   const curve = (x0, y0, x1, y1) => `M${x0},${y0} C${(x0 + x1) / 2},${y0} ${(x0 + x1) / 2},${y1} ${x1},${y1}`;
   const width = (g, v) => (g.core ? 3 : 1.2) + 6 * Math.min(1, v);
+  // 从外面进入：自己线上的短水平箭头，起点是空心小圈
+  const enter = (x, y, c, m) => `<circle cx="${x - dx * 0.85}" cy="${y}" r="2.2" fill="var(--surface-1)" stroke="${c}" stroke-width="1.2"/>`
+    + `<path d="M${x - dx * 0.85 + 2.2},${y} L${x},${y}" stroke="${c}" stroke-width="1.4" marker-end="url(#arr-${m})"/>`;
   const replacedBy = {};
   for (const g of items) if (g.birth === "replace" && g.replaces) replacedBy[g.replaces] = g;
   for (const g of items.filter(x => x.birth !== "sporadic")) {
     const y = yOf(laneOf[g.id]), c = color(g), parts = [];
     // 诞生
-    if (g.first === 0) {
-      parts.push(`<path d="M${X(0) - pl + 2},${y} L${X(0)},${y}" stroke="${c}" stroke-width="${width(g, g.pres[0])}"/>`);
+    if (g.birth === "branch" && byId[g.birth_parent] && laneOf[g.birth_parent] != null) {
+      const p = byId[g.birth_parent], py = yOf(laneOf[p.id]);
+      const at = Math.max(0, g.first - 1), xs = g.first > 0 ? X(at) : X(0) - pl + 2;
+      // 分叉点处父概念不在最强反应里：父线用虚线延到分叉点（向后或向前）
+      if (p.last < at) parts.push(`<path d="M${X(p.last)},${py} L${X(at)},${py}" stroke="${color(p)}" stroke-width="1.2" stroke-dasharray="2 4" opacity=".7"/>`);
+      if (p.first > at) parts.push(`<path d="M${xs},${py} L${X(p.first)},${py}" stroke="${color(p)}" stroke-width="1.2" stroke-dasharray="2 4" opacity=".7"/>`);
+      parts.push(`<circle cx="${xs}" cy="${py}" r="2" fill="${c}"/>`);
+      parts.push(`<path d="${curve(xs, py, X(g.first), y)}" fill="none" stroke="${c}" stroke-width="1.8" marker-end="url(#arr-branch)"/>`);
     } else if (g.birth === "replace" && byId[g.replaces]) {
-      // 同一条线上接着画，只换颜色；交接处画一道竖线
       parts.push(`<path d="M${X(g.first - 1)},${y} L${X(g.first)},${y}" stroke="${c}" stroke-width="${width(g, g.pres[g.first])}" stroke-linecap="round"/>`);
       parts.push(`<line x1="${X(g.first - 1)}" x2="${X(g.first - 1)}" y1="${y - 6}" y2="${y + 6}" stroke="var(--text-primary)" stroke-width="1.5"/>`);
-    } else if (g.birth === "branch" && byId[g.birth_parent]) {
-      const p = byId[g.birth_parent], py = yOf(laneOf[p.id]), at = g.first - 1;
-      // 父概念那时已不在最强反应里：把父线用虚线延到分叉点
-      if (p.last < at) parts.push(`<path d="M${X(p.last)},${py} L${X(at)},${py}" stroke="${color(p)}" stroke-width="1.2" stroke-dasharray="2 4" opacity=".7"/>`);
-      parts.push(`<path d="${curve(X(at), py, X(g.first), y)}" fill="none" stroke="${c}" stroke-width="1.8" marker-end="url(#arr-branch)"/>`);
+    } else if (g.first === 0) {
+      parts.push(`<path d="M${X(0) - pl + 2},${y} L${X(0)},${y}" stroke="${c}" stroke-width="${width(g, g.pres[0])}"/>`);
     } else {
-      // 无关共存：从自己那条线的左上方短距离汇入，不横穿其他线
-      parts.push(`<path d="${curve(X(g.first) - dx, y - gap, X(g.first), y)}" fill="none" stroke="${c}" stroke-width="1.5" marker-end="url(#arr-${g.birth})"/>`);
+      parts.push(enter(X(g.first), y, c, g.birth));
     }
-    // 存活期
+    // 存活期：连续出现为实线，中间断开为虚线
     for (let j = g.first; j < g.last; j++) {
       const on = g.pres[j] > 0 && g.pres[j + 1] > 0;
       parts.push(on
         ? `<path d="M${X(j)},${y} L${X(j + 1)},${y}" stroke="${c}" stroke-width="${width(g, (g.pres[j] + g.pres[j + 1]) / 2)}" stroke-linecap="round"/>`
         : `<path d="M${X(j)},${y} L${X(j + 1)},${y}" stroke="${c}" stroke-width="1.2" stroke-dasharray="2 4" opacity=".7"/>`);
     }
-    // 消失：被替换的概念不画离开（由接替者在同一条线上继续）；其他向上弯出；活到最后的延伸到右边缘
+    // 消失：被替换的由接替者在同一条线上继续；其他画一小段淡出的直线；活到最后的延伸到右边缘
     if (g.last === k - 1) {
       parts.push(`<path d="M${X(k - 1)},${y} L${W - 2},${y}" stroke="${c}" stroke-width="${width(g, g.pres[k - 1])}"/>`);
     } else if (!replacedBy[g.id]) {
-      const xe = X(g.last) + (g.first === g.last ? dx * 0.4 : 0);
-      if (g.first === g.last) parts.push(`<path d="M${X(g.first)},${y} L${xe},${y}" stroke="${c}" stroke-width="${width(g, g.pres[g.first])}" stroke-linecap="round"/>`);
-      parts.push(`<path d="${curve(xe, y, xe + dx * 0.8, y - gap * 0.9)}" fill="none" stroke="${c}" stroke-width="1.2" opacity=".45"/>`);
+      parts.push(`<path d="M${X(g.last)},${y} L${X(g.last) + dx * 0.5},${y}" stroke="${c}" stroke-width="${width(g, g.pres[g.last])}" stroke-linecap="round" opacity=".35"/>`);
     }
     g.pres.forEach((v, j) => { if (v > 0) parts.push(`<circle cx="${X(j)}" cy="${y}" r="${2 + 2.5 * Math.min(1, v)}" fill="${c}" stroke="var(--surface-1)" stroke-width="1.5"/>`); });
     const x0 = g.first > 0 ? X(g.first - 1) : 0, x1 = g.last === k - 1 ? W : X(g.last) + dx * 0.5;
     parts.push(`<path d="M${x0},${y} L${x1},${y}" stroke="transparent" stroke-width="12" pointer-events="stroke"/>`);
     h += `<g class="lin" data-g="${esc(g.id)}" style="cursor:pointer">${parts.join("")}</g>`;
   }
+  // 零散：最下面一条淡线，每个零散特征画成从外面进入的短箭头
   if (sporadic.length) {
     h += `<line x1="${X(0)}" x2="${X(k - 1)}" y1="${spY}" y2="${spY}" stroke="var(--border)" stroke-width="1"/>`;
-    sporadic.forEach((g, q) => {
-      const c = color(g), j = g.first, yy = spY + ((q % 3) - 1) * 2;
-      h += `<g class="lin" data-g="${esc(g.id)}" style="cursor:pointer">
-        <path d="${curve(X(j) - dx * 0.7, yy - gap, X(j), yy)}" fill="none" stroke="${c}" stroke-width="1.5" marker-end="url(#arr-sporadic)"/>
-        <circle cx="${X(j)}" cy="${yy}" r="${2 + 2.5 * Math.min(1, g.pres[j])}" fill="${c}" stroke="var(--surface-1)" stroke-width="1.5"/>
-        <path d="${curve(X(j) - dx * 0.7, yy - gap, X(j), yy)}" fill="none" stroke="transparent" stroke-width="10" pointer-events="stroke"/></g>`;
-    });
+    for (const g of sporadic) {
+      const c = color(g), j = g.first;
+      h += `<g class="lin" data-g="${esc(g.id)}" style="cursor:pointer">${enter(X(j), spY, c, "sporadic")}
+        <circle cx="${X(j)}" cy="${spY}" r="${2 + 2.5 * Math.min(1, g.pres[j])}" fill="${c}" stroke="var(--surface-1)" stroke-width="1.5"/>
+        <path d="M${X(j) - dx},${spY} L${X(j) + 4},${spY}" stroke="transparent" stroke-width="10" pointer-events="stroke"/></g>`;
+    }
   }
   svg.innerHTML = h;
   const nameOf = id => { const i = n.lineages.findIndex(x => x.id === id); return i >= 0 ? Li(n, "lineages", i, "name") : id; };
