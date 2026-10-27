@@ -48,7 +48,22 @@ select, input, button { font: inherit; color: var(--text-primary); background: v
   border: 1px solid var(--border); border-radius: 6px; padding: 3px 8px; max-width: 100%; }
 button { cursor: pointer; }
 button:focus-visible, select:focus-visible, input:focus-visible, .group:focus-visible, .nrow:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
-.langs { display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-left: auto; }
+.langs { display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.hlinks { display: inline-flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-left: auto; }
+.hbtn { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; line-height: 1.4; padding: 3px 11px; border: 1px solid var(--border); border-radius: 999px;
+  background: var(--surface-1); color: var(--text-primary); text-decoration: none; cursor: pointer; white-space: nowrap; }
+.hbtn:hover { background: var(--surface-2); border-color: var(--text-muted); }
+.hbtn svg { width: 15px; height: 15px; fill: currentColor; flex: none; }
+.hbtn .q { display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); color: var(--on-accent); font-size: 11px; font-weight: 700; }
+#guidebox { width: min(520px, calc(100% - 32px)); max-height: calc(100vh - 48px); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px 14px;
+  background: var(--surface-1); color: var(--text-primary); box-shadow: 0 8px 30px var(--shadow); }
+#guidebox::backdrop { background: rgba(0, 0, 0, .35); }
+#guidebox h2 { font-size: 16px; margin: 0 0 4px; }
+#guidebox ol { list-style: none; counter-reset: g; padding: 0; margin: 8px 0; }
+#guidebox li { counter-increment: g; display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 8px; margin: 10px 0; font-size: 13px; color: var(--text-secondary); }
+#guidebox li::before { content: counter(g); display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--surface-2); color: var(--text-primary); font-size: 12px; font-weight: 600; }
+#guidebox li b { color: var(--text-primary); }
+#guidebox .gfoot { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); }
 .langs button { border: 0; border-radius: 0; padding: 3px 10px; background: var(--surface-1); }
 .langs button.on { background: var(--accent); color: var(--on-accent); }
 .panel-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -143,8 +158,15 @@ table.evo td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
   <span class="ctl"><span id="t-grouping"></span><select id="grouping"></select></span>
   <span class="ctl"><label for="search" id="t-search"></label><input id="search" size="18"></span>
   <span class="muted small" id="hdrinfo"></span>
-  <span class="langs" role="group" aria-label="Language"><button id="lang-zh" type="button">中文</button><button id="lang-en" type="button">EN</button></span>
+  <span class="hlinks">
+    <button class="hbtn" id="guide" type="button" aria-haspopup="dialog"><span class="q" aria-hidden="true">?</span><span id="t-guide"></span></button>
+    <a class="hbtn" href="https://github.com/HeartyHaven/pythia-neuron-evolution" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span>GitHub</span></a>
+    <a class="hbtn" href="https://huggingface.co/datasets/LangGao/pythia-160m-neuron-evolution" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1C4.7 1 2 2.1 2 3.5v9C2 13.9 4.7 15 8 15s6-1.1 6-2.5v-9C14 2.1 11.3 1 8 1zm0 1.5c2.8 0 4.5.9 4.5 1s-1.7 1-4.5 1-4.5-.9-4.5-1 1.7-1 4.5-1zM3.5 5.6C4.8 6.2 6.3 6.5 8 6.5s3.2-.3 4.5-.9V8c0 .1-1.7 1-4.5 1S3.5 8.1 3.5 8V5.6zm0 4.5c1.3.6 2.8.9 4.5.9s3.2-.3 4.5-.9v2.4c0 .1-1.7 1-4.5 1s-4.5-.9-4.5-1v-2.4z"/></svg><span id="t-data"></span></a>
+    <span class="langs" role="group" aria-label="Language"><button id="lang-zh" type="button">中文</button><button id="lang-en" type="button">EN</button></span>
+  </span>
 </header>
+<dialog id="guidebox" aria-labelledby="guide-h"><h2 id="guide-h"></h2><ol id="guide-list"></ol>
+  <div class="gfoot"><span id="guide-foot"></span><button type="button" id="guide-close"></button></div></dialog>
 <div class="layout">
   <aside id="left">
     <div class="panel">
@@ -174,6 +196,15 @@ const S = { famFocus: null, colorBy: "mech", mapIdx: 39, playing: null, anchor: 
 // ---------- 界面文字 ----------
 const T = {
   zh: {
+    guide: "指南", data: "数据集", close: "知道了", guideTitle: "怎么看这个页面",
+    guideItems: [
+      ["选一个神经元", "用左边的地图、分组或搜索（如 L6/N201）。地图上点越近，描述越像；拖滑块或点 ▶ 看不同训练阶段；双击一个点，以它为中心排列其他点。"],
+      ["概念演化图", "每条线是一个概念，从左到右是训练过程。从别的线分叉＝由旧概念派生；同一条线换颜色＝替换；带空心圈进入＝无关的新概念；最下一行＝只出现一次。"],
+      ["点一条线", "只看它所在的系列，再点一次恢复。右上角切换“按机制上色 / 按系列上色”。"],
+      ["条形图", "每个阶段最强 10 段原文的激活由哪些概念承担。悬停看百分比，点一列跳到该阶段。"],
+      ["描述表和原文", "点一行查看该阶段 AI 的解释和原文，底色越蓝反应越强。← → 切换阶段，也可以和另一阶段并排比较。"],
+    ],
+    guideFoot: "鼠标悬停在线、数字和标题上可看说明。",
     title: "神经元演化浏览器", grouping: "分组方式", search: "搜索", searchPh: "如 L6/N201，或解释里的词",
     info: (n, k) => `Pythia-160M 语言模型 · ${n} 个神经元 · ${k} 个训练阶段`,
     map: "解释相近的神经元", mapdesc: "点越近，描述越像。单击切换，双击设为锚点。", anchorOn: x => `锚点：${x}`, anchorClear: "取消锚点", mapAxis: "训练阶段", play: "播放",
@@ -206,6 +237,15 @@ const T = {
     treeFrom: p => `从“${p}”长出`,
   },
   en: {
+    guide: "Guide", data: "Dataset", close: "Got it", guideTitle: "How to read this page",
+    guideItems: [
+      ["Pick a neuron", "Use the map, the groups or search (e.g. L6/N201) on the left. Closer dots have more alike descriptions; drag the slider or press ▶ to move through training; double-click a dot to center the map on it."],
+      ["Concept evolution chart", "Each line is one concept; training runs left to right. A fork from another line = derived from an older concept; a color change on the same line = replacement; entering with a hollow circle = an unrelated new concept; bottom row = seen only once."],
+      ["Click a line", "Shows only its family; click again to restore. The top-right toggle colors by mechanism or by family."],
+      ["Bar chart", "Which concepts carry the activation of the 10 strongest passages at each stage. Hover for percentages; click a column to jump to that stage."],
+      ["Table and text", "Click a row to see the AI's explanation and the original text at that stage; the bluer, the stronger. Use ← → to change stage, or compare two stages side by side."],
+    ],
+    guideFoot: "Hover lines, numbers and titles for details.",
     title: "Neuron Evolution Explorer", grouping: "Group by", search: "Search", searchPh: "e.g. L6/N201, or a word",
     info: (n, k) => `Pythia-160M language model · ${n} neurons · ${k} training stages`,
     map: "Neurons with similar explanations", mapdesc: "Closer dots have more alike descriptions. Click to switch; double-click to anchor.", anchorOn: x => `Anchor: ${x}`, anchorClear: "Clear anchor", mapAxis: "Training stage", play: "Play",
@@ -341,6 +381,12 @@ function setLang(lang) {
   $("lang-zh").setAttribute("aria-pressed", lang === "zh");
   $("lang-en").setAttribute("aria-pressed", lang === "en");
   $("t-title").textContent = t("title");
+  $("t-guide").textContent = t("guide");
+  $("t-data").textContent = t("data");
+  $("guide-h").textContent = t("guideTitle");
+  $("guide-list").innerHTML = t("guideItems").map(([a, b]) => `<li><div><b>${esc(a)}</b><br>${esc(b)}</div></li>`).join("");
+  $("guide-foot").textContent = t("guideFoot");
+  $("guide-close").textContent = t("close");
   $("t-grouping").textContent = t("grouping");
   $("t-search").textContent = t("search");
   $("search").placeholder = t("searchPh");
@@ -896,6 +942,12 @@ document.addEventListener("keydown", ev => {
   if (lang !== "zh" && lang !== "en") lang = (navigator.language || "").toLowerCase().startsWith("zh") ? "zh" : "en";
   $("lang-zh").onclick = () => setLang("zh");
   $("lang-en").onclick = () => setLang("en");
+  $("guide").onclick = () => $("guidebox").showModal();
+  $("guide-close").onclick = () => $("guidebox").close();
+  $("guidebox").onclick = e => {
+    const r = $("guidebox").getBoundingClientRect();
+    if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) $("guidebox").close();
+  };
   setLang(lang);
   S.meta = await (await fetch("data/meta.json")).json();
   $("grouping").onchange = () => { S.grouping = $("grouping").value; S.group = null; renderLeft(); };
