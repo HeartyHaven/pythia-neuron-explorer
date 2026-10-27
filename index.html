@@ -377,7 +377,6 @@ function tip(ev, html) {
 // ---------- 语言 ----------
 function setLang(lang) {
   S.lang = lang;
-  try { localStorage.setItem("explorer-lang", lang); } catch (e) { /* 存储不可用时忽略 */ }
   document.documentElement.lang = lang === "en" ? "en" : "zh";
   $("lang-zh").classList.toggle("on", lang === "zh");
   $("lang-en").classList.toggle("on", lang === "en");
@@ -939,10 +938,7 @@ document.addEventListener("keydown", ev => {
 
 // ---------- 启动 ----------
 (async () => {
-  let lang = null;
-  try { lang = localStorage.getItem("explorer-lang"); } catch (e) { /* 存储不可用 */ }
   try { if (localStorage.getItem("explorer-colorby") === "family") S.colorBy = "family"; } catch (e) { /* 存储不可用 */ }
-  if (lang !== "zh" && lang !== "en") lang = (navigator.language || "").toLowerCase().startsWith("zh") ? "zh" : "en";
   $("lang-zh").onclick = () => setLang("zh");
   $("lang-en").onclick = () => setLang("en");
   $("guide").onclick = () => $("guidebox").showModal();
@@ -951,7 +947,7 @@ document.addEventListener("keydown", ev => {
     const r = $("guidebox").getBoundingClientRect();
     if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) $("guidebox").close();
   };
-  setLang(lang);
+  setLang("en");  // 每次打开都从英文开始
   S.meta = await (await fetch("data/meta.json")).json();
   $("grouping").onchange = () => { S.grouping = $("grouping").value; S.group = null; renderLeft(); };
   $("search").oninput = e => { S.query = e.target.value; renderList(); renderMap(); };
