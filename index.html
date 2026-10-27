@@ -12,7 +12,7 @@
 :root {
   --surface-0: #f4f4f2; --surface-1: #fcfcfb; --surface-2: #f0efec; --border: #e2e1dc;
   --text-primary: #0b0b0b; --text-secondary: #52514e; --text-muted: #85847f;
-  --series-1: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a; --series-4: #eda100; --series-5: #e87ba4; --series-other: #a8a7a0;
+  --series-1: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a; --series-4: #eda100; --series-5: #e87ba4; --series-6: #008300; --series-7: #6250d6; --series-8: #e34948; --series-other: #a8a7a0;
   --dot-muted: #cfcec8; --accent: #2a78d6; --on-accent: #ffffff; --hl: 42, 120, 214; --hit: #0b0b0b; --sel-row: #e6f0fb;
   --shadow: rgba(0, 0, 0, .18);
   --font-ui: -apple-system, "Segoe UI", "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
@@ -23,7 +23,7 @@
     color-scheme: dark;
     --surface-0: #121211; --surface-1: #1a1a19; --surface-2: #242422; --border: #33332f;
     --text-primary: #f0efec; --text-secondary: #c3c2b7; --text-muted: #8f8e86;
-    --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70; --series-4: #c98500; --series-5: #d55181; --series-other: #6b6a63;
+    --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70; --series-4: #c98500; --series-5: #d55181; --series-6: #008300; --series-7: #9085e9; --series-8: #e66767; --series-other: #6b6a63;
     --dot-muted: #45443f; --accent: #3987e5; --on-accent: #ffffff; --hl: 57, 135, 229; --hit: #f0efec; --sel-row: #1d2b3d;
     --shadow: rgba(0, 0, 0, .5);
   }
@@ -32,7 +32,7 @@
   color-scheme: dark;
   --surface-0: #121211; --surface-1: #1a1a19; --surface-2: #242422; --border: #33332f;
   --text-primary: #f0efec; --text-secondary: #c3c2b7; --text-muted: #8f8e86;
-  --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70; --series-4: #c98500; --series-5: #d55181; --series-other: #6b6a63;
+  --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70; --series-4: #c98500; --series-5: #d55181; --series-6: #008300; --series-7: #9085e9; --series-8: #e66767; --series-other: #6b6a63;
   --dot-muted: #45443f; --accent: #3987e5; --on-accent: #ffffff; --hl: 57, 135, 229; --hit: #f0efec; --sel-row: #1d2b3d;
   --shadow: rgba(0, 0, 0, .5);
 }
@@ -51,6 +51,9 @@ button:focus-visible, select:focus-visible, input:focus-visible, .group:focus-vi
 .langs { display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-left: auto; }
 .langs button { border: 0; border-radius: 0; padding: 3px 10px; background: var(--surface-1); }
 .langs button.on { background: var(--accent); color: var(--on-accent); }
+.panel-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.panel-head h2 { margin-right: auto; }
+.panel-head .langs { margin-left: 0; font-size: 12px; }
 .layout { display: grid; grid-template-columns: 380px minmax(0, 1fr); gap: 14px; align-items: start;
   padding-block: 14px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 .layout > * { min-width: 0; }
@@ -92,6 +95,7 @@ details summary { cursor: pointer; color: var(--text-secondary); font-size: 12px
 svg text { fill: var(--text-muted); font-size: 11px; }
 .chart .ttl { font-size: 13px; font-weight: 600; }
 .legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--text-secondary); margin: 2px 0 4px; }
+.legend span { max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .legend i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 4px; }
 .scroll-x { overflow-x: auto; max-width: 100%; }
 table.evo { width: 100%; min-width: 640px; border-collapse: collapse; font-size: 13px; }
@@ -163,7 +167,7 @@ table.evo td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 <script>
 const $ = id => document.getElementById(id);
-const S = { mapIdx: 39, playing: null, anchor: null, sim: null, mapPos: {}, anim: null, meta: null, layers: {}, grouping: "category", group: null, sel: null, step: null, cmp: null, topn: 5, query: "", lang: "zh" };
+const S = { colorBy: "mech", mapIdx: 39, playing: null, anchor: null, sim: null, mapPos: {}, anim: null, meta: null, layers: {}, grouping: "category", group: null, sel: null, step: null, cmp: null, topn: 5, query: "", lang: "zh" };
 
 // ---------- 界面文字 ----------
 const T = {
@@ -179,6 +183,9 @@ const T = {
     rgCard: "AI 总结：它是怎么演化的", diffCard: "AI 总结：是否像去噪一样逐步变清晰", core: "核心内容", unrelated: "与核心无关的内容", chain: "延伸路径", evidence: "AI 的判断理由",
     commit: "最终内容第一次出现", saturation: "从这里起不再变清晰", cbf: "先定大方向、后定细节", trend: "清晰程度的变化",
     mechTitle: "每个阶段的最强反应，分别来自哪种机制产生的概念",
+    colorMech: "按机制上色", colorFam: "按系列上色", famTitle: "每个阶段的最强反应，分别来自哪个系列", famOther: "其他较小的系列",
+    panelDescFam: "颜色表示系列：从同一个根概念派生出来的概念同色，互不相关的根概念颜色不同，替换者也不继承被替换者的颜色。最大的 8 个系列各用一种颜色，其余较小的系列为灰色。线的画法仍表示机制：从别的线分叉是递归泛化，在同一条线上接续是替换，从外面进入是无关共存，最下面一行是零散特征。",
+    treeFam: r => `属于“${r}”系列`,
     mechDesc: () => "每根柱子是一个训练阶段，颜色表示最强的 10 段反应中各类内容所占的比例。",
     table: "查看数据表", mech: "内容类别", lineages: c => `这个神经元的各个主题（核心：${c}）`, firstSeen: s => `第 ${s} 步首次出现`,
     simTitle: "和训练结束时有多像", simLegend: ["大方向：偏爱哪类文本", "具体的词", "具体的文章"], simShort: ["大方向", "词", "文章"],
@@ -209,6 +216,9 @@ const T = {
     rgCard: "AI summary: how it evolved", diffCard: "AI summary: did it sharpen gradually, like denoising?", core: "Core idea", unrelated: "Unrelated to the core", chain: "How it extended", evidence: "AI's reasoning",
     commit: "Final idea first appears", saturation: "Stops getting clearer at", cbf: "Broad direction settled before details", trend: "How clarity changed",
     mechTitle: "At each stage, which mechanism produced the concepts behind its strongest responses",
+    colorMech: "Color by mechanism", colorFam: "Color by family", famTitle: "At each stage, which family its strongest responses came from", famOther: "other, smaller families",
+    panelDescFam: "Color is the family: concepts derived from the same root concept share its color, unrelated root concepts get different colors, and a replacement does not inherit the color of the concept it replaced. The 8 largest families each get a color; smaller families are gray. The shape of each line still shows the mechanism: forking off another line is recursive generalization, continuing on the same line is replacement, entering from outside is unrelated coexistence, and the bottom row holds sporadic features.",
+    treeFam: r => `part of the "${r}" family`,
     mechDesc: () => "Each bar is one training stage; colors show how its 10 strongest responses split across kinds of content.",
     table: "Show the numbers", mech: "Kind of content", lineages: c => `This neuron's themes (core: ${c})`, firstSeen: s => `first seen at step ${s}`,
     simTitle: "How close it is to its end-of-training state", simLegend: ["Broad direction: which kinds of text it prefers", "The exact words", "The exact passages"], simShort: ["broad", "words", "passages"],
@@ -251,6 +261,45 @@ const ENUM = {
 const MECH = [["branch", "var(--series-2)"], ["coexist", "var(--series-3)"], ["replace", "var(--series-4)"],
   ["sporadic", "var(--series-5)"], ["unexplained", "var(--series-other)"]];
 const MECH_COLOR = Object.fromEntries(MECH);
+// 系列：沿“派生自”一路追到根概念；根概念按整个训练过程的激活占比排序，前 8 个各用一种颜色，其余为灰色
+const FAM_COLORS = [1, 2, 3, 4, 5, 6, 7, 8].map(i => `var(--series-${i})`);
+function families(n) {
+  if (n._fam) return n._fam;
+  const byId = Object.fromEntries(n.lineages.map(g => [g.id, g])), rootOf = {}, tot = {};
+  for (const g0 of n.lineages) {
+    if (!g0.birth) continue;
+    let g = g0;
+    const seen = new Set();
+    while (g.birth === "branch" && byId[g.birth_parent] && !seen.has(g.id)) { seen.add(g.id); g = byId[g.birth_parent]; }
+    rootOf[g0.id] = g.id;
+  }
+  for (const sh of n.lineage_shares) for (const id in sh) if (rootOf[id]) tot[rootOf[id]] = (tot[rootOf[id]] || 0) + sh[id];
+  const roots = [...new Set(Object.values(rootOf))].sort((a, b) => (tot[b] || 0) - (tot[a] || 0));
+  const slot = Object.fromEntries(roots.map((r, i) => [r, i < FAM_COLORS.length ? i : -1]));
+  return (n._fam = { rootOf, roots, slot });
+}
+const famSlot = (n, id) => { const f = families(n); return f.slot[f.rootOf[id]] ?? -1; };
+function linColor(n, g) {
+  if (S.colorBy !== "family") return MECH_COLOR[g.birth] || "var(--series-other)";
+  const i = famSlot(n, g.id);
+  return i >= 0 ? FAM_COLORS[i] : "var(--series-other)";
+}
+const arrowKey = (n, g) => S.colorBy !== "family" ? g.birth : (famSlot(n, g.id) >= 0 ? "f" + famSlot(n, g.id) : "fo");
+// 条形图、图例和数据表共用的系列：按机制时是各机制，按系列时是最大的几个系列 + 其他 + 未解释
+function barSeries(n) {
+  if (S.colorBy !== "family") return MECH.map(([m, c]) => ({ label: E("mech", m), color: c, vals: n.mech[m] }));
+  const f = families(n), idx = id => n.lineages.findIndex(g => g.id === id);
+  const top = f.roots.filter(r => f.slot[r] >= 0);
+  const vals = key => n.lineage_shares.map(sh => {
+    let v = 0;
+    for (const id in sh) { const r = f.rootOf[id]; if (r && (key === "_other" ? f.slot[r] < 0 : r === key)) v += sh[id]; }
+    return v;
+  });
+  return top.map(r => ({ label: Li(n, "lineages", idx(r), "name"), color: FAM_COLORS[f.slot[r]], vals: vals(r) }))
+    .concat([{ label: t("famOther"), color: "var(--series-other)", vals: vals("_other") },
+      { label: E("mech", "unexplained"), color: "var(--dot-muted)", vals: n.mech.unexplained }])
+    .filter(x => x.vals.some(v => v > 0));
+}
 const t = k => T[S.lang][k];
 const E = (kind, v) => (ENUM[S.lang][kind] || {})[v] ?? v ?? "—";
 const esc = s => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -304,7 +353,7 @@ function setLang(lang) {
   $("t-neurons").textContent = t("neurons");
   if (!S.meta) return;
   $("hdrinfo").textContent = t("info")(S.meta.neurons.length, S.meta.steps.length);
-  $("grouping").innerHTML = Object.entries(S.meta.groups).map(([k, g]) =>
+  $("grouping").innerHTML = Object.entries(S.meta.groups).filter(([k]) => k !== "cluster").map(([k, g]) =>
     `<option value="${k}">${esc(S.lang === "en" ? g.title_en || g.title : g.title)}</option>`).join("");
   $("grouping").value = S.grouping;
   renderLeft();
@@ -400,7 +449,6 @@ function renderMap(animate) {
   $("mapsteplabel").textContent = fmtStep(S.meta.steps[j]);
   const on = ns.filter(matches), off = ns.filter(n => !matches(n));
   let h = `<circle id="m-ring-anchor" r="9" fill="none" stroke="var(--text-primary)" stroke-width="1.5" stroke-dasharray="3 2" pointer-events="none" visibility="hidden"/>`;
-  h += `<path id="m-trail" fill="none" stroke="var(--series-2)" stroke-width="1.5" opacity=".55" pointer-events="none"/>`;
   h += off.map(n => `<circle r="4" fill="var(--dot-muted)" data-id="${n.id}"/>`).join("");
   h += on.map(n => `<circle r="4" fill="var(--series-1)" stroke="var(--surface-1)" stroke-width="1.5" data-id="${n.id}"/>`).join("");
   h += `<circle id="m-ring" r="7" fill="none" stroke="var(--series-2)" stroke-width="2.5" pointer-events="none" visibility="hidden"/>`;
@@ -433,14 +481,11 @@ function placeMap(pos) {
     S.mapEls[id].setAttribute("cx", mX(q[0]).toFixed(1));
     S.mapEls[id].setAttribute("cy", mY(q[1]).toFixed(1));
   }
-  const svg = $("map"), ring = svg.querySelector("#m-ring"), trail = svg.querySelector("#m-trail"), aring = svg.querySelector("#m-ring-anchor");
+  const svg = $("map"), ring = svg.querySelector("#m-ring"), aring = svg.querySelector("#m-ring-anchor");
   const sel = S.meta.neurons.find(n => n.id === S.sel && n.sem);
   if (sel && pos[sel.id]) {
     ring.setAttribute("cx", mX(pos[sel.id][0])); ring.setAttribute("cy", mY(pos[sel.id][1])); ring.setAttribute("visibility", "visible");
-    // 选中神经元的轨迹：它在各训练阶段（按当前视图）的位置
-    const pts = S.meta.steps.map((s, i) => mapTargets(i)[sel.id]);
-    trail.setAttribute("d", pts.map((q, i) => `${i ? "L" : "M"}${mX(q[0]).toFixed(1)},${mY(q[1]).toFixed(1)}`).join(""));
-  } else { ring.setAttribute("visibility", "hidden"); trail.setAttribute("d", ""); }
+  } else ring.setAttribute("visibility", "hidden");
   if (S.anchor && pos[S.anchor]) { aring.setAttribute("cx", mX(pos[S.anchor][0])); aring.setAttribute("cy", mY(pos[S.anchor][1])); aring.setAttribute("visibility", "visible"); }
   else aring.setAttribute("visibility", "hidden");
 }
@@ -502,12 +547,11 @@ async function select(id, step) {
 // ---------- 右侧 ----------
 function renderRight() {
   const n = S.meta.neurons.find(x => x.id === S.sel), rows = S.rows;
-  const cl = S.meta.groups.cluster.items[String(n.cluster)];
   const cat = S.meta.groups.category.items[n.category];
   $("right").innerHTML = `
   <div class="panel">
     <h2 style="font-size:18px">L${n.layer}/N${n.neuron} <span class="sec" style="font-weight:400">${esc(L(n, "label"))}</span></h2>
-    <span class="chip">${t("type")} <b>${esc(gname(cat, n.category))}</b></span><span class="chip">${t("traj")} <b>${esc(gname(cl, n.cluster))}</b></span>
+    <span class="chip">${t("type")} <b>${esc(gname(cat, n.category))}</b></span>
     <span class="chip">${t("evo")} <b>${esc(E("rg", n.rg))}</b>${conf(n.rg_conf)}</span><span class="chip">${t("lateDom")} <b>${esc(E("dom", n.dominant))}</b></span>
     <span class="chip">${t("denoise")} <b>${esc(E("diff", n.diff))}</b>${conf(n.diff_conf)}</span>
   </div>
@@ -551,16 +595,35 @@ function renderRight() {
 // ---------- 主题演化树 ----------
 function evolutionPanel(n) {
   if (!n.lineages || !n.lineages.length || !n.lineage_shares || !n.lineage_shares.length) return "";
-  const mechRows = MECH.map(([m]) => `<tr><td>${esc(E("mech", m))}</td>${n.mech[m].map(v => `<td>${Math.round(v * 100)}</td>`).join("")}</tr>`).join("");
   return `<div class="panel">
-    <h2>${t("panelTitle")}</h2>
-    <div class="muted small">${t("panelDesc")}</div>
-    <div class="legend">${MECH.map(([m, c]) => `<span><i class="swatch" style="background:${c}"></i>${esc(E("mech", m))}</span>`).join("")}</div>
+    <div class="panel-head"><h2>${t("panelTitle")}</h2>
+      <span class="langs" id="colorby" role="group"><button type="button" data-c="mech">${t("colorMech")}</button><button type="button" data-c="family">${t("colorFam")}</button></span></div>
+    <div class="muted small" id="evo-desc"></div>
+    <div class="legend" id="evo-legend"></div>
     <svg id="c-tree" style="width:100%;display:block" role="img" aria-label="${esc(t("panelTitle"))}"></svg>
-    <div class="subttl">${t("mechTitle")}</div>
-    <svg id="c-mech" style="width:100%;height:150px;display:block" role="img" aria-label="${esc(t("mechTitle"))}"></svg>
-    <details><summary>${t("table")}</summary><div class="scroll-x"><table class="mechtbl"><tr><th>${t("mech")}</th>${S.meta.steps.map(s => `<th>${fmtAxis(s)}</th>`).join("")}</tr>${mechRows}</table></div></details>
+    <div class="subttl" id="evo-bartitle"></div>
+    <svg id="c-mech" style="width:100%;height:150px;display:block" role="img"></svg>
+    <details><summary>${t("table")}</summary><div class="scroll-x" id="evo-table"></div></details>
   </div>`;
+}
+function paintEvoText(n) {
+  if (!$("evo-desc")) return;
+  const fam = S.colorBy === "family", ser = barSeries(n);
+  $("evo-desc").textContent = t(fam ? "panelDescFam" : "panelDesc");
+  $("evo-legend").innerHTML = ser.map(x => `<span title="${esc(x.label)}"><i class="swatch" style="background:${x.color}"></i>${esc(x.label)}</span>`).join("");
+  $("evo-bartitle").textContent = t(fam ? "famTitle" : "mechTitle");
+  $("c-mech").setAttribute("aria-label", t(fam ? "famTitle" : "mechTitle"));
+  $("evo-table").innerHTML = `<table class="mechtbl"><tr><th></th>${S.meta.steps.map(s => `<th>${fmtAxis(s)}</th>`).join("")}</tr>`
+    + ser.map(x => `<tr><td>${esc(x.label)}</td>${x.vals.map(v => `<td>${Math.round(v * 100)}</td>`).join("")}</tr>`).join("") + `</table>`;
+  for (const btn of $("colorby").querySelectorAll("button")) {
+    btn.classList.toggle("on", btn.dataset.c === S.colorBy);
+    btn.setAttribute("aria-pressed", btn.dataset.c === S.colorBy);
+    btn.onclick = () => {
+      S.colorBy = btn.dataset.c;
+      try { localStorage.setItem("explorer-colorby", S.colorBy); } catch (e) { /* 存储不可用时忽略 */ }
+      renderCharts(); renderStep();
+    };
+  }
 }
 // 画法规则：
 //   分支（递归泛化）：凡是派生出来的概念，都从父概念的线上分叉，放在父概念那条线的下面；
@@ -625,8 +688,9 @@ function treeChart(n) {
   const colW = (W - pl - pr) / (k - 1), X = j => pl + j * colW, dx = colW * 0.55;
   const top = 2, bottom = H - pb - 2;
   const byId = Object.fromEntries(items.map(g => [g.id, g]));
-  const color = g => MECH_COLOR[g.birth] || "var(--series-other)";
-  let h = `<defs>${MECH.map(([m, c]) => `<marker id="arr-${m}" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L6,3 L0,6 z" fill="${c}"/></marker>`).join("")}</defs>`;
+  const color = g => linColor(n, g);
+  const arrows = S.colorBy === "family" ? FAM_COLORS.map((c, i) => ["f" + i, c]).concat([["fo", "var(--series-other)"]]) : MECH;
+  let h = `<defs>${arrows.map(([m, c]) => `<marker id="arr-${m}" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L6,3 L0,6 z" fill="${c}"/></marker>`).join("")}</defs>`;
   h += steps.map((s, j) => `<rect x="${X(j) - colW / 2}" y="0" width="${colW}" height="${H - pb}" fill="transparent" data-col="${j}"/>`).join("");
   h += steps.map((s, j) => `<line x1="${X(j)}" x2="${X(j)}" y1="${top}" y2="${bottom}" stroke="var(--border)" stroke-width="1"/>`).join("");
   const si = steps.indexOf(S.step);
@@ -648,14 +712,14 @@ function treeChart(n) {
       if (p.last < at) parts.push(`<path d="M${X(p.last)},${py} L${X(at)},${py}" stroke="${color(p)}" stroke-width="1.2" stroke-dasharray="2 4" opacity=".7"/>`);
       if (p.first > at) parts.push(`<path d="M${xs},${py} L${X(p.first)},${py}" stroke="${color(p)}" stroke-width="1.2" stroke-dasharray="2 4" opacity=".7"/>`);
       parts.push(`<circle cx="${xs}" cy="${py}" r="2" fill="${c}"/>`);
-      parts.push(`<path d="${curve(xs, py, X(g.first), y)}" fill="none" stroke="${c}" stroke-width="1.8" marker-end="url(#arr-branch)"/>`);
+      parts.push(`<path d="${curve(xs, py, X(g.first), y)}" fill="none" stroke="${c}" stroke-width="1.8" marker-end="url(#arr-${arrowKey(n, g)})"/>`);
     } else if (g.birth === "replace" && byId[g.replaces]) {
       parts.push(`<path d="M${X(g.first - 1)},${y} L${X(g.first)},${y}" stroke="${c}" stroke-width="${width(g, g.pres[g.first])}" stroke-linecap="round"/>`);
       parts.push(`<line x1="${X(g.first - 1)}" x2="${X(g.first - 1)}" y1="${y - 6}" y2="${y + 6}" stroke="var(--text-primary)" stroke-width="1.5"/>`);
     } else if (g.first === 0) {
       parts.push(`<path d="M${X(0) - pl + 2},${y} L${X(0)},${y}" stroke="${c}" stroke-width="${width(g, g.pres[0])}"/>`);
     } else {
-      parts.push(enter(X(g.first), y, c, g.birth));
+      parts.push(enter(X(g.first), y, c, arrowKey(n, g)));
     }
     // 存活期：连续出现为实线，中间断开为虚线
     for (let j = g.first; j < g.last; j++) {
@@ -680,7 +744,7 @@ function treeChart(n) {
     h += `<line x1="${X(0)}" x2="${X(k - 1)}" y1="${spY}" y2="${spY}" stroke="var(--border)" stroke-width="1"/>`;
     for (const g of sporadic) {
       const c = color(g), j = g.first;
-      h += `<g class="lin" data-g="${esc(g.id)}" style="cursor:pointer">${enter(X(j), spY, c, "sporadic")}
+      h += `<g class="lin" data-g="${esc(g.id)}" style="cursor:pointer">${enter(X(j), spY, c, arrowKey(n, g))}
         <circle cx="${X(j)}" cy="${spY}" r="${2 + 2.5 * Math.min(1, g.pres[j])}" fill="${c}" stroke="var(--surface-1)" stroke-width="1.5"/>
         <path d="M${X(j) - dx},${spY} L${X(j) + 4},${spY}" stroke="transparent" stroke-width="10" pointer-events="stroke"/></g>`;
     }
@@ -694,6 +758,7 @@ function treeChart(n) {
     const how = Li(n, "lineages", i, "how");
     return `<b>${esc(nameOf(id))}</b>${g.core ? ` · ${t("coreTag")}` : ""}<br><span class="muted">${esc(E("mech", g.birth))} · ${span}</span>`
       + (g.birth === "branch" ? `<br>${t("treeFrom")(esc(nameOf(g.birth_parent)))}` : "")
+      + (S.colorBy === "family" && families(n).rootOf[id] !== id ? `<br>${t("treeFam")(esc(nameOf(families(n).rootOf[id])))}` : "")
       + (g.birth === "replace" && g.replaces ? `<br>${t("treeReplaces")(esc(nameOf(g.replaces)))}` : "")
       + (how ? `<br>${esc(how)}` : "");
   };
@@ -739,14 +804,15 @@ function mechChart(n) {
   svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
   const colW = (W - pl - pr) / (k - 1), X = j => pl + j * colW, bw = Math.min(colW * 0.7, 28);
   const Y = v => pt + (H - pt - pb) * (1 - v);
+  const ser = barSeries(n);
   let h = `<line x1="${pl - bw / 2}" x2="${W - pr + bw / 2}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--border)"/>`;
   const every = colW < 26 ? 4 : 2;
   steps.forEach((s, i) => {
     let acc = 0;
-    for (const [m, c] of MECH) {
-      const v = n.mech[m][i];
+    for (const x of ser) {
+      const v = x.vals[i];
       if (v <= 0) continue;
-      h += `<rect x="${X(i) - bw / 2}" y="${Y(acc + v)}" width="${bw}" height="${Math.max(0, Y(acc) - Y(acc + v))}" fill="${c}" stroke="var(--surface-1)" stroke-width="2"/>`;
+      h += `<rect x="${X(i) - bw / 2}" y="${Y(acc + v)}" width="${bw}" height="${Math.max(0, Y(acc) - Y(acc + v))}" fill="${x.color}" stroke="var(--surface-1)" stroke-width="2"/>`;
       acc += v;
     }
     if (s === S.step) h += `<rect x="${X(i) - bw / 2 - 3}" y="${pt - 2}" width="${bw + 6}" height="${H - pt - pb + 4}" fill="none" stroke="var(--text-primary)" stroke-width="1.5" stroke-dasharray="3 2" rx="3"/>`;
@@ -758,13 +824,15 @@ function mechChart(n) {
     const r = ev.target.closest("rect[data-i]");
     if (!r) return tip(ev, null);
     const i = +r.dataset.i;
-    tip(ev, `<b>${fmtStep(steps[i])}</b><br>` + MECH.filter(([m]) => n.mech[m][i] > 0).map(([m]) => `${esc(E("mech", m))}: ${Math.round(n.mech[m][i] * 100)}%`).join("<br>"));
+    tip(ev, `<b>${fmtStep(steps[i])}</b><br>` + ser.filter(x => x.vals[i] > 0).map(x => `${esc(x.label)}: ${Math.round(x.vals[i] * 100)}%`).join("<br>"));
   };
   svg.onmouseleave = ev => tip(ev, null);
   svg.onclick = ev => { const r = ev.target.closest("rect[data-i]"); if (r) setStep(steps[+r.dataset.i]); };
 }
 function renderCharts() {
   const n = S.meta.neurons.find(x => x.id === S.sel);
+  if (!n || !n.lineages || !n.lineages.length) return;
+  paintEvoText(n);
   treeChart(n);
   mechChart(n);
 }
@@ -787,7 +855,7 @@ function stepCol(r) {
   const pats = r.patterns.map((p, pi) => {
     const gi = linOf(p.lineage), g = gi >= 0 ? n.lineages[gi] : null;
     const pe = S.lang === "en" && r.en && r.en.patterns && r.en.patterns[pi] ? r.en.patterns[pi] : p;
-    return `<div class="pat">${g ? `<span class="chip" title="${esc(Li(n, "lineages", gi, "name"))}"><i class="swatch" style="background:${MECH_COLOR[g.birth] || "var(--series-other)"}"></i>${esc(E("mech", g.birth))}</span>` : ""}<b>${esc(pe.name || p.name)}</b> <code>${esc(p.trigger)}</code>
+    return `<div class="pat">${g ? `<span class="chip" title="${esc(Li(n, "lineages", gi, "name"))}"><i class="swatch" style="background:${linColor(n, g)}"></i>${esc(E("mech", g.birth))}</span>` : ""}<b>${esc(pe.name || p.name)}</b> <code>${esc(p.trigger)}</code>
       <span class="muted">${t("seg")} ${(p.segments || []).map(x => "[" + x + "]").join("")}</span>
       <div class="small sec">${esc([pe.context || p.context, pe.domain || p.domain].filter(Boolean).join("; "))}</div></div>`;
   }).join("");
@@ -818,6 +886,7 @@ document.addEventListener("keydown", ev => {
 (async () => {
   let lang = null;
   try { lang = localStorage.getItem("explorer-lang"); } catch (e) { /* 存储不可用 */ }
+  try { if (localStorage.getItem("explorer-colorby") === "family") S.colorBy = "family"; } catch (e) { /* 存储不可用 */ }
   if (lang !== "zh" && lang !== "en") lang = (navigator.language || "").toLowerCase().startsWith("zh") ? "zh" : "en";
   $("lang-zh").onclick = () => setLang("zh");
   $("lang-en").onclick = () => setLang("en");
