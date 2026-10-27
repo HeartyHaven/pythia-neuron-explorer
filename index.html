@@ -174,19 +174,19 @@ const T = {
   zh: {
     title: "神经元演化浏览器", grouping: "分组方式", search: "搜索", searchPh: "如 L6/N201，或解释里的词",
     info: (n, k) => `Pythia-160M 语言模型 · ${n} 个神经元 · ${k} 个训练阶段`,
-    map: "解释相近的神经元", mapdesc: "描述越相近，点越靠近。单击换神经元；双击设为锚点，锚点居中，其他点离它越近，描述越像。", anchorOn: x => `锚点：${x}`, anchorClear: "取消锚点", mapAxis: "训练阶段", play: "播放",
-    panelTitle: "它响应的概念如何演化", panelDesc: "颜色是概念产生时的机制：派生出来的概念都从父概念的线分叉（递归泛化）；替换在同一条线上接替死去的概念；无关共存从外面直接进入；零散特征只出现一次，集中在最下面。粗线是核心概念。",
+    map: "解释相近的神经元", mapdesc: "点越近，描述越像。单击切换，双击设为锚点。", anchorOn: x => `锚点：${x}`, anchorClear: "取消锚点", mapAxis: "训练阶段", play: "播放",
+    panelTitle: "它响应的概念如何演化",
     coreTag: "核心概念", treeReplaces: p => `接替了“${p}”（它在此之后消失）`,
     neurons: "神经元", all: "全部", nomatch: "没有找到符合条件的神经元。", loading: l => `正在加载第 ${l} 层的数据…`,
-    intro: `<h2>这是什么</h2><p class="about">这里记录了 Pythia-160M 语言模型中 240 个神经元在训练过程中的变化。在 40 个训练阶段，AI 阅读了每个神经元反应最强的文字，描述它在响应什么。从左边选一个神经元开始看。</p>`,
+    intro: `<h2>这是什么</h2><p class="about">Pythia-160M 中 240 个神经元在 40 个训练阶段的演化。从左边选一个神经元开始。</p>`,
     type: "内容类型", traj: "演化曲线", evo: "演化方式", denoise: "像不像去噪", lateDom: "后期主体",
     rgCard: "AI 总结：它是怎么演化的", diffCard: "AI 总结：是否像去噪一样逐步变清晰", core: "核心内容", unrelated: "与核心无关的内容", chain: "延伸路径", evidence: "AI 的判断理由",
     commit: "最终内容第一次出现", saturation: "从这里起不再变清晰", cbf: "先定大方向、后定细节", trend: "清晰程度的变化",
-    mechTitle: "每个阶段的最强反应，分别来自哪种机制产生的概念",
-    colorMech: "按机制上色", colorFam: "按系列上色", famTitle: "每个阶段的最强反应，分别来自哪个系列", famOther: "其他较小的系列",
-    panelDescFam: "颜色表示系列：从同一个根概念派生出来的概念同色，互不相关的根概念颜色不同，替换者也不继承被替换者的颜色。最大的 8 个系列各用一种颜色，其余较小的系列为灰色。线的画法仍表示机制：从别的线分叉是递归泛化，在同一条线上接续是替换，从外面进入是无关共存，最下面一行是零散特征。",
+    mechTitle: "各机制在最强 10 段反应中的激活占比", confLbl: "AI 把握", confTip: "AI 自己给出的判断把握，不是统计概率",
+    shareHdr: "占比 %", lateTip: "训练后期（第 16000 步起）平均激活占比超过一半的机制",
+    colTips: ["", "", "只凭解释区分强反应文本和随机文本的准确率；0.5 相当于瞎猜，— 表示没有测", "AI 自评，1–5", "", ""],
+    colorMech: "按机制上色", colorFam: "按系列上色", famTitle: "各系列在最强 10 段反应中的激活占比", famOther: "其他较小的系列",
     treeFam: r => `属于“${r}”系列`,
-    mechDesc: () => "每根柱子是一个训练阶段，颜色表示最强的 10 段反应中各类内容所占的比例。",
     table: "查看数据表", mech: "内容类别", lineages: c => `这个神经元的各个主题（核心：${c}）`, firstSeen: s => `第 ${s} 步首次出现`,
     simTitle: "和训练结束时有多像", simLegend: ["大方向：偏爱哪类文本", "具体的词", "具体的文章"], simShort: ["大方向", "词", "文章"],
     detTitle: "AI 解释的准确度（0.5 相当于瞎猜）", detName: "准确度", snrTitle: "反应的集中程度",
@@ -200,26 +200,25 @@ const T = {
     stepMeta: (r, rel, un) => `解释准确度 ${r.det == null ? "—" : r.det.toFixed(2)} · 规律清晰度 ${r.clarity ?? "—"}/5 · 几条规律之间${rel}${un}`,
     unexplained: u => ` · 没能解释的段落 ${u}`, tipAct: (v, a) => `反应强度 ≈ ${v}（最强的 ${a}%）`,
     treeTitle: "它响应的主题怎样出现、延伸和消失",
-    treeDesc: "每条线是一个主题，从出现画到消失；从另一条线分叉出来，表示由那个主题延伸而来；线越粗，当时占比越大。悬停可看主题，点击跳到它最强的阶段。",
     treeSpan: (a, b) => `第 ${a} 步出现，第 ${b} 步之后消失`, treeOngoing: a => `第 ${a} 步出现，一直持续到训练结束`, treeOnce: a => `只在第 ${a} 步出现`,
     treeFrom: p => `从“${p}”长出`,
   },
   en: {
     title: "Neuron Evolution Explorer", grouping: "Group by", search: "Search", searchPh: "e.g. L6/N201, or a word",
     info: (n, k) => `Pythia-160M language model · ${n} neurons · ${k} training stages`,
-    map: "Neurons with similar explanations", mapdesc: "The more alike the descriptions, the closer the dots. Click to switch neurons; double-click to make one the anchor, centered, with closer dots described more alike.", anchorOn: x => `Anchor: ${x}`, anchorClear: "Clear anchor", mapAxis: "Training stage", play: "Play",
-    panelTitle: "How the concepts it responds to evolved", panelDesc: "Color is the mechanism that produced each concept: every derived concept forks off its parent's line (recursive generalization); a replacement continues the line of a concept that died; unrelated coexistence enters directly from outside; sporadic features appear only once and sit along the bottom. The thick line is the core concept.",
+    map: "Neurons with similar explanations", mapdesc: "Closer dots have more alike descriptions. Click to switch; double-click to anchor.", anchorOn: x => `Anchor: ${x}`, anchorClear: "Clear anchor", mapAxis: "Training stage", play: "Play",
+    panelTitle: "How the concepts it responds to evolved",
     coreTag: "core concept", treeReplaces: p => `took the place of "${p}", which disappeared here`,
     neurons: "Neurons", all: "All", nomatch: "No neurons match.", loading: l => `Loading layer ${l}…`,
-    intro: `<h2>What this is</h2><p class="about">This tool follows 240 neurons of the Pythia-160M language model through training. At 40 stages of training, an AI read the text each neuron responded to most strongly and described what it responds to. Pick a neuron on the left to start.</p>`,
+    intro: `<h2>What this is</h2><p class="about">How 240 neurons of Pythia-160M evolve over 40 training stages. Pick a neuron on the left.</p>`,
     type: "Content type", traj: "Curve shape", evo: "How it evolved", denoise: "Like denoising?", lateDom: "Late-training makeup",
     rgCard: "AI summary: how it evolved", diffCard: "AI summary: did it sharpen gradually, like denoising?", core: "Core idea", unrelated: "Unrelated to the core", chain: "How it extended", evidence: "AI's reasoning",
     commit: "Final idea first appears", saturation: "Stops getting clearer at", cbf: "Broad direction settled before details", trend: "How clarity changed",
-    mechTitle: "At each stage, which mechanism produced the concepts behind its strongest responses",
-    colorMech: "Color by mechanism", colorFam: "Color by family", famTitle: "At each stage, which family its strongest responses came from", famOther: "other, smaller families",
-    panelDescFam: "Color is the family: concepts derived from the same root concept share its color, unrelated root concepts get different colors, and a replacement does not inherit the color of the concept it replaced. The 8 largest families each get a color; smaller families are gray. The shape of each line still shows the mechanism: forking off another line is recursive generalization, continuing on the same line is replacement, entering from outside is unrelated coexistence, and the bottom row holds sporadic features.",
+    mechTitle: "Share of activation in the 10 strongest responses, by mechanism", confLbl: "AI confidence", confTip: "The AI's own confidence in this call, not a statistical probability",
+    shareHdr: "Share %", lateTip: "The mechanism holding over half of the activation on average late in training (from step 16000)",
+    colTips: ["", "", "Accuracy at telling strong-response text from random text using only the explanation; 0.5 is chance, — means not tested", "The AI's own rating, 1–5", "", ""],
+    colorMech: "Color by mechanism", colorFam: "Color by family", famTitle: "Share of activation in the 10 strongest responses, by family", famOther: "other, smaller families",
     treeFam: r => `part of the "${r}" family`,
-    mechDesc: () => "Each bar is one training stage; colors show how its 10 strongest responses split across kinds of content.",
     table: "Show the numbers", mech: "Kind of content", lineages: c => `This neuron's themes (core: ${c})`, firstSeen: s => `first seen at step ${s}`,
     simTitle: "How close it is to its end-of-training state", simLegend: ["Broad direction: which kinds of text it prefers", "The exact words", "The exact passages"], simShort: ["broad", "words", "passages"],
     detTitle: "Accuracy of the AI's explanation (0.5 is chance)", detName: "accuracy", snrTitle: "How focused its response is",
@@ -233,7 +232,6 @@ const T = {
     stepMeta: (r, rel, un) => `explanation accuracy ${r.det == null ? "—" : r.det.toFixed(2)} · pattern clarity ${r.clarity ?? "—"}/5 · the patterns are ${rel}${un}`,
     unexplained: u => ` · passages left unexplained ${u}`, tipAct: (v, a) => `response ≈ ${v} (${a}% of the strongest)`,
     treeTitle: "How the themes it responds to appear, extend and fade",
-    treeDesc: "Each line is a theme, drawn from when it appears to when it disappears; a line that splits off another grew out of that theme; thicker means a larger share at that stage. Hover to see the theme; click to jump to its strongest stage.",
     treeSpan: (a, b) => `appears at step ${a}, gone after step ${b}`, treeOngoing: a => `appears at step ${a} and lasts to the end of training`, treeOnce: a => `appears only at step ${a}`,
     treeFrom: p => `grew out of "${p}"`,
   },
@@ -307,7 +305,7 @@ const fmtStep = s => S.lang === "en" ? `step ${Number(s).toLocaleString("en")}` 
 const fmtAxis = s => s >= 1000 ? (s / 1000) + "k" : String(s);
 const num = s => S.lang === "en" ? Number(s).toLocaleString("en") : String(s);
 const pct = v => Math.round((v || 0) * 100) + "%";
-const conf = c => c == null ? "" : ` ${Math.round(c * 100)}%`;
+const conf = c => c == null ? "" : ` <span class="muted" title="${esc(t("confTip"))}">· ${t("confLbl")} ${Math.round(c * 100)}%</span>`;
 // 内容字段：英文模式下优先取翻译
 const L = (obj, f) => (S.lang === "en" && obj && obj.en && obj.en[f]) ? obj.en[f] : obj ? obj[f] : "";
 const Li = (obj, listF, i, f) => {
@@ -552,7 +550,7 @@ function renderRight() {
   <div class="panel">
     <h2 style="font-size:18px">L${n.layer}/N${n.neuron} <span class="sec" style="font-weight:400">${esc(L(n, "label"))}</span></h2>
     <span class="chip">${t("type")} <b>${esc(gname(cat, n.category))}</b></span>
-    <span class="chip">${t("evo")} <b>${esc(E("rg", n.rg))}</b>${conf(n.rg_conf)}</span><span class="chip">${t("lateDom")} <b>${esc(E("dom", n.dominant))}</b></span>
+    <span class="chip">${t("evo")} <b>${esc(E("rg", n.rg))}</b>${conf(n.rg_conf)}</span><span class="chip" title="${esc(t("lateTip"))}">${t("lateDom")} <b>${esc(E("dom", n.dominant))}</b></span>
     <span class="chip">${t("denoise")} <b>${esc(E("diff", n.diff))}</b>${conf(n.diff_conf)}</span>
   </div>
   <div class="cards">
@@ -572,7 +570,7 @@ function renderRight() {
   ${evolutionPanel(n)}
   <div class="panel">
     <h2>${t("evoTitle")}</h2>
-    <div class="scroll-x"><table class="evo"><thead><tr>${t("cols").map(c => `<th>${c}</th>`).join("")}</tr></thead><tbody id="evo"></tbody></table></div>
+    <div class="scroll-x"><table class="evo"><thead><tr>${t("cols").map((c, i) => `<th${t("colTips")[i] ? ` title="${esc(t("colTips")[i])}"` : ""}>${c}</th>`).join("")}</tr></thead><tbody id="evo"></tbody></table></div>
   </div>
   <div class="panel" id="steppanel">
     <div class="toolbar">
@@ -598,7 +596,6 @@ function evolutionPanel(n) {
   return `<div class="panel">
     <div class="panel-head"><h2>${t("panelTitle")}</h2>
       <span class="langs" id="colorby" role="group"><button type="button" data-c="mech">${t("colorMech")}</button><button type="button" data-c="family">${t("colorFam")}</button></span></div>
-    <div class="muted small" id="evo-desc"></div>
     <div class="legend" id="evo-legend"></div>
     <svg id="c-tree" style="width:100%;display:block" role="img" aria-label="${esc(t("panelTitle"))}"></svg>
     <div class="subttl" id="evo-bartitle"></div>
@@ -607,13 +604,12 @@ function evolutionPanel(n) {
   </div>`;
 }
 function paintEvoText(n) {
-  if (!$("evo-desc")) return;
+  if (!$("evo-legend")) return;
   const fam = S.colorBy === "family", ser = barSeries(n);
-  $("evo-desc").textContent = t(fam ? "panelDescFam" : "panelDesc");
   $("evo-legend").innerHTML = ser.map(x => `<span title="${esc(x.label)}"><i class="swatch" style="background:${x.color}"></i>${esc(x.label)}</span>`).join("");
   $("evo-bartitle").textContent = t(fam ? "famTitle" : "mechTitle");
   $("c-mech").setAttribute("aria-label", t(fam ? "famTitle" : "mechTitle"));
-  $("evo-table").innerHTML = `<table class="mechtbl"><tr><th></th>${S.meta.steps.map(s => `<th>${fmtAxis(s)}</th>`).join("")}</tr>`
+  $("evo-table").innerHTML = `<table class="mechtbl"><tr><th>${t("shareHdr")}</th>${S.meta.steps.map(s => `<th>${fmtAxis(s)}</th>`).join("")}</tr>`
     + ser.map(x => `<tr><td>${esc(x.label)}</td>${x.vals.map(v => `<td>${Math.round(v * 100)}</td>`).join("")}</tr>`).join("") + `</table>`;
   for (const btn of $("colorby").querySelectorAll("button")) {
     btn.classList.toggle("on", btn.dataset.c === S.colorBy);
