@@ -132,6 +132,8 @@ table.evo td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .timebar .lbl { font-size: 12px; color: var(--text-secondary); font-variant-numeric: tabular-nums; min-width: 6.5em; text-align: right; }
 .subttl { font-size: 12px; color: var(--text-secondary); margin: 10px 0 2px; }
 #c-tree.focus .lin.on { opacity: 1; }
+#c-tree .lin.dim { opacity: .12; }
+.legend button { font-size: 12px; padding: 1px 8px; }
 .about { font-size: 13px; color: var(--text-secondary); max-width: 72ch; }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 </style>
@@ -167,7 +169,7 @@ table.evo td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 <script>
 const $ = id => document.getElementById(id);
-const S = { colorBy: "mech", mapIdx: 39, playing: null, anchor: null, sim: null, mapPos: {}, anim: null, meta: null, layers: {}, grouping: "category", group: null, sel: null, step: null, cmp: null, topn: 5, query: "", lang: "zh" };
+const S = { famFocus: null, colorBy: "mech", mapIdx: 39, playing: null, anchor: null, sim: null, mapPos: {}, anim: null, meta: null, layers: {}, grouping: "category", group: null, sel: null, step: null, cmp: null, topn: 5, query: "", lang: "zh" };
 
 // ---------- 界面文字 ----------
 const T = {
@@ -186,7 +188,7 @@ const T = {
     shareHdr: "占比 %", lateTip: "训练后期（第 16000 步起）平均激活占比超过一半的机制",
     colTips: ["", "", "只凭解释区分强反应文本和随机文本的准确率；0.5 相当于瞎猜，— 表示没有测", "AI 自评，1–5", "", ""],
     colorMech: "按机制上色", colorFam: "按系列上色", famTitle: "各系列在最强 10 段反应中的激活占比", famOther: "其他较小的系列",
-    treeFam: r => `属于“${r}”系列`,
+    treeFam: r => `属于“${r}”系列`, famFocus: r => `只看“${r}”系列`, showAll: "显示全部系列",
     table: "查看数据表", mech: "内容类别", lineages: c => `这个神经元的各个主题（核心：${c}）`, firstSeen: s => `第 ${s} 步首次出现`,
     simTitle: "和训练结束时有多像", simLegend: ["大方向：偏爱哪类文本", "具体的词", "具体的文章"], simShort: ["大方向", "词", "文章"],
     detTitle: "AI 解释的准确度（0.5 相当于瞎猜）", detName: "准确度", snrTitle: "反应的集中程度",
@@ -218,7 +220,7 @@ const T = {
     shareHdr: "Share %", lateTip: "The mechanism holding over half of the activation on average late in training (from step 16000)",
     colTips: ["", "", "Accuracy at telling strong-response text from random text using only the explanation; 0.5 is chance, — means not tested", "The AI's own rating, 1–5", "", ""],
     colorMech: "Color by mechanism", colorFam: "Color by family", famTitle: "Share of activation in the 10 strongest responses, by family", famOther: "other, smaller families",
-    treeFam: r => `part of the "${r}" family`,
+    treeFam: r => `part of the "${r}" family`, famFocus: r => `Only the "${r}" family`, showAll: "Show all families",
     table: "Show the numbers", mech: "Kind of content", lineages: c => `This neuron's themes (core: ${c})`, firstSeen: s => `first seen at step ${s}`,
     simTitle: "How close it is to its end-of-training state", simLegend: ["Broad direction: which kinds of text it prefers", "The exact words", "The exact passages"], simShort: ["broad", "words", "passages"],
     detTitle: "Accuracy of the AI's explanation (0.5 is chance)", detName: "accuracy", snrTitle: "How focused its response is",
@@ -276,6 +278,8 @@ function families(n) {
   const slot = Object.fromEntries(roots.map((r, i) => [r, i < FAM_COLORS.length ? i : -1]));
   return (n._fam = { rootOf, roots, slot });
 }
+// 聚焦某个系列时，条形图和图例里对应的那一项（小系列都归在“其他”里）
+const focusKey = n => !S.famFocus ? null : (families(n).slot[S.famFocus] >= 0 ? S.famFocus : "_other");
 const famSlot = (n, id) => { const f = families(n); return f.slot[f.rootOf[id]] ?? -1; };
 function linColor(n, g) {
   if (S.colorBy !== "family") return MECH_COLOR[g.birth] || "var(--series-other)";
@@ -285,7 +289,7 @@ function linColor(n, g) {
 const arrowKey = (n, g) => S.colorBy !== "family" ? g.birth : (famSlot(n, g.id) >= 0 ? "f" + famSlot(n, g.id) : "fo");
 // 条形图、图例和数据表共用的系列：按机制时是各机制，按系列时是最大的几个系列 + 其他 + 未解释
 function barSeries(n) {
-  if (S.colorBy !== "family") return MECH.map(([m, c]) => ({ label: E("mech", m), color: c, vals: n.mech[m] }));
+  if (S.colorBy !== "family") return MECH.map(([m, c]) => ({ key: m, label: E("mech", m), color: c, vals: n.mech[m] }));
   const f = families(n), idx = id => n.lineages.findIndex(g => g.id === id);
   const top = f.roots.filter(r => f.slot[r] >= 0);
   const vals = key => n.lineage_shares.map(sh => {
@@ -293,9 +297,9 @@ function barSeries(n) {
     for (const id in sh) { const r = f.rootOf[id]; if (r && (key === "_other" ? f.slot[r] < 0 : r === key)) v += sh[id]; }
     return v;
   });
-  return top.map(r => ({ label: Li(n, "lineages", idx(r), "name"), color: FAM_COLORS[f.slot[r]], vals: vals(r) }))
-    .concat([{ label: t("famOther"), color: "var(--series-other)", vals: vals("_other") },
-      { label: E("mech", "unexplained"), color: "var(--dot-muted)", vals: n.mech.unexplained }])
+  return top.map(r => ({ key: r, label: Li(n, "lineages", idx(r), "name"), color: FAM_COLORS[f.slot[r]], vals: vals(r) }))
+    .concat([{ key: "_other", label: t("famOther"), color: "var(--series-other)", vals: vals("_other") },
+      { key: "unexplained", label: E("mech", "unexplained"), color: "var(--dot-muted)", vals: n.mech.unexplained }])
     .filter(x => x.vals.some(v => v > 0));
 }
 const t = k => T[S.lang][k];
@@ -528,6 +532,7 @@ async function layerData(l) {
   return S.layers[l];
 }
 async function select(id, step) {
+  if (S.sel !== id) S.famFocus = null;
   S.sel = id;
   const n = S.meta.neurons.find(x => x.id === id);
   if (!n) return;
@@ -606,7 +611,10 @@ function evolutionPanel(n) {
 function paintEvoText(n) {
   if (!$("evo-legend")) return;
   const fam = S.colorBy === "family", ser = barSeries(n);
-  $("evo-legend").innerHTML = ser.map(x => `<span title="${esc(x.label)}"><i class="swatch" style="background:${x.color}"></i>${esc(x.label)}</span>`).join("");
+  const fk = fam ? focusKey(n) : null, idx = id => n.lineages.findIndex(g => g.id === id);
+  $("evo-legend").innerHTML = ser.map(x => `<span title="${esc(x.label)}"${fk && x.key !== fk ? ' style="opacity:.35"' : ""}><i class="swatch" style="background:${x.color}"></i>${esc(x.label)}</span>`).join("")
+    + (S.famFocus ? `<span>${esc(t("famFocus")(Li(n, "lineages", idx(S.famFocus), "name")))}</span><button type="button" id="famclear">${t("showAll")}</button>` : "");
+  if (S.famFocus) $("famclear").onclick = () => { S.famFocus = null; renderCharts(); };
   $("evo-bartitle").textContent = t(fam ? "famTitle" : "mechTitle");
   $("c-mech").setAttribute("aria-label", t(fam ? "famTitle" : "mechTitle"));
   $("evo-table").innerHTML = `<table class="mechtbl"><tr><th>${t("shareHdr")}</th>${S.meta.steps.map(s => `<th>${fmtAxis(s)}</th>`).join("")}</tr>`
@@ -685,6 +693,7 @@ function treeChart(n) {
   const top = 2, bottom = H - pb - 2;
   const byId = Object.fromEntries(items.map(g => [g.id, g]));
   const color = g => linColor(n, g);
+  const linCls = g => "lin" + (S.famFocus && families(n).rootOf[g.id] !== S.famFocus ? " dim" : "");
   const arrows = S.colorBy === "family" ? FAM_COLORS.map((c, i) => ["f" + i, c]).concat([["fo", "var(--series-other)"]]) : MECH;
   let h = `<defs>${arrows.map(([m, c]) => `<marker id="arr-${m}" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L6,3 L0,6 z" fill="${c}"/></marker>`).join("")}</defs>`;
   h += steps.map((s, j) => `<rect x="${X(j) - colW / 2}" y="0" width="${colW}" height="${H - pb}" fill="transparent" data-col="${j}"/>`).join("");
@@ -733,14 +742,14 @@ function treeChart(n) {
     g.pres.forEach((v, j) => { if (v > 0) parts.push(`<circle cx="${X(j)}" cy="${y}" r="${2 + 2.5 * Math.min(1, v)}" fill="${c}" stroke="var(--surface-1)" stroke-width="1.5"/>`); });
     const x0 = g.first > 0 ? X(g.first - 1) : 0, x1 = g.last === k - 1 ? W : X(g.last) + dx * 0.5;
     parts.push(`<path d="M${x0},${y} L${x1},${y}" stroke="transparent" stroke-width="12" pointer-events="stroke"/>`);
-    h += `<g class="lin" data-g="${esc(g.id)}" style="cursor:pointer">${parts.join("")}</g>`;
+    h += `<g class="${linCls(g)}" data-g="${esc(g.id)}" style="cursor:pointer">${parts.join("")}</g>`;
   }
   // 零散：最下面一条淡线，每个零散特征画成从外面进入的短箭头
   if (sporadic.length) {
     h += `<line x1="${X(0)}" x2="${X(k - 1)}" y1="${spY}" y2="${spY}" stroke="var(--border)" stroke-width="1"/>`;
     for (const g of sporadic) {
       const c = color(g), j = g.first;
-      h += `<g class="lin" data-g="${esc(g.id)}" style="cursor:pointer">${enter(X(j), spY, c, arrowKey(n, g))}
+      h += `<g class="${linCls(g)}" data-g="${esc(g.id)}" style="cursor:pointer">${enter(X(j), spY, c, arrowKey(n, g))}
         <circle cx="${X(j)}" cy="${spY}" r="${2 + 2.5 * Math.min(1, g.pres[j])}" fill="${c}" stroke="var(--surface-1)" stroke-width="1.5"/>
         <path d="M${X(j) - dx},${spY} L${X(j) + 4},${spY}" stroke="transparent" stroke-width="10" pointer-events="stroke"/></g>`;
     }
@@ -760,16 +769,17 @@ function treeChart(n) {
   };
   svg.onmousemove = ev => {
     const el = ev.target.closest("g.lin");
-    svg.classList.toggle("focus", !!el);
+    svg.classList.toggle("focus", !!el && !S.famFocus);
     for (const x of svg.querySelectorAll("g.lin")) x.classList.toggle("on", x === el);
     tip(ev, el ? info(el.dataset.g) : null);
   };
   svg.onmouseleave = ev => { svg.classList.remove("focus"); tip(ev, null); };
   svg.onclick = ev => {
     const el = ev.target.closest("g.lin");
-    if (el) {
-      const g = byId[el.dataset.g];
-      return setStep(steps[g.pres.indexOf(Math.max(...g.pres))]);
+    if (el) {  // 点击一条线：只看它所在的系列；再点同一系列恢复
+      const r = families(n).rootOf[el.dataset.g];
+      S.famFocus = S.famFocus === r ? null : r;
+      return renderCharts();
     }
     const col = ev.target.closest("rect[data-col]");
     if (col) setStep(steps[+col.dataset.col]);
@@ -800,7 +810,7 @@ function mechChart(n) {
   svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
   const colW = (W - pl - pr) / (k - 1), X = j => pl + j * colW, bw = Math.min(colW * 0.7, 28);
   const Y = v => pt + (H - pt - pb) * (1 - v);
-  const ser = barSeries(n);
+  const ser = barSeries(n), fk = S.colorBy === "family" ? focusKey(n) : null;
   let h = `<line x1="${pl - bw / 2}" x2="${W - pr + bw / 2}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--border)"/>`;
   const every = colW < 26 ? 4 : 2;
   steps.forEach((s, i) => {
@@ -808,7 +818,7 @@ function mechChart(n) {
     for (const x of ser) {
       const v = x.vals[i];
       if (v <= 0) continue;
-      h += `<rect x="${X(i) - bw / 2}" y="${Y(acc + v)}" width="${bw}" height="${Math.max(0, Y(acc) - Y(acc + v))}" fill="${x.color}" stroke="var(--surface-1)" stroke-width="2"/>`;
+      h += `<rect x="${X(i) - bw / 2}" y="${Y(acc + v)}" width="${bw}" height="${Math.max(0, Y(acc) - Y(acc + v))}" fill="${x.color}" stroke="var(--surface-1)" stroke-width="2"${fk && x.key !== fk ? ' opacity=".15"' : ""}/>`;
       acc += v;
     }
     if (s === S.step) h += `<rect x="${X(i) - bw / 2 - 3}" y="${pt - 2}" width="${bw + 6}" height="${H - pt - pb + 4}" fill="none" stroke="var(--text-primary)" stroke-width="1.5" stroke-dasharray="3 2" rx="3"/>`;
