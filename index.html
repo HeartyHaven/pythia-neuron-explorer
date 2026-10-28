@@ -153,6 +153,17 @@ table.evo td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 #c-tree .lin.dim { opacity: .12; }
 .legend button { font-size: 12px; padding: 1px 8px; }
 .about { font-size: 13px; color: var(--text-secondary); max-width: 72ch; }
+/* 嵌入模式（?embed）：只留一个神经元的演化图和原文，供博客用 iframe 嵌入 */
+body.embed { background: var(--surface-1); }
+body.embed header, body.embed #left { display: none; }
+body.embed .layout { display: block; padding: 0; }
+body.embed .panel { border: 0; border-radius: 0; margin: 0; padding: 12px 16px; }
+body.embed .panel + .panel, body.embed details.panel { border-top: 1px solid var(--border); }
+body.embed #stepcols { max-height: 440px; overflow: auto; overscroll-behavior: contain; }
+body.embed .treebox { max-height: 460px; overflow: auto; overscroll-behavior: contain; }
+body.embed details.panel > summary { font-size: 13px; padding: 2px 0; }
+.embhead { display: flex; align-items: center; gap: 6px 10px; flex-wrap: wrap; }
+.embhead .hbtn { margin-left: auto; }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 </style>
 
@@ -165,6 +176,7 @@ table.evo td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
     <button class="hbtn" id="guide" type="button" aria-haspopup="dialog"><span class="q" aria-hidden="true">?</span><span id="t-guide"></span></button>
     <a class="hbtn" href="https://github.com/HeartyHaven/pythia-neuron-evolution" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span>GitHub</span></a>
     <a class="hbtn" href="https://huggingface.co/datasets/LangGao/pythia-160m-neuron-evolution" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1C4.7 1 2 2.1 2 3.5v9C2 13.9 4.7 15 8 15s6-1.1 6-2.5v-9C14 2.1 11.3 1 8 1zm0 1.5c2.8 0 4.5.9 4.5 1s-1.7 1-4.5 1-4.5-.9-4.5-1 1.7-1 4.5-1zM3.5 5.6C4.8 6.2 6.3 6.5 8 6.5s3.2-.3 4.5-.9V8c0 .1-1.7 1-4.5 1S3.5 8.1 3.5 8V5.6zm0 4.5c1.3.6 2.8.9 4.5.9s3.2-.3 4.5-.9v2.4c0 .1-1.7 1-4.5 1s-4.5-.9-4.5-1v-2.4z"/></svg><span id="t-data"></span></a>
+    <a class="hbtn" href="https://heartyhaven.github.io/blog/neuron-evolution/" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1.5h7l3 3v10H3zM10 1.5v3h3M5.5 7.5h5M5.5 10h5M5.5 12.5h3" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg><span id="t-blog"></span></a>
     <span class="langs" role="group" aria-label="Language"><button id="lang-zh" type="button">中文</button><button id="lang-en" type="button">EN</button></span>
   </span>
 </header>
@@ -194,12 +206,14 @@ table.evo td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 <script>
 const $ = id => document.getElementById(id);
-const S = { famFocus: null, colorBy: "mech", mapIdx: 39, playing: null, anchor: null, sim: null, mapPos: {}, anim: null, meta: null, layers: {}, grouping: "category", group: null, sel: null, step: null, cmp: null, topn: 5, query: "", lang: "zh" };
+const Q = new URLSearchParams(location.search), EMBED = Q.has("embed");
+const FULL_URL = "https://heartyhaven.github.io/pythia-neuron-explorer/";
+const S = { pin: null, famFocus: null, colorBy: "mech", mapIdx: 39, playing: null, anchor: null, sim: null, mapPos: {}, anim: null, meta: null, layers: {}, grouping: "category", group: null, sel: null, step: null, cmp: null, topn: 5, query: "", lang: "zh" };
 
 // ---------- 界面文字 ----------
 const T = {
   zh: {
-    guide: "指南", data: "数据集", close: "知道了", guideTitle: "怎么看这个页面",
+    guide: "指南", data: "数据集", blog: "博客", openFull: "在完整浏览器中打开", moreAI: "AI 总结与每个阶段的描述", close: "知道了", guideTitle: "怎么看这个页面",
     guideItems: [
       ["选一个神经元", "用左边的地图、分组或搜索（如 L6/N201）。地图上点越近，描述越像；拖滑块或点 ▶ 看不同训练阶段；双击一个点，以它为中心排列其他点。"],
       ["概念演化图", "每条线是一个概念，从左到右是训练过程。从别的线分叉＝由旧概念派生；同一条线换颜色＝替换；带空心圈进入＝无关的新概念；最下一行＝只出现一次。"],
@@ -240,7 +254,7 @@ const T = {
     treeFrom: p => `从“${p}”长出`,
   },
   en: {
-    guide: "Guide", data: "Dataset", close: "Got it", guideTitle: "How to read this page",
+    guide: "Guide", data: "Dataset", blog: "Blog", openFull: "Open in Explorer", moreAI: "AI summary and per-stage descriptions", close: "Got it", guideTitle: "How to read this page",
     guideItems: [
       ["Pick a neuron", "Use the map, the groups or search (e.g. L6/N201) on the left. Closer dots have more alike descriptions; drag the slider or press ▶ to move through training; double-click a dot to center the map on it."],
       ["Concept evolution chart", "Each line is one concept; training runs left to right. A fork from another line = derived from an older concept; a color change on the same line = replacement; entering with a hollow circle = an unrelated new concept; bottom row = seen only once."],
@@ -385,6 +399,7 @@ function setLang(lang) {
   $("t-title").textContent = t("title");
   $("t-guide").textContent = t("guide");
   $("t-data").textContent = t("data");
+  $("t-blog").textContent = t("blog");
   $("guide-h").textContent = t("guideTitle");
   $("guide-list").innerHTML = t("guideItems").map(([a, b]) => `<li><div><b>${esc(a)}</b><br>${esc(b)}</div></li>`).join("");
   $("guide-foot").textContent = t("guideFoot");
@@ -599,13 +614,14 @@ async function select(id, step) {
 function renderRight() {
   const n = S.meta.neurons.find(x => x.id === S.sel), rows = S.rows;
   const cat = S.meta.groups.category.items[n.category];
-  $("right").innerHTML = `
+  const head = `
   <div class="panel">
     <h2 style="font-size:18px">L${n.layer}/N${n.neuron} <span class="sec" style="font-weight:400">${esc(L(n, "label"))}</span></h2>
     <span class="chip">${t("type")} <b>${esc(gname(cat, n.category))}</b></span>
     <span class="chip">${t("evo")} <b>${esc(E("rg", n.rg))}</b>${conf(n.rg_conf)}</span><span class="chip" title="${esc(t("lateTip"))}">${t("lateDom")} <b>${esc(E("dom", n.dominant))}</b></span>
     <span class="chip">${t("denoise")} <b>${esc(E("diff", n.diff))}</b>${conf(n.diff_conf)}</span>
-  </div>
+  </div>`;
+  const cards = `
   <div class="cards">
     <div class="panel card"><h3>${t("rgCard")} · ${esc(E("rg", n.rg))}${conf(n.rg_conf)}</h3>
       <div>${esc(L(n, "rg_summary"))}</div>
@@ -619,12 +635,13 @@ function renderRight() {
         <div>${t("cbf")}</div><div>${esc(E("cbf", n.cbf))}</div><div>${t("trend")}</div><div>${esc(E("trend", n.trend))}</div></div>
       <details><summary>${t("evidence")}</summary><div class="small">${esc(L(n, "diff_evidence"))}</div></details>
     </div>
-  </div>
-  ${evolutionPanel(n)}
+  </div>`;
+  const table = `
   <div class="panel">
     <h2>${t("evoTitle")}</h2>
     <div class="scroll-x"><table class="evo"><thead><tr>${t("cols").map((c, i) => `<th${t("colTips")[i] ? ` title="${esc(t("colTips")[i])}"` : ""}>${c}</th>`).join("")}</tr></thead><tbody id="evo"></tbody></table></div>
-  </div>
+  </div>`;
+  const stepPanel = `
   <div class="panel" id="steppanel">
     <div class="toolbar">
       <b id="stephdr"></b>
@@ -635,6 +652,11 @@ function renderRight() {
     <div class="muted small">${t("textNote")}</div>
     <div class="cols" id="stepcols"></div>
   </div>`;
+  $("right").innerHTML = !EMBED ? head + cards + evolutionPanel(n) + table + stepPanel
+    : `<div class="panel embhead"><b style="font-size:15px">L${n.layer}/N${n.neuron}</b> <span class="sec">${esc(L(n, "label"))}</span>
+        <span class="chip">${t("evo")} <b>${esc(E("rg", n.rg))}</b></span><span class="chip">${t("denoise")} <b>${esc(E("diff", n.diff))}</b></span>
+        <a class="hbtn" href="${FULL_URL}#L${n.layer}-N${n.neuron}" target="_blank" rel="noopener">${t("openFull")} ↗</a></div>`
+      + evolutionPanel(n) + stepPanel + `<details class="panel"><summary>${t("moreAI")}</summary>${cards}${table}</details>`;
   $("topn").value = String(S.topn);
   $("topn").onchange = e => { S.topn = +e.target.value; renderStep(); };
   $("cmp").value = S.cmp == null ? "" : String(S.cmp);
@@ -650,7 +672,7 @@ function evolutionPanel(n) {
     <div class="panel-head"><h2>${t("panelTitle")}</h2>
       <span class="langs" id="colorby" role="group"><button type="button" data-c="mech">${t("colorMech")}</button><button type="button" data-c="family">${t("colorFam")}</button></span></div>
     <div class="legend" id="evo-legend"></div>
-    <svg id="c-tree" style="width:100%;display:block" role="img" aria-label="${esc(t("panelTitle"))}"></svg>
+    <div class="treebox"><svg id="c-tree" style="width:100%;display:block" role="img" aria-label="${esc(t("panelTitle"))}"></svg></div>
     <div class="subttl" id="evo-bartitle"></div>
     <svg id="c-mech" style="width:100%;height:150px;display:block" role="img"></svg>
     <details><summary>${t("table")}</summary><div class="scroll-x" id="evo-table"></div></details>
@@ -672,7 +694,7 @@ function paintEvoText(n) {
     btn.setAttribute("aria-pressed", btn.dataset.c === S.colorBy);
     btn.onclick = () => {
       S.colorBy = btn.dataset.c;
-      try { localStorage.setItem("explorer-colorby", S.colorBy); } catch (e) { /* 存储不可用时忽略 */ }
+      if (!EMBED) try { localStorage.setItem("explorer-colorby", S.colorBy); } catch (e) { /* 存储不可用时忽略 */ }
       renderCharts(); renderStep();
     };
   }
@@ -815,7 +837,14 @@ function treeChart(n) {
       + (g.birth === "replace" && g.replaces ? `<br>${t("treeReplaces")(esc(nameOf(g.replaces)))}` : "")
       + (how ? `<br>${esc(how)}` : "");
   };
+  if (S.pin && byId[S.pin]) {  // 博客指定高亮的概念：常亮并显示说明，鼠标移入后恢复正常
+    const g = byId[S.pin], el = svg.querySelector(`g.lin[data-g="${CSS.escape(S.pin)}"]`), r = svg.getBoundingClientRect(), sc = r.width / W;
+    svg.classList.add("focus"); el.classList.add("on");
+    const y = g.birth === "sporadic" ? spY : yOf(laneOf[g.id]);
+    requestAnimationFrame(() => tip({ clientX: r.left + X(g.first) * sc, clientY: r.top + y * sc + 6 }, info(S.pin)));
+  }
   svg.onmousemove = ev => {
+    if (S.pin) { S.pin = null; }
     const el = ev.target.closest("g.lin");
     svg.classList.toggle("focus", !!el && !S.famFocus);
     for (const x of svg.querySelectorAll("g.lin")) x.classList.toggle("on", x === el);
@@ -939,6 +968,21 @@ document.addEventListener("keydown", ev => {
 // ---------- 启动 ----------
 (async () => {
   try { if (localStorage.getItem("explorer-colorby") === "family") S.colorBy = "family"; } catch (e) { /* 存储不可用 */ }
+  if (EMBED) {
+    document.body.classList.add("embed");
+    if (["mech", "family"].includes(Q.get("color"))) S.colorBy = Q.get("color");
+    addEventListener("message", e => {
+      const d = e.data || {};
+      if (d.type === "nevo-lang" && d.lang !== S.lang) setLang(d.lang);
+      if (d.type === "nevo-select" && d.neuron && d.neuron !== S.sel) { S.pin = null; select(d.neuron).then(() => parent.postMessage({ type: "nevo-ready", id: Q.get("id") }, "*")); }
+      if (d.type === "nevo-pin" && S.rows) {
+        if (d.color && d.color !== S.colorBy) S.colorBy = d.color;
+        S.pin = d.lineage || null; S.famFocus = null;
+        if (d.step != null && S.rows.some(r => r.step === d.step)) setStep(d.step); else renderCharts();
+      }
+    });
+    new ResizeObserver(() => parent.postMessage({ type: "nevo-h", id: Q.get("id"), h: document.documentElement.scrollHeight }, "*")).observe(document.body);
+  }
   $("lang-zh").onclick = () => setLang("zh");
   $("lang-en").onclick = () => setLang("en");
   $("guide").onclick = () => $("guidebox").showModal();
@@ -947,7 +991,7 @@ document.addEventListener("keydown", ev => {
     const r = $("guidebox").getBoundingClientRect();
     if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) $("guidebox").close();
   };
-  setLang("en");  // 每次打开都从英文开始
+  setLang(EMBED && Q.get("lang") === "zh" ? "zh" : "en");  // 每次打开都从英文开始（嵌入时跟随博客）
   S.meta = await (await fetch("data/meta.json")).json();
   $("grouping").onchange = () => { S.grouping = $("grouping").value; S.group = null; renderLeft(); };
   $("search").oninput = e => { S.query = e.target.value; renderList(); renderMap(); };
@@ -960,7 +1004,8 @@ document.addEventListener("keydown", ev => {
   // 链接里的 #L6-N201 打开对应神经元；没有就默认打开一个有代表性的递归泛化例子
   const m = /^#?L(\d+)-N(\d+)$/.exec(location.hash || "");
   const first = m ? `${m[1]}_${m[2]}` : (S.meta.neurons.find(n => n.id === "9_2943") || S.meta.neurons[0]).id;
-  await select(first);
+  await select(first, Q.has("step") ? +Q.get("step") : undefined);
+  if (EMBED) parent.postMessage({ type: "nevo-ready", id: Q.get("id") }, "*");
   addEventListener("resize", () => { if (S.rows) renderCharts(); });
 })();
 </script>
