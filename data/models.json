@@ -3,6 +3,28 @@
   "default_model": "pythia-160m",
   "models": [
     {
+      "id": "pythia-14m",
+      "label": "Pythia-14M",
+      "status": "queued",
+      "en": {
+        "message": "Queued for the same pile-10k extraction, annotation, review and bilingual translation workflow."
+      },
+      "zh": {
+        "message": "已纳入同一 pile-10k 抽取、标注、复核及双语翻译队列。"
+      }
+    },
+    {
+      "id": "pythia-31m",
+      "label": "Pythia-31M",
+      "status": "queued",
+      "en": {
+        "message": "Queued for the same pile-10k extraction, annotation, review and bilingual translation workflow."
+      },
+      "zh": {
+        "message": "已纳入同一 pile-10k 抽取、标注、复核及双语翻译队列。"
+      }
+    },
+    {
       "id": "pythia-70m",
       "label": "Pythia-70M",
       "status": "queued",
