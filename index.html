@@ -233,6 +233,7 @@ const S = { pin: null, famFocus: null, colorBy: "mech", mapIdx: 39, playing: nul
 // ---------- 界面文字 ----------
 const T = {
   zh: {
+    pending: "尚未分析", mapPending: "语义地图将在完整分析后提供", analysisPending: "当前可查看已完成的检查点解释与原文。完整轨迹判定及概念谱系仍在分析中。",
     guide: "指南", data: "数据集", blog: "博客", openFull: "在完整浏览器中打开", moreAI: "AI 总结与每个阶段的描述", close: "知道了", guideTitle: "怎么看这个页面",
     guideItems: [
       ["选一个神经元", "用左边的地图、分组或搜索（如 L6/N201）。地图上点越近，描述越像；拖滑块或点 ▶ 看不同训练阶段；双击一个点，以它为中心排列其他点。"],
@@ -274,6 +275,7 @@ const T = {
     treeFrom: p => `从“${p}”长出`,
   },
   en: {
+    pending: "Not yet analyzed", mapPending: "Semantic map is pending full analysis", analysisPending: "Completed checkpoint explanations and source contexts are available. Full trajectory judgments and concept lineages are still being analyzed.",
     guide: "Guide", data: "Dataset", blog: "Blog", openFull: "Open in Explorer", moreAI: "AI summary and per-stage descriptions", close: "Got it", guideTitle: "How to read this page",
     guideItems: [
       ["Pick a neuron", "Use the map, the groups or search (e.g. L6/N201) on the left. Closer dots have more alike descriptions; drag the slider or press ▶ to move through training; double-click a dot to center the map on it."],
@@ -380,7 +382,7 @@ function barSeries(n) {
     .filter(x => x.vals.some(v => v > 0));
 }
 const t = k => T[S.lang][k];
-const E = (kind, v) => (ENUM[S.lang][kind] || {})[v] ?? v ?? "—";
+const E = (kind, v) => v === "pending" ? t("pending") : (ENUM[S.lang][kind] || {})[v] ?? v ?? "—";
 const esc = s => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const fmtStep = s => S.lang === "en" ? `step ${Number(s).toLocaleString("en")}` : `第 ${s} 步`;
 const fmtAxis = s => s >= 1000 ? (s / 1000) + "k" : String(s);
@@ -439,6 +441,9 @@ function setLang(lang) {
   $("t-neurons").textContent = t("neurons");
   if (!S.meta) { if (CURRENT_MODEL) renderPendingModel(); return; }
   $("hdrinfo").textContent = t("info")(S.meta.neurons.length, S.meta.steps.length);
+  if (CURRENT_MODEL.status === "partial") $("hdrinfo").textContent += S.lang === "zh"
+    ? ` · 部分结果 ${S.meta.steps.length}/${S.meta.planned_steps?.length || "?"} · pile-10k`
+    : ` · Partial results ${S.meta.steps.length}/${S.meta.planned_steps?.length || "?"} · pile-10k`;
   $("grouping").innerHTML = Object.entries(S.meta.groups).filter(([k]) => k !== "cluster").map(([k, g]) =>
     `<option value="${k}">${esc(S.lang === "en" ? g.title_en || g.title : g.title)}</option>`).join("");
   $("grouping").value = S.grouping;
@@ -531,6 +536,8 @@ const mX = v => MP + (MW - 2 * MP) * v, mY = v => MH - MP - (MH - 2 * MP) * v;
 // 结构（哪些点、颜色、选中）变化时重建；位置用 placeMap 单独更新，便于做动画
 function renderMap(animate) {
   const svg = $("map"), ns = S.meta.neurons.filter(n => n.sem), j = S.mapIdx;
+  $("mapplay").disabled = !ns.length || S.meta.steps.length < 2;
+  $("mapstep").disabled = !ns.length;
   $("mapstep").value = String(j);
   $("mapsteplabel").textContent = fmtStep(S.meta.steps[j]);
   const on = ns.filter(matches), off = ns.filter(n => !matches(n));
@@ -538,6 +545,7 @@ function renderMap(animate) {
   h += off.map(n => `<circle r="4" fill="var(--dot-muted)" data-id="${n.id}"/>`).join("");
   h += on.map(n => `<circle r="4" fill="var(--series-1)" stroke="var(--surface-1)" stroke-width="1.5" data-id="${n.id}"/>`).join("");
   h += `<circle id="m-ring" r="7" fill="none" stroke="var(--series-2)" stroke-width="2.5" pointer-events="none" visibility="hidden"/>`;
+  if (!ns.length) h += `<text x="180" y="130" text-anchor="middle" fill="var(--text-muted)" font-size="12">${esc(t("mapPending"))}</text>`;
   svg.innerHTML = h;
   S.mapEls = {};
   for (const c of svg.querySelectorAll("circle[data-id]")) S.mapEls[c.dataset.id] = c;
@@ -642,7 +650,7 @@ function renderRight() {
     <span class="chip">${t("evo")} <b>${esc(E("rg", n.rg))}</b>${conf(n.rg_conf)}</span><span class="chip" title="${esc(t("lateTip"))}">${t("lateDom")} <b>${esc(E("dom", n.dominant))}</b></span>
     <span class="chip">${t("denoise")} <b>${esc(E("diff", n.diff))}</b>${conf(n.diff_conf)}</span>
   </div>`;
-  const cards = `
+  const cards = n.rg_conf == null && n.diff_conf == null ? `<div class="panel muted">${esc(t("analysisPending"))}</div>` : `
   <div class="cards">
     <div class="panel card"><h3>${t("rgCard")} · ${esc(E("rg", n.rg))}${conf(n.rg_conf)}</h3>
       <div>${esc(L(n, "rg_summary"))}</div>
