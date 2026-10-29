@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "observed_at": 1793294721.9231555,
+  "observed_at": 1793295044.1370087,
   "models": {
     "pythia-14m": {
-      "extracted_checkpoints": 146,
+      "extracted_checkpoints": 147,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 146,
+      "usable_extracted_checkpoints": 147,
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
@@ -13,39 +13,39 @@
       "planned_annotation_steps": 40
     },
     "pythia-31m": {
-      "extracted_checkpoints": 111,
+      "extracted_checkpoints": 113,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 111,
-      "source_under_review": false,
-      "source_blocked_steps": [],
-      "source_approved_panel_version": null,
-      "bilingual_steps": 14,
-      "planned_annotation_steps": 40
-    },
-    "pythia-70m": {
-      "extracted_checkpoints": 86,
-      "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 86,
+      "usable_extracted_checkpoints": 113,
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
       "bilingual_steps": 15,
       "planned_annotation_steps": 40
     },
-    "pythia-160m-pile10k": {
-      "extracted_checkpoints": 95,
+    "pythia-70m": {
+      "extracted_checkpoints": 89,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 95,
+      "usable_extracted_checkpoints": 89,
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
-      "bilingual_steps": 7,
+      "bilingual_steps": 16,
+      "planned_annotation_steps": 40
+    },
+    "pythia-160m-pile10k": {
+      "extracted_checkpoints": 99,
+      "planned_extraction_checkpoints": 154,
+      "usable_extracted_checkpoints": 99,
+      "source_under_review": false,
+      "source_blocked_steps": [],
+      "source_approved_panel_version": null,
+      "bilingual_steps": 8,
       "planned_annotation_steps": 40
     },
     "pythia-410m": {
-      "extracted_checkpoints": 54,
+      "extracted_checkpoints": 57,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 54,
+      "usable_extracted_checkpoints": 57,
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
@@ -53,7 +53,7 @@
       "planned_annotation_steps": 40
     },
     "pythia-1b": {
-      "extracted_checkpoints": 52,
+      "extracted_checkpoints": 55,
       "planned_extraction_checkpoints": 154,
       "usable_extracted_checkpoints": 0,
       "source_under_review": true,
@@ -63,9 +63,9 @@
       "planned_annotation_steps": 40
     },
     "pythia-1.4b": {
-      "extracted_checkpoints": 39,
+      "extracted_checkpoints": 41,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 39,
+      "usable_extracted_checkpoints": 41,
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
@@ -73,7 +73,7 @@
       "planned_annotation_steps": 40
     },
     "pythia-2.8b": {
-      "extracted_checkpoints": 18,
+      "extracted_checkpoints": 19,
       "planned_extraction_checkpoints": 154,
       "usable_extracted_checkpoints": 12,
       "source_under_review": true,
@@ -101,14 +101,14 @@
       "usable_extracted_checkpoints": 13,
       "source_under_review": false,
       "source_blocked_steps": [],
-      "source_approved_panel_version": "b903c41199e050c0ee22af51efe7641dfc54d56a27759f46733a78b16bd24e60",
-      "bilingual_steps": 1,
+      "source_approved_panel_version": null,
+      "bilingual_steps": 2,
       "planned_annotation_steps": 40
     },
     "pythia-12b": {
-      "extracted_checkpoints": 10,
+      "extracted_checkpoints": 11,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 10,
+      "usable_extracted_checkpoints": 11,
       "source_under_review": false,
       "source_blocked_steps": [
         50000,
