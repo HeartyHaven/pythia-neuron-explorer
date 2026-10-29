@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": 1793310730.7062187,
+  "observed_at": 1793311309.6395164,
   "models": {
     "pythia-14m": {
       "extracted_checkpoints": 152,
@@ -9,7 +9,7 @@
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
-      "bilingual_steps": 18,
+      "bilingual_steps": 19,
       "planned_annotation_steps": 40
     },
     "pythia-31m": {
@@ -19,7 +19,7 @@
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
-      "bilingual_steps": 20,
+      "bilingual_steps": 21,
       "planned_annotation_steps": 40
     },
     "pythia-70m": {
@@ -68,8 +68,8 @@
       "usable_extracted_checkpoints": 53,
       "source_under_review": false,
       "source_blocked_steps": [],
-      "source_approved_panel_version": "4f84350e802c7b61ada8b4889308f9fd6cdb4ce881048345ad1077eac576113d",
-      "bilingual_steps": 4,
+      "source_approved_panel_version": null,
+      "bilingual_steps": 5,
       "planned_annotation_steps": 40
     },
     "pythia-2.8b": {
@@ -102,7 +102,7 @@
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
-      "bilingual_steps": 2,
+      "bilingual_steps": 3,
       "planned_annotation_steps": 40
     },
     "pythia-12b": {
