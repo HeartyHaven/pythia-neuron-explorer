@@ -217,7 +217,8 @@ const FULL_URL = "https://heartyhaven.github.io/pythia-neuron-explorer/";
 let MODELS = [], CURRENT_MODEL = null, DATA_ROOT = "data";
 async function fetchModelJSON(name) {
   const compressed = CURRENT_MODEL?.compression === "gzip";
-  const response = await fetch(`${DATA_ROOT}/${name}.json${compressed ? ".gz" : ""}`);
+  const version = CURRENT_MODEL?.data_version;
+  const response = await fetch(`${DATA_ROOT}/${name}.json${compressed ? ".gz" : ""}${version ? "?v=" + encodeURIComponent(version) : ""}`);
   if (!response.ok) throw new Error(`Model data unavailable: ${response.status}`);
   if (!compressed) return response.json();
   const bytes = new Uint8Array(await response.arrayBuffer());
