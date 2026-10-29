@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "default_model": "pythia-160m",
+  "models": [
+    {
+      "id": "pythia-70m",
+      "label": "Pythia-70M",
+      "status": "queued",
+      "en": {
+        "message": "This model has no published results yet. Extraction, annotation, review and translation must finish before results are shown."
+      },
+      "zh": {
+        "message": "该模型尚未发布分析结果。抽取、标注、复核及翻译完成后才会展示。"
+      }
+    },
+    {
+      "id": "pythia-160m",
+      "label": "Pythia-160M",
+      "status": "ready",
+      "data_path": "data",
+      "source_language": "zh",
+      "dataset_url": "https://huggingface.co/datasets/LangGao/pythia-160m-neuron-evolution"
+    },
+    {
+      "id": "pythia-410m",
+      "label": "Pythia-410M",
+      "status": "queued",
+      "en": {
+        "message": "This model has no published results yet. Extraction, annotation, review and translation must finish before results are shown."
+      },
+      "zh": {
+        "message": "该模型尚未发布分析结果。抽取、标注、复核及翻译完成后才会展示。"
+      }
+    },
+    {
+      "id": "pythia-1b",
+      "label": "Pythia-1B",
+      "status": "preparing",
+      "en": {
+        "message": "Checkpoint access and GPU extraction have been validated. The first real checkpoint is being prepared. Results will appear after extraction, annotation, review and translation."
+      },
+      "zh": {
+        "message": "检查点下载和 GPU 抽取已通过验证，正在准备首批真实检查点。完成抽取、标注、抽审和翻译后展示结果。"
+      },
+      "corpus": "NeelNanda/pile-10k",
+      "annotation_model": "gpt-6.1-terra",
+      "review_model": "claude-opus-5-5"
+    },
+    {
+      "id": "pythia-1.4b",
+      "label": "Pythia-1.4B",
+      "status": "queued",
+      "en": {
+        "message": "This model has no published results yet. Extraction, annotation, review and translation must finish before results are shown."
+      },
+      "zh": {
+        "message": "该模型尚未发布分析结果。抽取、标注、复核及翻译完成后才会展示。"
+      }
+    },
+    {
+      "id": "pythia-2.8b",
+      "label": "Pythia-2.8B",
+      "status": "queued",
+      "en": {
+        "message": "This model has no published results yet. Extraction, annotation, review and translation must finish before results are shown."
+      },
+      "zh": {
+        "message": "该模型尚未发布分析结果。抽取、标注、复核及翻译完成后才会展示。"
+      }
+    },
+    {
+      "id": "pythia-6.9b",
+      "label": "Pythia-6.9B",
+      "status": "preparing",
+      "en": {
+        "message": "Checkpoint access and GPU extraction have been validated. The first real checkpoint is being prepared. Results will appear after extraction, annotation, review and translation."
+      },
+      "zh": {
+        "message": "检查点下载和 GPU 抽取已通过验证，正在准备首批真实检查点。完成抽取、标注、抽审和翻译后展示结果。"
+      },
+      "corpus": "NeelNanda/pile-10k",
+      "annotation_model": "gpt-6.1-terra",
+      "review_model": "claude-opus-5-5"
+    },
+    {
+      "id": "pythia-12b",
+      "label": "Pythia-12B",
+      "status": "preparing",
+      "en": {
+        "message": "Checkpoint access and GPU extraction have been validated. The first real checkpoint is being prepared. Results will appear after extraction, annotation, review and translation."
+      },
+      "zh": {
+        "message": "检查点下载和 GPU 抽取已通过验证，正在准备首批真实检查点。完成抽取、标注、抽审和翻译后展示结果。"
+      },
+      "corpus": "NeelNanda/pile-10k",
+      "annotation_model": "gpt-6.1-terra",
+      "review_model": "claude-opus-5-5"
+    }
+  ]
+}

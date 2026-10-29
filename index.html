@@ -165,9 +165,14 @@ body.embed details.panel > summary { font-size: 13px; padding: 2px 0; }
 .embhead { display: flex; align-items: center; gap: 6px 10px; flex-wrap: wrap; }
 .embhead .hbtn { margin-left: auto; }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+ header a[hidden] { display:none !important; }
+ .model-picker { display:flex; align-items:center; gap:6px; font-size:13px; }
+.model-picker select { max-width:280px; }
+.model-status { margin-top:12px; padding:12px; border:1px solid var(--border); border-radius:8px; }
 </style>
 
 <header>
+  <label class="model-picker"><span id="t-model">Model</span> <select id="model-select" aria-label="Model"></select></label>
   <span class="brand"><svg class="logo" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="6" fill="var(--accent)"/><path d="M5 12h4.5c2.6 0 3.4-5 6.5-5h1.5M9.5 12c2.6 0 3.4 5 6.5 5h1.5" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round"/><circle cx="5" cy="12" r="2" fill="#fff"/><circle cx="18.5" cy="7" r="2.3" fill="var(--series-2)" stroke="#fff" stroke-width="1.2"/><circle cx="18.5" cy="17" r="2.3" fill="var(--series-3)" stroke="#fff" stroke-width="1.2"/></svg><h1 id="t-title"></h1></span>
   <span class="ctl"><span id="t-grouping"></span><select id="grouping"></select></span>
   <span class="ctl"><label for="search" id="t-search"></label><input id="search" size="18"></span>
@@ -208,6 +213,8 @@ body.embed details.panel > summary { font-size: 13px; padding: 2px 0; }
 const $ = id => document.getElementById(id);
 const Q = new URLSearchParams(location.search), EMBED = Q.has("embed");
 const FULL_URL = "https://heartyhaven.github.io/pythia-neuron-explorer/";
+let MODELS = [], CURRENT_MODEL = null, DATA_ROOT = "data";
+const modelLabel = () => CURRENT_MODEL?.label || "Pythia-160M";
 const S = { pin: null, famFocus: null, colorBy: "mech", mapIdx: 39, playing: null, anchor: null, sim: null, mapPos: {}, anim: null, meta: null, layers: {}, grouping: "category", group: null, sel: null, step: null, cmp: null, topn: 5, query: "", lang: "zh" };
 
 // ---------- 界面文字 ----------
@@ -223,7 +230,7 @@ const T = {
     ],
     guideFoot: "鼠标悬停在线、数字和标题上可看说明。",
     title: "神经元演化浏览器", grouping: "分组方式", search: "搜索", searchPh: "如 L6/N201，或解释里的词",
-    info: (n, k) => `Pythia-160M 语言模型 · ${n} 个神经元 · ${k} 个训练阶段`,
+    info: (n, k) => `${modelLabel()} 语言模型 · ${n} 个神经元 · ${k} 个训练阶段`,
     map: "解释相近的神经元", mapdesc: "点越近，描述越像。单击切换，双击设为锚点。", anchorOn: x => `锚点：${x}`, anchorClear: "取消锚点", mapAxis: "训练阶段", play: "播放",
     panelTitle: "它响应的概念如何演化",
     coreTag: "核心概念", treeReplaces: p => `接替了“${p}”（它在此之后消失）`,
@@ -264,7 +271,7 @@ const T = {
     ],
     guideFoot: "Hover lines, numbers and titles for details.",
     title: "Neuron Evolution Explorer", grouping: "Group by", search: "Search", searchPh: "e.g. L6/N201, or a word",
-    info: (n, k) => `Pythia-160M language model · ${n} neurons · ${k} training stages`,
+    info: (n, k) => `${modelLabel()} language model · ${n} neurons · ${k} training stages`,
     map: "Neurons with similar explanations", mapdesc: "Closer dots have more alike descriptions. Click to switch; double-click to anchor.", anchorOn: x => `Anchor: ${x}`, anchorClear: "Clear anchor", mapAxis: "Training stage", play: "Play",
     panelTitle: "How the concepts it responds to evolved",
     coreTag: "core concept", treeReplaces: p => `took the place of "${p}", which disappeared here`,
@@ -368,10 +375,10 @@ const num = s => S.lang === "en" ? Number(s).toLocaleString("en") : String(s);
 const pct = v => Math.round((v || 0) * 100) + "%";
 const conf = c => c == null ? "" : ` <span class="muted" title="${esc(t("confTip"))}">· ${t("confLbl")} ${Math.round(c * 100)}%</span>`;
 // 内容字段：英文模式下优先取翻译
-const L = (obj, f) => (S.lang === "en" && obj && obj.en && obj.en[f]) ? obj.en[f] : obj ? obj[f] : "";
+const L = (obj, f) => obj?.[S.lang]?.[f] ?? obj?.[f] ?? "";
 const Li = (obj, listF, i, f) => {
-  if (S.lang === "en" && obj && obj.en && obj.en[listF] && obj.en[listF][i]) {
-    const v = obj.en[listF][i];
+  if (obj && obj[S.lang] && obj[S.lang][listF] && obj[S.lang][listF][i]) {
+    const v = obj[S.lang][listF][i];
     return f ? (v[f] ?? obj[listF][i][f]) : v;
   }
   const v = obj[listF][i];
@@ -391,6 +398,7 @@ function tip(ev, html) {
 // ---------- 语言 ----------
 function setLang(lang) {
   S.lang = lang;
+  renderModelPicker();
   document.documentElement.lang = lang === "en" ? "en" : "zh";
   $("lang-zh").classList.toggle("on", lang === "zh");
   $("lang-en").classList.toggle("on", lang === "en");
@@ -416,7 +424,7 @@ function setLang(lang) {
   $("anchorclear").textContent = t("anchorClear");
   if (S.anchor) { const an = S.meta && S.meta.neurons.find(x => x.id === S.anchor); if (an) $("anchorlbl").textContent = t("anchorOn")(`L${an.layer}/N${an.neuron}`); }
   $("t-neurons").textContent = t("neurons");
-  if (!S.meta) return;
+  if (!S.meta) { if (CURRENT_MODEL) renderPendingModel(); return; }
   $("hdrinfo").textContent = t("info")(S.meta.neurons.length, S.meta.steps.length);
   $("grouping").innerHTML = Object.entries(S.meta.groups).filter(([k]) => k !== "cluster").map(([k, g]) =>
     `<option value="${k}">${esc(S.lang === "en" ? g.title_en || g.title : g.title)}</option>`).join("");
@@ -475,7 +483,7 @@ function renderList() {
 }
 async function loadSim() {
   if (S.sim) return S.sim;
-  const d = await (await fetch("data/sim.json")).json();
+  const d = await (await fetch(`${DATA_ROOT}/sim.json`)).json();
   const N = d.order.length;
   const steps = d.steps.map(b64 => { const bin = atob(b64), a = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i); return a; });
   // 全局尺度：所有时间步、所有神经元两两之间的最大语义差异（不逐时间步归一化）
@@ -560,7 +568,7 @@ function bindMap() {
     const c = ev.target.closest("circle[data-id]");
     if (!c) return tip(ev, null);
     const n = S.meta.neurons.find(x => x.id === c.dataset.id), j = S.mapIdx;
-    const concept = S.lang === "en" ? n.ce[j] || n.cz[j] : n.cz[j];
+    const concept = S.lang === "en" ? (n.ce?.[j] || n.cz?.[j]) : (n.cz?.[j] || n.ce?.[j]);
     tip(ev, `<b>L${n.layer}/N${n.neuron}</b> · ${fmtStep(S.meta.steps[j])}<br>${esc(concept)}`);
   };
   svg.onmouseleave = ev => tip(ev, null);
@@ -591,7 +599,7 @@ function renderLeft() { renderGroups(); renderList(); renderMap(); }
 
 // ---------- 选择神经元 ----------
 async function layerData(l) {
-  if (!S.layers[l]) S.layers[l] = await (await fetch(`data/L${l}.json`)).json();
+  if (!S.layers[l]) S.layers[l] = await (await fetch(`${DATA_ROOT}/L${l}.json`)).json();
   return S.layers[l];
 }
 async function select(id, step) {
@@ -937,7 +945,7 @@ function stepCol(r) {
   const linOf = id => (n.lineages || []).findIndex(g => g.id === id);
   const pats = r.patterns.map((p, pi) => {
     const gi = linOf(p.lineage), g = gi >= 0 ? n.lineages[gi] : null;
-    const pe = S.lang === "en" && r.en && r.en.patterns && r.en.patterns[pi] ? r.en.patterns[pi] : p;
+    const pe = r[S.lang]?.patterns?.[pi] || p;
     return `<div class="pat">${g ? `<span class="chip" title="${esc(Li(n, "lineages", gi, "name"))}"><i class="swatch" style="background:${linColor(n, g)}"></i>${esc(E("mech", g.birth))}</span>` : ""}<b>${esc(pe.name || p.name)}</b> <code>${esc(p.trigger)}</code>
       <span class="muted">${t("seg")} ${(p.segments || []).map(x => "[" + x + "]").join("")}</span>
       <div class="small sec">${esc([pe.context || p.context, pe.domain || p.domain].filter(Boolean).join("; "))}</div></div>`;
@@ -965,6 +973,45 @@ document.addEventListener("keydown", ev => {
   if (ev.key === "ArrowRight") moveStep(1);
 });
 
+
+const MODEL_STATUS = {
+  en: {ready:"Available", partial:"Partial results", queued:"Queued", preparing:"Preparing", running:"Running", blocked_source:"Waiting for checkpoint source", blocked_gpu:"Waiting for GPU", failed:"Needs attention"},
+  zh: {ready:"已有结果", partial:"部分结果", queued:"待运行", preparing:"准备中", running:"运行中", blocked_source:"等待检查点来源", blocked_gpu:"等待 GPU", failed:"需要处理"},
+};
+function renderModelPicker() {
+  if (!$("model-select")) return;
+  $("t-model").textContent = S.lang === "zh" ? "模型" : "Model";
+  $("model-select").setAttribute("aria-label", S.lang === "zh" ? "选择模型" : "Select model");
+  $("model-select").innerHTML = MODELS.map(m => `<option value="${esc(m.id)}">${esc(m.label)} · ${esc(MODEL_STATUS[S.lang][m.status] || m.status)}</option>`).join("");
+  if (CURRENT_MODEL) $("model-select").value = CURRENT_MODEL.id;
+}
+function renderPendingModel() {
+  if (!CURRENT_MODEL) return;
+  $("hdrinfo").textContent = modelLabel() + " · " + (MODEL_STATUS[S.lang][CURRENT_MODEL.status] || CURRENT_MODEL.status);
+  $("nlist").textContent = S.lang === "zh" ? "尚无已发布的分析结果。" : "No analysis results published yet.";
+  $("groups").replaceChildren(); $("map").replaceChildren();
+  for (const id of ["grouping", "search", "mapstep", "mapplay"]) $(id).disabled = true;
+  const message = CURRENT_MODEL[S.lang]?.message || CURRENT_MODEL.message || (S.lang === "zh" ? "结果准备好后会出现在这里。" : "Results will appear here when they are ready.");
+  $("right").innerHTML = `<section class="panel"><h2>${esc(modelLabel())}</h2><p>${esc(message)}</p><p class="model-status">${esc(MODEL_STATUS[S.lang][CURRENT_MODEL.status] || CURRENT_MODEL.status)}</p></section>`;
+}
+async function loadModels() {
+  const response = await fetch("data/models.json", {cache:"no-store"});
+  if (!response.ok) throw new Error("Model catalog is unavailable");
+  const catalog = await response.json(); MODELS = catalog.models;
+  CURRENT_MODEL = MODELS.find(m => m.id === Q.get("model")) || MODELS.find(m => m.id === catalog.default_model) || MODELS[0];
+  if (!CURRENT_MODEL) throw new Error("Empty model catalog");
+  renderModelPicker();
+  const datasetLink = document.querySelector('a[href*="huggingface.co/datasets/"]');
+  if (datasetLink) { datasetLink.hidden = !CURRENT_MODEL.dataset_url; if (CURRENT_MODEL.dataset_url) datasetLink.href = CURRENT_MODEL.dataset_url; }
+  document.title = modelLabel() + " · Neuron Explorer";
+  $("model-select").onchange = () => {
+    const url = new URL(location.href);
+    url.searchParams.set("model", $("model-select").value);
+    url.searchParams.set("lang", S.lang); url.hash = "";
+    location.assign(url.href);
+  };
+}
+
 // ---------- 启动 ----------
 (async () => {
   try { if (localStorage.getItem("explorer-colorby") === "family") S.colorBy = "family"; } catch (e) { /* 存储不可用 */ }
@@ -991,8 +1038,16 @@ document.addEventListener("keydown", ev => {
     const r = $("guidebox").getBoundingClientRect();
     if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) $("guidebox").close();
   };
-  setLang(EMBED && Q.get("lang") === "zh" ? "zh" : "en");  // 每次打开都从英文开始（嵌入时跟随博客）
-  S.meta = await (await fetch("data/meta.json")).json();
+  setLang(Q.get("lang") === "zh" ? "zh" : "en");  // 每次打开都从英文开始（嵌入时跟随博客）
+  await loadModels();
+  if (!CURRENT_MODEL.data_path) { renderPendingModel(); return; }
+  DATA_ROOT = CURRENT_MODEL.data_path.replace(/\/$/, "");
+  const metaResponse = await fetch(`${DATA_ROOT}/meta.json`);
+  if (!metaResponse.ok) throw new Error(`Model data unavailable: ${metaResponse.status}`);
+  S.meta = await metaResponse.json();
+  if (!S.meta.neurons.length || !S.meta.steps.length) { renderPendingModel(); return; }
+  const dataset = document.querySelector('a[href*="huggingface.co/datasets/"]');
+  if (dataset && CURRENT_MODEL.dataset_url) dataset.href = CURRENT_MODEL.dataset_url;
   $("grouping").onchange = () => { S.grouping = $("grouping").value; S.group = null; renderLeft(); };
   $("search").oninput = e => { S.query = e.target.value; renderList(); renderMap(); };
   $("mapstep").max = String(S.meta.steps.length - 1);
@@ -1003,11 +1058,14 @@ document.addEventListener("keydown", ev => {
   setLang(S.lang);
   // 链接里的 #L6-N201 打开对应神经元；没有就默认打开一个有代表性的递归泛化例子
   const m = /^#?L(\d+)-N(\d+)$/.exec(location.hash || "");
-  const first = m ? `${m[1]}_${m[2]}` : (S.meta.neurons.find(n => n.id === "9_2943") || S.meta.neurons[0]).id;
+  const requested = m && `${m[1]}_${m[2]}`;
+  const first = (S.meta.neurons.find(n => n.id === requested) || S.meta.neurons.find(n => n.id === "9_2943") || S.meta.neurons[0]).id;
   await select(first, Q.has("step") ? +Q.get("step") : undefined);
   if (EMBED) parent.postMessage({ type: "nevo-ready", id: Q.get("id") }, "*");
   addEventListener("resize", () => { if (S.rows) renderCharts(); });
-})();
+})().catch(error => {
+  $("right").textContent = (S.lang === "zh" ? "数据加载失败：" : "Data could not be loaded: ") + error.message;
+});
 </script>
 
 </body>
