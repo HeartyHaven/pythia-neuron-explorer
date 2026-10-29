@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": 1793308919.5100505,
+  "observed_at": 1793309220.6746058,
   "models": {
     "pythia-14m": {
       "extracted_checkpoints": 152,
@@ -48,7 +48,7 @@
       "usable_extracted_checkpoints": 70,
       "source_under_review": false,
       "source_blocked_steps": [],
-      "source_approved_panel_version": null,
+      "source_approved_panel_version": "6dc9c9c689225db632dd13b0f49779a511d1c453e602c27712f1eb655d3b8fbb",
       "bilingual_steps": 4,
       "planned_annotation_steps": 40
     },
