@@ -122,12 +122,38 @@
     {
       "id": "pythia-410m",
       "label": "Pythia-410M",
-      "status": "queued",
+      "status": "partial",
+      "data_version": "1b669cf3b7738e07b4bcb4c8fb66277e76e4a19157af5e1c70d2e447f144d5d5",
+      "compression": "gzip",
+      "data_path": "data/models/pythia-410m",
+      "source_language": "en",
+      "corpus": "NeelNanda/pile-10k",
+      "probe_sha256": "62be7d14f62a4bdc96cec943eaf9b5225ebcc6a085dff28293a263b896986899",
+      "annotation_model": "gpt-6.1-terra",
+      "review_model": "claude-opus-5-5",
+      "translation_model": "gpt-6-luna",
+      "counts": {
+        "neurons": 480,
+        "published_steps": 2,
+        "planned_annotation_steps": 40,
+        "extracted_checkpoints": 42,
+        "planned_extraction_checkpoints": 154
+      },
+      "annotation_complete": false,
+      "analysis_complete": false,
+      "data_packaging_complete": false,
+      "source_provenance": {
+        "runtime": 38,
+        "posthoc": 4,
+        "runtime_weight_hashes_unknown": 0,
+        "limitation": "Posthoc recovered checkpoints identify current immutable revision metadata; runtime commit/config and missing runtime weight hashes remain unknown. No posthoc value is represented as runtime verification.",
+        "limitation_zh": "部分早期检查点的来源在权重删除后通过版本元数据恢复；当时实际使用的提交、配置及缺失的权重哈希仍未知。事后恢复值不代表运行时验证。"
+      },
       "en": {
-        "message": "This model has no published results yet. Extraction, annotation, review and translation must finish before results are shown."
+        "message": "Real bilingual checkpoint results are available; extraction, final analysis, or data packaging continue."
       },
       "zh": {
-        "message": "该模型尚未发布分析结果。抽取、标注、复核及翻译完成后才会展示。"
+        "message": "已提供真实检查点的中英双语结果，抽取、完整分析或数据打包仍在继续。"
       }
     },
     {
@@ -209,16 +235,38 @@
     {
       "id": "pythia-12b",
       "label": "Pythia-12B",
-      "status": "preparing",
+      "status": "partial",
+      "data_version": "b761a3b169eab7b0affac7541e439917f0b3106ad46328c84109fab26864ca23",
+      "compression": "gzip",
+      "data_path": "data/models/pythia-12b",
+      "source_language": "en",
+      "corpus": "NeelNanda/pile-10k",
+      "probe_sha256": "62be7d14f62a4bdc96cec943eaf9b5225ebcc6a085dff28293a263b896986899",
+      "annotation_model": "gpt-6.1-terra",
+      "review_model": "claude-opus-5-5",
+      "translation_model": "gpt-6-luna",
+      "counts": {
+        "neurons": 720,
+        "published_steps": 1,
+        "planned_annotation_steps": 40,
+        "extracted_checkpoints": 3,
+        "planned_extraction_checkpoints": 154
+      },
+      "annotation_complete": false,
+      "analysis_complete": false,
+      "data_packaging_complete": false,
+      "source_provenance": {
+        "runtime": 3,
+        "posthoc": 0,
+        "runtime_weight_hashes_unknown": 0,
+        "limitation": "Posthoc recovered checkpoints identify current immutable revision metadata; runtime commit/config and missing runtime weight hashes remain unknown. No posthoc value is represented as runtime verification."
+      },
       "en": {
-        "message": "Checkpoint access and GPU extraction have been validated. The first real checkpoint is being prepared. Results will appear after extraction, annotation, review and translation."
+        "message": "Real bilingual checkpoint results are available; extraction, final analysis, or data packaging continue."
       },
       "zh": {
-        "message": "检查点下载和 GPU 抽取已通过验证，正在准备首批真实检查点。完成抽取、标注、抽审和翻译后展示结果。"
-      },
-      "corpus": "NeelNanda/pile-10k",
-      "annotation_model": "gpt-6.1-terra",
-      "review_model": "claude-opus-5-5"
+        "message": "已提供真实检查点的中英双语结果，抽取、完整分析或数据打包仍在继续。"
+      }
     },
     {
       "id": "pythia-160m-pile10k",

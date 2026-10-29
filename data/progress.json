@@ -1,41 +1,41 @@
 {
   "schema_version": 1,
-  "observed_at": 1793291204.1412485,
+  "observed_at": 1793292024.0066407,
   "models": {
     "pythia-14m": {
-      "extracted_checkpoints": 112,
+      "extracted_checkpoints": 120,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 112,
-      "source_under_review": false,
-      "source_blocked_steps": [],
-      "source_approved_panel_version": null,
-      "bilingual_steps": 5,
-      "planned_annotation_steps": 40
-    },
-    "pythia-31m": {
-      "extracted_checkpoints": 78,
-      "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 78,
+      "usable_extracted_checkpoints": 120,
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
       "bilingual_steps": 7,
       "planned_annotation_steps": 40
     },
-    "pythia-70m": {
-      "extracted_checkpoints": 58,
+    "pythia-31m": {
+      "extracted_checkpoints": 85,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 58,
+      "usable_extracted_checkpoints": 85,
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
-      "bilingual_steps": 9,
+      "bilingual_steps": 8,
+      "planned_annotation_steps": 40
+    },
+    "pythia-70m": {
+      "extracted_checkpoints": 64,
+      "planned_extraction_checkpoints": 154,
+      "usable_extracted_checkpoints": 64,
+      "source_under_review": false,
+      "source_blocked_steps": [],
+      "source_approved_panel_version": null,
+      "bilingual_steps": 11,
       "planned_annotation_steps": 40
     },
     "pythia-160m-pile10k": {
-      "extracted_checkpoints": 63,
+      "extracted_checkpoints": 70,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 63,
+      "usable_extracted_checkpoints": 70,
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": "9aba95e849e3ab87b6a98bd5080a840239b8c6f74e23116dcf722172ab4041bd",
@@ -43,17 +43,17 @@
       "planned_annotation_steps": 40
     },
     "pythia-410m": {
-      "extracted_checkpoints": 31,
+      "extracted_checkpoints": 40,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 31,
+      "usable_extracted_checkpoints": 40,
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
-      "bilingual_steps": 0,
+      "bilingual_steps": 1,
       "planned_annotation_steps": 40
     },
     "pythia-1b": {
-      "extracted_checkpoints": 24,
+      "extracted_checkpoints": 28,
       "planned_extraction_checkpoints": 154,
       "usable_extracted_checkpoints": 0,
       "source_under_review": true,
@@ -63,9 +63,9 @@
       "planned_annotation_steps": 40
     },
     "pythia-1.4b": {
-      "extracted_checkpoints": 17,
+      "extracted_checkpoints": 22,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 17,
+      "usable_extracted_checkpoints": 22,
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": "d293e6bb5d1947c0feb94cb2ab446e40d9f27cb2642ec3a3ac39f57fb9a327fd",
@@ -73,9 +73,9 @@
       "planned_annotation_steps": 40
     },
     "pythia-2.8b": {
-      "extracted_checkpoints": 6,
+      "extracted_checkpoints": 10,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 0,
+      "usable_extracted_checkpoints": 2,
       "source_under_review": true,
       "source_blocked_steps": [
         26000,
@@ -96,9 +96,9 @@
       "planned_annotation_steps": 40
     },
     "pythia-6.9b": {
-      "extracted_checkpoints": 5,
+      "extracted_checkpoints": 6,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 5,
+      "usable_extracted_checkpoints": 6,
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
@@ -115,7 +115,7 @@
         58000
       ],
       "source_approved_panel_version": null,
-      "bilingual_steps": 0,
+      "bilingual_steps": 1,
       "planned_annotation_steps": 40
     }
   },
