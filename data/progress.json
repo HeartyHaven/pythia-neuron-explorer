@@ -1,47 +1,47 @@
 {
   "schema_version": 1,
-  "observed_at": 1793286543.1051264,
+  "observed_at": 1793287541.909089,
   "models": {
     "pythia-14m": {
-      "extracted_checkpoints": 29,
-      "planned_extraction_checkpoints": 154,
-      "bilingual_steps": 1,
-      "planned_annotation_steps": 40
-    },
-    "pythia-31m": {
-      "extracted_checkpoints": 16,
-      "planned_extraction_checkpoints": 154,
-      "bilingual_steps": 0,
-      "planned_annotation_steps": 40
-    },
-    "pythia-70m": {
-      "extracted_checkpoints": 26,
+      "extracted_checkpoints": 50,
       "planned_extraction_checkpoints": 154,
       "bilingual_steps": 3,
       "planned_annotation_steps": 40
     },
-    "pythia-160m-pile10k": {
-      "extracted_checkpoints": 14,
+    "pythia-31m": {
+      "extracted_checkpoints": 24,
       "planned_extraction_checkpoints": 154,
       "bilingual_steps": 1,
       "planned_annotation_steps": 40
     },
+    "pythia-70m": {
+      "extracted_checkpoints": 27,
+      "planned_extraction_checkpoints": 154,
+      "bilingual_steps": 4,
+      "planned_annotation_steps": 40
+    },
+    "pythia-160m-pile10k": {
+      "extracted_checkpoints": 17,
+      "planned_extraction_checkpoints": 154,
+      "bilingual_steps": 2,
+      "planned_annotation_steps": 40
+    },
     "pythia-410m": {
-      "extracted_checkpoints": 8,
+      "extracted_checkpoints": 9,
       "planned_extraction_checkpoints": 154,
       "bilingual_steps": 0,
       "planned_annotation_steps": 40
     },
     "pythia-1b": {
-      "extracted_checkpoints": 5,
+      "extracted_checkpoints": 7,
       "planned_extraction_checkpoints": 154,
-      "bilingual_steps": 0,
+      "bilingual_steps": 1,
       "planned_annotation_steps": 40
     },
     "pythia-1.4b": {
-      "extracted_checkpoints": 3,
+      "extracted_checkpoints": 4,
       "planned_extraction_checkpoints": 154,
-      "bilingual_steps": 0,
+      "bilingual_steps": 1,
       "planned_annotation_steps": 40
     },
     "pythia-2.8b": {
