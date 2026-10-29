@@ -2,7 +2,7 @@
   "id": "pythia-6.9b",
   "label": "Pythia-6.9B",
   "status": "partial",
-  "data_version": "b903c41199e050c0ee22af51efe7641dfc54d56a27759f46733a78b16bd24e60",
+  "data_version": "7b650e0cbb01daebd9795475c682f8b8b5cf0d59453ed79ac5817ec545be4ddf",
   "compression": "gzip",
   "data_path": "data/models/pythia-6.9b",
   "source_language": "en",
@@ -13,16 +13,16 @@
   "translation_model": "gpt-6-luna",
   "counts": {
     "neurons": 640,
-    "published_steps": 1,
+    "published_steps": 4,
     "planned_annotation_steps": 40,
-    "extracted_checkpoints": 10,
+    "extracted_checkpoints": 19,
     "planned_extraction_checkpoints": 154
   },
   "annotation_complete": false,
   "analysis_complete": false,
   "data_packaging_complete": false,
   "source_provenance": {
-    "runtime": 10,
+    "runtime": 19,
     "posthoc": 0,
     "runtime_weight_hashes_unknown": 0,
     "limitation": "Posthoc recovered checkpoints identify current immutable revision metadata; runtime commit/config and missing runtime weight hashes remain unknown. No posthoc value is represented as runtime verification."
@@ -32,5 +32,38 @@
   },
   "zh": {
     "message": "已提供真实检查点的中英双语结果，抽取、完整分析或数据打包仍在继续。"
+  },
+  "execution_policy": {
+    "current_plan": {
+      "schema_version": 1,
+      "id": "terra-luna-none-v1",
+      "sha256": "eb02f6836f6dd214d8c33af42592cad3539db0c7f303f4b2f39dbe2bcce13b76",
+      "efforts": {
+        "gpt-6.1-terra": "none",
+        "gpt-6-luna": "none"
+      },
+      "allow_legacy_efforts": [
+        "low"
+      ]
+    },
+    "legacy_results_retained": true,
+    "count_scope": "Latest record per key in each local table, including unpublished or quarantined records.",
+    "explanation_efforts": {
+      "legacy_low_from_frozen_config": 1506,
+      "none": 1086
+    },
+    "detection_efforts": {
+      "legacy_low_from_frozen_config": 1504,
+      "none": 1086
+    },
+    "translation_efforts": {
+      "legacy_low_from_frozen_config": 1348,
+      "none": 1220
+    },
+    "verified_none_counts": {
+      "explanations": 1086,
+      "detections": 1086,
+      "translations": 1220
+    }
   }
 }
