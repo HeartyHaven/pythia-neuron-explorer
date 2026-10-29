@@ -1,84 +1,110 @@
 {
   "schema_version": 1,
-  "observed_at": 1793289927.0117257,
+  "observed_at": 1793290548.0845077,
   "models": {
     "pythia-14m": {
-      "extracted_checkpoints": 94,
+      "extracted_checkpoints": 101,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 94,
+      "usable_extracted_checkpoints": 101,
       "source_under_review": false,
+      "source_blocked_steps": [],
       "bilingual_steps": 4,
       "planned_annotation_steps": 40
     },
     "pythia-31m": {
-      "extracted_checkpoints": 69,
+      "extracted_checkpoints": 73,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 69,
+      "usable_extracted_checkpoints": 73,
       "source_under_review": false,
-      "bilingual_steps": 6,
-      "planned_annotation_steps": 40
-    },
-    "pythia-70m": {
-      "extracted_checkpoints": 51,
-      "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 51,
-      "source_under_review": false,
+      "source_blocked_steps": [],
       "bilingual_steps": 7,
       "planned_annotation_steps": 40
     },
-    "pythia-160m-pile10k": {
-      "extracted_checkpoints": 49,
+    "pythia-70m": {
+      "extracted_checkpoints": 53,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 49,
+      "usable_extracted_checkpoints": 53,
       "source_under_review": false,
-      "bilingual_steps": 3,
+      "source_blocked_steps": [],
+      "bilingual_steps": 8,
+      "planned_annotation_steps": 40
+    },
+    "pythia-160m-pile10k": {
+      "extracted_checkpoints": 56,
+      "planned_extraction_checkpoints": 154,
+      "usable_extracted_checkpoints": 56,
+      "source_under_review": false,
+      "source_blocked_steps": [],
+      "bilingual_steps": 4,
       "planned_annotation_steps": 40
     },
     "pythia-410m": {
-      "extracted_checkpoints": 25,
+      "extracted_checkpoints": 28,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 25,
+      "usable_extracted_checkpoints": 28,
       "source_under_review": false,
+      "source_blocked_steps": [],
       "bilingual_steps": 0,
       "planned_annotation_steps": 40
     },
     "pythia-1b": {
-      "extracted_checkpoints": 17,
+      "extracted_checkpoints": 20,
       "planned_extraction_checkpoints": 154,
       "usable_extracted_checkpoints": 0,
       "source_under_review": true,
+      "source_blocked_steps": [],
       "bilingual_steps": 0,
       "planned_annotation_steps": 40
     },
     "pythia-1.4b": {
-      "extracted_checkpoints": 12,
+      "extracted_checkpoints": 14,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 12,
+      "usable_extracted_checkpoints": 14,
       "source_under_review": false,
+      "source_blocked_steps": [],
       "bilingual_steps": 1,
       "planned_annotation_steps": 40
     },
     "pythia-2.8b": {
-      "extracted_checkpoints": 1,
+      "extracted_checkpoints": 4,
       "planned_extraction_checkpoints": 154,
       "usable_extracted_checkpoints": 0,
       "source_under_review": true,
+      "source_blocked_steps": [
+        26000,
+        53000,
+        54000,
+        56000,
+        57000,
+        58000,
+        59000,
+        61000,
+        62000,
+        63000,
+        64000,
+        103000
+      ],
       "bilingual_steps": 0,
       "planned_annotation_steps": 40
     },
     "pythia-6.9b": {
-      "extracted_checkpoints": 3,
+      "extracted_checkpoints": 5,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 3,
+      "usable_extracted_checkpoints": 5,
       "source_under_review": false,
+      "source_blocked_steps": [],
       "bilingual_steps": 0,
       "planned_annotation_steps": 40
     },
     "pythia-12b": {
-      "extracted_checkpoints": 2,
+      "extracted_checkpoints": 3,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 2,
+      "usable_extracted_checkpoints": 3,
       "source_under_review": false,
+      "source_blocked_steps": [
+        50000,
+        58000
+      ],
       "bilingual_steps": 0,
       "planned_annotation_steps": 40
     }
