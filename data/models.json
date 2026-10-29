@@ -38,18 +38,26 @@
       "translation_model": "gpt-6-luna",
       "counts": {
         "neurons": 120,
-        "published_steps": 1,
+        "published_steps": 3,
         "planned_annotation_steps": 40,
-        "extracted_checkpoints": 11,
+        "extracted_checkpoints": 23,
         "planned_extraction_checkpoints": 154
       },
       "annotation_complete": false,
       "analysis_complete": false,
+      "data_packaging_complete": false,
+      "source_provenance": {
+        "runtime": 15,
+        "posthoc": 8,
+        "runtime_weight_hashes_unknown": 0,
+        "limitation": "Posthoc recovered checkpoints identify current immutable revision metadata; runtime commit/config and missing runtime weight hashes remain unknown. No posthoc value is represented as runtime verification.",
+        "limitation_zh": "部分早期检查点的来源在权重删除后通过版本元数据恢复；当时实际使用的提交、配置及缺失的权重哈希仍未知。事后恢复值不代表运行时验证。"
+      },
       "en": {
-        "message": "Real bilingual checkpoint results are available; extraction and final analysis continue."
+        "message": "Real bilingual checkpoint results are available; extraction, final analysis, or data packaging continue."
       },
       "zh": {
-        "message": "已提供真实检查点的中英双语结果，抽取及完整分析仍在继续。"
+        "message": "已提供真实检查点的中英双语结果，抽取、完整分析或数据打包仍在继续。"
       }
     },
     {
