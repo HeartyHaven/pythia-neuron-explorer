@@ -214,7 +214,7 @@ body.embed details.panel > summary { font-size: 13px; padding: 2px 0; }
 const $ = id => document.getElementById(id);
 const Q = new URLSearchParams(location.search), EMBED = Q.has("embed");
 const FULL_URL = "https://heartyhaven.github.io/pythia-neuron-explorer/";
-let MODELS = [], CURRENT_MODEL = null, DATA_ROOT = "data";
+let MODELS = [], CURRENT_MODEL = null, DATA_ROOT = "data", PROGRESS = null;
 async function fetchModelJSON(name) {
   const compressed = CURRENT_MODEL?.compression === "gzip";
   const version = CURRENT_MODEL?.data_version;
@@ -654,6 +654,7 @@ function renderRight() {
   const cat = S.meta.groups.category.items[n.category];
   const head = `
   <div class="panel">
+    ${progressText() ? `<p class="muted small">${esc(progressText())}</p>` : ""}
     <h2 style="font-size:18px">L${n.layer}/N${n.neuron} <span class="sec" style="font-weight:400">${esc(L(n, "label"))}</span></h2>
     <span class="chip">${t("type")} <b>${esc(gname(cat, n.category))}</b></span>
     <span class="chip">${t("evo")} <b>${esc(E("rg", n.rg))}</b>${conf(n.rg_conf)}</span><span class="chip" title="${esc(t("lateTip"))}">${t("lateDom")} <b>${esc(E("dom", n.dominant))}</b></span>
@@ -1008,26 +1009,39 @@ const MODEL_STATUS = {
   en: {ready:"Available", partial:"Partial results", queued:"Queued", preparing:"Preparing", running:"Running", blocked_source:"Waiting for checkpoint source", blocked_gpu:"Waiting for GPU", failed:"Needs attention"},
   zh: {ready:"已有结果", partial:"部分结果", queued:"待运行", preparing:"准备中", running:"运行中", blocked_source:"等待检查点来源", blocked_gpu:"等待 GPU", failed:"需要处理"},
 };
+const modelState = m => !m.data_path && PROGRESS?.models?.[m.id]?.extracted_checkpoints > 0 ? "running" : m.status;
+function progressText() {
+  const row = PROGRESS?.models?.[CURRENT_MODEL?.id];
+  if (!row) return "";
+  const observed = new Date(PROGRESS.observed_at * 1000).toLocaleString(S.lang === "zh" ? "zh-CN" : "en", {hour12:false});
+  return S.lang === "zh"
+    ? `服务器进度（${observed}）：已抽取 ${row.extracted_checkpoints}/${row.planned_extraction_checkpoints} 个检查点，已完成 ${row.bilingual_steps}/${row.planned_annotation_steps} 个双语步骤。看板按阶段发布通过校验的结果。`
+    : `Server progress (${observed}): ${row.extracted_checkpoints}/${row.planned_extraction_checkpoints} checkpoints extracted; ${row.bilingual_steps}/${row.planned_annotation_steps} bilingual steps validated. The panel publishes validated results at milestones.`;
+}
 function renderModelPicker() {
   if (!$("model-select")) return;
   $("t-model").textContent = S.lang === "zh" ? "模型" : "Model";
   $("model-select").setAttribute("aria-label", S.lang === "zh" ? "选择模型" : "Select model");
-  $("model-select").innerHTML = MODELS.map(m => `<option value="${esc(m.id)}">${esc(m.label)} · ${esc(MODEL_STATUS[S.lang][m.status] || m.status)}</option>`).join("");
+  $("model-select").innerHTML = MODELS.map(m => `<option value="${esc(m.id)}">${esc(m.label)} · ${esc(MODEL_STATUS[S.lang][modelState(m)] || modelState(m))}</option>`).join("");
   if (CURRENT_MODEL) $("model-select").value = CURRENT_MODEL.id;
 }
 function renderPendingModel() {
   if (!CURRENT_MODEL) return;
-  $("hdrinfo").textContent = modelLabel() + " · " + (MODEL_STATUS[S.lang][CURRENT_MODEL.status] || CURRENT_MODEL.status);
+  $("hdrinfo").textContent = modelLabel() + " · " + (MODEL_STATUS[S.lang][modelState(CURRENT_MODEL)] || modelState(CURRENT_MODEL));
   $("nlist").textContent = S.lang === "zh" ? "尚无已发布的分析结果。" : "No analysis results published yet.";
   $("groups").replaceChildren(); $("map").replaceChildren();
   for (const id of ["grouping", "search", "mapstep", "mapplay"]) $(id).disabled = true;
   const message = CURRENT_MODEL[S.lang]?.message || CURRENT_MODEL.message || (S.lang === "zh" ? "结果准备好后会出现在这里。" : "Results will appear here when they are ready.");
-  $("right").innerHTML = `<section class="panel"><h2>${esc(modelLabel())}</h2><p>${esc(message)}</p><p class="model-status">${esc(MODEL_STATUS[S.lang][CURRENT_MODEL.status] || CURRENT_MODEL.status)}</p></section>`;
+  $("right").innerHTML = `<section class="panel"><h2>${esc(modelLabel())}</h2><p>${esc(message)}</p>${progressText() ? `<p class="model-status">${esc(progressText())}</p>` : ""}<p class="model-status">${esc(MODEL_STATUS[S.lang][modelState(CURRENT_MODEL)] || modelState(CURRENT_MODEL))}</p></section>`;
 }
 async function loadModels() {
   const response = await fetch("data/models.json", {cache:"no-store"});
   if (!response.ok) throw new Error("Model catalog is unavailable");
   const catalog = await response.json(); MODELS = catalog.models;
+  try {
+    const progressResponse = await fetch("data/progress.json", {cache:"no-store"});
+    if (progressResponse.ok) PROGRESS = await progressResponse.json();
+  } catch (_) { /* Progress is optional; published scientific data stays available. */ }
   CURRENT_MODEL = MODELS.find(m => m.id === Q.get("model")) || MODELS.find(m => m.id === catalog.default_model) || MODELS[0];
   if (!CURRENT_MODEL) throw new Error("Empty model catalog");
   renderModelPicker();
