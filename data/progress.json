@@ -1,51 +1,51 @@
 {
   "schema_version": 1,
-  "observed_at": 1793292443.4183078,
+  "observed_at": 1793292917.9719737,
   "models": {
     "pythia-14m": {
-      "extracted_checkpoints": 124,
+      "extracted_checkpoints": 128,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 124,
+      "usable_extracted_checkpoints": 128,
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
-      "bilingual_steps": 8,
+      "bilingual_steps": 9,
       "planned_annotation_steps": 40
     },
     "pythia-31m": {
-      "extracted_checkpoints": 90,
+      "extracted_checkpoints": 94,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 90,
+      "usable_extracted_checkpoints": 94,
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
-      "bilingual_steps": 8,
+      "bilingual_steps": 10,
       "planned_annotation_steps": 40
     },
     "pythia-70m": {
-      "extracted_checkpoints": 70,
+      "extracted_checkpoints": 75,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 70,
+      "usable_extracted_checkpoints": 75,
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
-      "bilingual_steps": 11,
+      "bilingual_steps": 12,
       "planned_annotation_steps": 40
     },
     "pythia-160m-pile10k": {
-      "extracted_checkpoints": 73,
+      "extracted_checkpoints": 78,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 73,
+      "usable_extracted_checkpoints": 78,
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
-      "bilingual_steps": 5,
+      "bilingual_steps": 6,
       "planned_annotation_steps": 40
     },
     "pythia-410m": {
-      "extracted_checkpoints": 44,
+      "extracted_checkpoints": 47,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 44,
+      "usable_extracted_checkpoints": 47,
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
@@ -53,7 +53,7 @@
       "planned_annotation_steps": 40
     },
     "pythia-1b": {
-      "extracted_checkpoints": 32,
+      "extracted_checkpoints": 35,
       "planned_extraction_checkpoints": 154,
       "usable_extracted_checkpoints": 0,
       "source_under_review": true,
@@ -63,17 +63,17 @@
       "planned_annotation_steps": 40
     },
     "pythia-1.4b": {
-      "extracted_checkpoints": 23,
+      "extracted_checkpoints": 27,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 23,
+      "usable_extracted_checkpoints": 27,
       "source_under_review": false,
       "source_blocked_steps": [],
-      "source_approved_panel_version": "d293e6bb5d1947c0feb94cb2ab446e40d9f27cb2642ec3a3ac39f57fb9a327fd",
-      "bilingual_steps": 1,
+      "source_approved_panel_version": null,
+      "bilingual_steps": 2,
       "planned_annotation_steps": 40
     },
     "pythia-2.8b": {
-      "extracted_checkpoints": 11,
+      "extracted_checkpoints": 13,
       "planned_extraction_checkpoints": 154,
       "usable_extracted_checkpoints": 2,
       "source_under_review": true,
@@ -96,9 +96,9 @@
       "planned_annotation_steps": 40
     },
     "pythia-6.9b": {
-      "extracted_checkpoints": 7,
+      "extracted_checkpoints": 10,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 7,
+      "usable_extracted_checkpoints": 10,
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
@@ -106,9 +106,9 @@
       "planned_annotation_steps": 40
     },
     "pythia-12b": {
-      "extracted_checkpoints": 3,
+      "extracted_checkpoints": 4,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 3,
+      "usable_extracted_checkpoints": 4,
       "source_under_review": false,
       "source_blocked_steps": [
         50000,
