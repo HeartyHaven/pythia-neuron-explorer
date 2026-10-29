@@ -2,7 +2,7 @@
   "id": "pythia-70m",
   "label": "Pythia-70M",
   "status": "partial",
-  "data_version": "556b6344227dfb4ec6a261be4a488ff4b6f7154e9a395683314d73bc44927e45",
+  "data_version": "89d8ecc195178bbce58fab0b92c1f920ea6462e743eec9b8f6ede3df2141785d",
   "compression": "gzip",
   "data_path": "data/models/pythia-70m",
   "source_language": "en",
@@ -13,16 +13,16 @@
   "translation_model": "gpt-6-luna",
   "counts": {
     "neurons": 120,
-    "published_steps": 4,
+    "published_steps": 7,
     "planned_annotation_steps": 40,
-    "extracted_checkpoints": 26,
+    "extracted_checkpoints": 49,
     "planned_extraction_checkpoints": 154
   },
   "annotation_complete": false,
   "analysis_complete": false,
   "data_packaging_complete": false,
   "source_provenance": {
-    "runtime": 18,
+    "runtime": 41,
     "posthoc": 8,
     "runtime_weight_hashes_unknown": 0,
     "limitation": "Posthoc recovered checkpoints identify current immutable revision metadata; runtime commit/config and missing runtime weight hashes remain unknown. No posthoc value is represented as runtime verification.",
