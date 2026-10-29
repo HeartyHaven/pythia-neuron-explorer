@@ -5,12 +5,36 @@
     {
       "id": "pythia-14m",
       "label": "Pythia-14M",
-      "status": "queued",
+      "status": "partial",
+      "compression": "gzip",
+      "data_path": "data/models/pythia-14m",
+      "source_language": "en",
+      "corpus": "NeelNanda/pile-10k",
+      "probe_sha256": "62be7d14f62a4bdc96cec943eaf9b5225ebcc6a085dff28293a263b896986899",
+      "annotation_model": "gpt-6.1-terra",
+      "review_model": "claude-opus-5-5",
+      "translation_model": "gpt-6-luna",
+      "counts": {
+        "neurons": 120,
+        "published_steps": 1,
+        "planned_annotation_steps": 40,
+        "extracted_checkpoints": 25,
+        "planned_extraction_checkpoints": 154
+      },
+      "annotation_complete": false,
+      "analysis_complete": false,
+      "data_packaging_complete": false,
+      "source_provenance": {
+        "runtime": 23,
+        "posthoc": 0,
+        "runtime_weight_hashes_unknown": 0,
+        "limitation": "Posthoc recovered checkpoints identify current immutable revision metadata; runtime commit/config and missing runtime weight hashes remain unknown. No posthoc value is represented as runtime verification."
+      },
       "en": {
-        "message": "Queued for the same pile-10k extraction, annotation, review and bilingual translation workflow."
+        "message": "Real bilingual checkpoint results are available; extraction, final analysis, or data packaging continue."
       },
       "zh": {
-        "message": "已纳入同一 pile-10k 抽取、标注、复核及双语翻译队列。"
+        "message": "已提供真实检查点的中英双语结果，抽取、完整分析或数据打包仍在继续。"
       }
     },
     {
