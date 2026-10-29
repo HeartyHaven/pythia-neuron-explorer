@@ -1,13 +1,15 @@
 {
   "schema_version": 1,
   "model": "pythia-2.8b",
-  "annotation_fingerprint": "28812a8c3fa96aea3f467b8445876c63e9aa80ac05b3b660491b7109111af360",
+  "annotation_fingerprint": "1472fdb44b6efad63cc146af115f23dafa378e111b9e4aacb2aef4842994aee9",
   "ready_steps": [
     0,
+    2,
     143000
   ],
   "step_fingerprints": {
     "0": "cb88652a53073d6ed494b9be19d6e0b5f25a3897dc725b50b07176c67b6adc32",
+    "2": "0d429bcafc8a53d99612315608ff948f21e64ece3e73ebdc72b10c8ef6b1e863",
     "143000": "9cc3e987526edaded6956c0e3469d9d8a979a66052f50a263ed6a1f0864ceedd"
   },
   "complete": false,
@@ -16,266 +18,266 @@
   "compression": "gzip",
   "files": {
     "L0.json.gz": {
-      "bytes": 123769,
-      "sha256": "e1f2a28334613ed0c43a2823b6e8084c9d8da133d8077db8cafe9d0fe7654dcb",
-      "uncompressed_bytes": 373046,
-      "uncompressed_sha256": "56fba551dcdf2fc5afa11579124f9db396fa9f56249a72506291024e62be1e0b",
+      "bytes": 139924,
+      "sha256": "f227aa4ae9042312f3ce416a9fa194b73f950aa36e9daa62eb9572fbf49ec288",
+      "uncompressed_bytes": 540053,
+      "uncompressed_sha256": "11f308a37d884f4de6199b40fab2b39ed3e2026f2eee2b7d5509677894d06b25",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L0.json.gz",
       "relative_path": "data/models/pythia-2.8b/L0.json.gz"
     },
     "L1.json.gz": {
-      "bytes": 122043,
-      "sha256": "82f81b27e24832dd0725a2c612bd6452a9090738b60ab03a315fd7defe558145",
-      "uncompressed_bytes": 345338,
-      "uncompressed_sha256": "d8386b39a71ff8fc50f7d726e65a73126a4023b39be4a5827cddc5cc35feaa9f",
+      "bytes": 141165,
+      "sha256": "f517007215f89e6aa97eff2ca91e3e2cbc59571268ee4aed5efd4cfcfee2e0f3",
+      "uncompressed_bytes": 511639,
+      "uncompressed_sha256": "f0e8902aa3d46f0c8c59ba54388c1aca8bb46ff27f1a42286bea525db1b3999d",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L1.json.gz",
       "relative_path": "data/models/pythia-2.8b/L1.json.gz"
     },
     "L10.json.gz": {
-      "bytes": 120046,
-      "sha256": "550ef1e7ea55b861e8d8a24b54f3f833d58e2d6b060d87ab26cd2e34f395c1d3",
-      "uncompressed_bytes": 340001,
-      "uncompressed_sha256": "89a6c93f43aa9e82e242e8f9f53110f301606853c6504f5c3d8a56fb6dd7f6d8",
+      "bytes": 143410,
+      "sha256": "0b571568a3c8f58759b321e1d8258cc2feb88e6fcac88767d890735f757ffe4e",
+      "uncompressed_bytes": 492866,
+      "uncompressed_sha256": "061fae12c409c4307d9332c944b00595cbbc1d1c7b7f213c50962ad8a43b1fa2",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L10.json.gz",
       "relative_path": "data/models/pythia-2.8b/L10.json.gz"
     },
     "L11.json.gz": {
-      "bytes": 126564,
-      "sha256": "084c85404fec166918de1e3224a2006ed2c402a1996456f9da962d6e63ccab4d",
-      "uncompressed_bytes": 361098,
-      "uncompressed_sha256": "9a5d15c4e8ba423df7effa5fd272fd4852f774d2a57f1e8c90f113ac8445cc8a",
+      "bytes": 150893,
+      "sha256": "4fb9622e02e78b66d0c74207f45993b33caa83345e0c60ab2633658097fa6b05",
+      "uncompressed_bytes": 520670,
+      "uncompressed_sha256": "9ed3a157b22a9a9b1649c6133d08c266865dac02a0ca1754a71d7163119d33f8",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L11.json.gz",
       "relative_path": "data/models/pythia-2.8b/L11.json.gz"
     },
     "L12.json.gz": {
-      "bytes": 124516,
-      "sha256": "ef201104ae9c2b814afc7b54b22dbdc4747068dff73b13dd3e6081991d688428",
-      "uncompressed_bytes": 351842,
-      "uncompressed_sha256": "d35aed91d5baa4bf70cdfe67848d93de8be51cc33919f0de8449200434201a85",
+      "bytes": 149392,
+      "sha256": "3d6a23e14c4b659f78355273be21d2eb1124e66015ec02c672244ba985c27970",
+      "uncompressed_bytes": 519271,
+      "uncompressed_sha256": "80d1f8e723209edeb0d2119384707927b389ffd0319906a205e6bfb15d89c88f",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L12.json.gz",
       "relative_path": "data/models/pythia-2.8b/L12.json.gz"
     },
     "L13.json.gz": {
-      "bytes": 124306,
-      "sha256": "42fbc6ac511d3a743bb03429468c3a96936aa523cc8af804045eb970671f3707",
-      "uncompressed_bytes": 356425,
-      "uncompressed_sha256": "5f64186e1ea7e4ab3ecd973d353ec6df5c55f6f7b90a5985311180e1853aa86d",
+      "bytes": 150070,
+      "sha256": "1ffe54a280df3a07491fe06515c2ed577e9a48eb82435169099d19bd79646c9f",
+      "uncompressed_bytes": 522820,
+      "uncompressed_sha256": "6d41c9c86afae3bcbabd6341e41f3eea4a4961ae30bd0c991c2a96b51e2e7879",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L13.json.gz",
       "relative_path": "data/models/pythia-2.8b/L13.json.gz"
     },
     "L14.json.gz": {
-      "bytes": 122192,
-      "sha256": "60821f1c50c2b450a33c0880b5bc6552ce2467b9dcada3bb471041ebfb949f6d",
-      "uncompressed_bytes": 348984,
-      "uncompressed_sha256": "a79c75a92fedd13308c85250885dff6545198b7443f4cd9ac1e69a3d650e5290",
+      "bytes": 145574,
+      "sha256": "f879e1bc712279981f766a956a53d3dd4ce2b59d45ecee905c08559131c2a19e",
+      "uncompressed_bytes": 503329,
+      "uncompressed_sha256": "5601ca0d398ba1c38622553e18848337e0005789563401298f13e974de978bc6",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L14.json.gz",
       "relative_path": "data/models/pythia-2.8b/L14.json.gz"
     },
     "L15.json.gz": {
-      "bytes": 124808,
-      "sha256": "f8c2bb3e3dab3affbbd07022613bc25306b3491cac79536c52310593e348173a",
-      "uncompressed_bytes": 352753,
-      "uncompressed_sha256": "4fb93caa728edd5ec3b30efdadffbdb25c3ab70ca02d600579f6f68cfc60e648",
+      "bytes": 148474,
+      "sha256": "6147fca1f103599565249c7dfc19b83a71e64a306d2bff498bae14693198be3b",
+      "uncompressed_bytes": 509160,
+      "uncompressed_sha256": "c971c1436555b6d58722ba27ea1e2cecc689c9c401dfce9a1266f2845d70f61b",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L15.json.gz",
       "relative_path": "data/models/pythia-2.8b/L15.json.gz"
     },
     "L16.json.gz": {
-      "bytes": 122295,
-      "sha256": "cfe6548262a72d82d56598e5f0998f3b0aa14dec19500cd4221cec37029851b6",
-      "uncompressed_bytes": 347418,
-      "uncompressed_sha256": "430abe93b6ac7fe17c1a290bc1bf4e03907c4617b460258fd896afababaa479e",
+      "bytes": 147794,
+      "sha256": "18f04b8f11a0d36fd3ab57792ba08a91f9e41b2faaa03bec16a555e721061b6c",
+      "uncompressed_bytes": 507104,
+      "uncompressed_sha256": "c050f77c070176a951bca39289a1b54a491147739a66867734e51485bb2b6f21",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L16.json.gz",
       "relative_path": "data/models/pythia-2.8b/L16.json.gz"
     },
     "L17.json.gz": {
-      "bytes": 119358,
-      "sha256": "3eae2d9342c1ebeecc9601221eb4f1f690437c1f2050f794eab09f95566895ac",
-      "uncompressed_bytes": 343408,
-      "uncompressed_sha256": "bc8112cb19cf99c8d1fb082a6eb6ee9e1c426747b2c169dc9da3ad20a7561702",
+      "bytes": 144978,
+      "sha256": "65a7ebb4a301925c5d668207107a7a8c27e9c386d722a627a698ff3e7ff71582",
+      "uncompressed_bytes": 493379,
+      "uncompressed_sha256": "285b8c418c27cad9b989b540a81c8a6e0a9dcdf10b87fcb74a3afefc37d8216c",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L17.json.gz",
       "relative_path": "data/models/pythia-2.8b/L17.json.gz"
     },
     "L18.json.gz": {
-      "bytes": 124111,
-      "sha256": "80b9d17334a53c5d360999e740e139deae5625cf6720f0b433cc09bd78c33dbe",
-      "uncompressed_bytes": 353192,
-      "uncompressed_sha256": "bc74e285b731411b903d7a1b16e677c4ff016fcc0d071aeee5c8a1d9c20f0c21",
+      "bytes": 149244,
+      "sha256": "c823eda502f985d0e7a8305ccd316ba2ca1c4dcbd39352d97ffdbcc695a6d89b",
+      "uncompressed_bytes": 509855,
+      "uncompressed_sha256": "f1487461748337a36b739e7429b4f07801953283ace95a4db858fbe18ce030c1",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L18.json.gz",
       "relative_path": "data/models/pythia-2.8b/L18.json.gz"
     },
     "L19.json.gz": {
-      "bytes": 124184,
-      "sha256": "8a058431c0b0c7aca50b1d2811535104abd40ce54f2b8ef4f43d51744fc5eb36",
-      "uncompressed_bytes": 352882,
-      "uncompressed_sha256": "ee3065f6c4b7f1e4087f182bcc25c224e64b4c3fa5a4ec80c953d5189cef394d",
+      "bytes": 150288,
+      "sha256": "880307386bbb3129f1990caf90a9f26aab8bb493e06ede36b830e37ea1b147a8",
+      "uncompressed_bytes": 515925,
+      "uncompressed_sha256": "71b8e6d7c7764e5a98b674b4dab0b8989dc9035c4aad3aabad9c3706bdcab5b2",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L19.json.gz",
       "relative_path": "data/models/pythia-2.8b/L19.json.gz"
     },
     "L2.json.gz": {
-      "bytes": 123873,
-      "sha256": "a6dba021556dbafee85a8a392758ffdf9bc97c635a51ae3fdc05e24fe0162ad5",
-      "uncompressed_bytes": 352916,
-      "uncompressed_sha256": "8804b50115dcbda333adc0cb4a99037d7fecef506f2306029ff83ffba54baf60",
+      "bytes": 142328,
+      "sha256": "0a4bf9629838c84bdb6671e1a84fe4ebdbd0ea0ae72eceddf4d16df8b56e9eba",
+      "uncompressed_bytes": 517019,
+      "uncompressed_sha256": "c6bd36e91ec0e5c7321d286bc70b7aaaf87b1d60937301ce0ebd04f491718bd2",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L2.json.gz",
       "relative_path": "data/models/pythia-2.8b/L2.json.gz"
     },
     "L20.json.gz": {
-      "bytes": 126807,
-      "sha256": "a7bd1b7813556fd59bffd130d1c934514f78aef0d0cf81b5646ec9b24e6259b6",
-      "uncompressed_bytes": 355505,
-      "uncompressed_sha256": "a77f2a39e45e88546af9f4004b72d39a34e277c889d3d503aa4e930993a02929",
+      "bytes": 151587,
+      "sha256": "1b9e6e3d5c26aefdac64aceced5ae81340b7844319c55d6fe185c96869203de0",
+      "uncompressed_bytes": 515168,
+      "uncompressed_sha256": "1987e18fcd3700296a18ba79e4ffff033c666153a153ba7e09774eedf1d66bc1",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L20.json.gz",
       "relative_path": "data/models/pythia-2.8b/L20.json.gz"
     },
     "L21.json.gz": {
-      "bytes": 124011,
-      "sha256": "d3fb33cd5e6aa3d64f90bbcee7f25044fa72074ab1eea22e96a0ab750a69335e",
-      "uncompressed_bytes": 356503,
-      "uncompressed_sha256": "689635c920625da15cbc6339423a5541ab55640437142ec031be537b09923529",
+      "bytes": 147913,
+      "sha256": "5ad0aa90b01c2d4f09725ef2472d66ef0b4ad20c9a665b75805a0eeb9cfac393",
+      "uncompressed_bytes": 509660,
+      "uncompressed_sha256": "f28bfa6e7b4d07d155b7bc12eb2c47050684614760e0f47c1875c99e6ad1b30e",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L21.json.gz",
       "relative_path": "data/models/pythia-2.8b/L21.json.gz"
     },
     "L22.json.gz": {
-      "bytes": 123217,
-      "sha256": "62f549ac893057219d8e2699551b280e1c9323a0c9e0a90a6c2c34b818a0b60b",
-      "uncompressed_bytes": 351974,
-      "uncompressed_sha256": "790163a009a98a7d22e5e5c514ad8baa051155e4e7aaed1bc6cca877f0f93c80",
+      "bytes": 148710,
+      "sha256": "00af8e047bc7e7e84d5e8c85d795011b8c5b26352c504664864325439ddc7b2b",
+      "uncompressed_bytes": 509813,
+      "uncompressed_sha256": "f0e0c3b976feffbb29767cb1b1cbb1b806a9cf7022ffc1409f55a0d3bed4ce1e",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L22.json.gz",
       "relative_path": "data/models/pythia-2.8b/L22.json.gz"
     },
     "L23.json.gz": {
-      "bytes": 126223,
-      "sha256": "f1ab0b4e3c7240406eda2f1ea87d19b2b90bf8382860d8a1a6e8a2bd0028bbfc",
-      "uncompressed_bytes": 359162,
-      "uncompressed_sha256": "1b8675bf73f7c9a355de1fc8fe7a3a9da82d945aa94640bce4265b20e2f4949a",
+      "bytes": 152173,
+      "sha256": "55708ed7c189e0e8201ba57c6f564cfa691cae8453d35d8f623eea60fcf28538",
+      "uncompressed_bytes": 516109,
+      "uncompressed_sha256": "5bf16fcc8bcb1260e327ef89ac885af6e1f9c9c90153f8b3063b2a590b9cf75e",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L23.json.gz",
       "relative_path": "data/models/pythia-2.8b/L23.json.gz"
     },
     "L24.json.gz": {
-      "bytes": 123977,
-      "sha256": "0c225cb8b7beefd2b47c695ef5ab4aa4889dc57281d05edfa2c9e3614669bac7",
-      "uncompressed_bytes": 346288,
-      "uncompressed_sha256": "244d9e6dc15fe7e7adf2d1b9e5865a75e1e85157dd222301f4595f32581fe5fc",
+      "bytes": 149898,
+      "sha256": "7a9971d111b821094de17d8c1af89e8d2d01bc48eac9247db80d7d0e9101910a",
+      "uncompressed_bytes": 501567,
+      "uncompressed_sha256": "49360934f47b865fba3b310a6e556efa4c171baa1b213651d93c30ee7040f508",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L24.json.gz",
       "relative_path": "data/models/pythia-2.8b/L24.json.gz"
     },
     "L25.json.gz": {
-      "bytes": 123583,
-      "sha256": "9263b5b21a95d5d76eac9a100779530bdbd56690f8bc9234369bb6650f679d9f",
-      "uncompressed_bytes": 355478,
-      "uncompressed_sha256": "67d51e32352ea6f39349602b232081686dcc9f5ed24b4fda7c805236d71979f6",
+      "bytes": 149606,
+      "sha256": "8679996279d99ed079bef237c5e02084d1c7228bafcf529be2b392f59069930a",
+      "uncompressed_bytes": 508052,
+      "uncompressed_sha256": "9aa0ac4a30a487973d47a13d2f2f9489dc2f2d7a7b7cbfd835cc5492932423cb",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L25.json.gz",
       "relative_path": "data/models/pythia-2.8b/L25.json.gz"
     },
     "L26.json.gz": {
-      "bytes": 124324,
-      "sha256": "3b3596f3d196ac4e7767d96c466c4d9c6869fb20883fd58d4224ca3e39f57482",
-      "uncompressed_bytes": 351634,
-      "uncompressed_sha256": "56ed6429e8c83cb0a6e20a9c8301424cea33929f4d3add10e325f79fb1ad0bf4",
+      "bytes": 149610,
+      "sha256": "8cb7910fae9213f89814335ca5b29da3a69bbe97ba6be11f94b4f7f73cc08984",
+      "uncompressed_bytes": 506564,
+      "uncompressed_sha256": "283bcbe2014b73d0ac4a2bd9dbdc04ecc4f7fcc466c43533e3ea1db53edb1df1",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L26.json.gz",
       "relative_path": "data/models/pythia-2.8b/L26.json.gz"
     },
     "L27.json.gz": {
-      "bytes": 126846,
-      "sha256": "7452b4dd004d0e10cbfeacbb946c2b0c41322516593feb6d7a3e9b467a8288ad",
-      "uncompressed_bytes": 358411,
-      "uncompressed_sha256": "2896ec56c2a45b799a912dc663e6e17aa84ae2ca916716ed3d5a6f88c7982595",
+      "bytes": 152862,
+      "sha256": "7cbed2973886c00f15441c722be9501aa2124bb5bc93b87c11346c479d48243c",
+      "uncompressed_bytes": 523303,
+      "uncompressed_sha256": "2fbef89b070eb173de31bef0b1608bc5f982c6ba1585ee36559070aa0e798b50",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L27.json.gz",
       "relative_path": "data/models/pythia-2.8b/L27.json.gz"
     },
     "L28.json.gz": {
-      "bytes": 126357,
-      "sha256": "48056aa490b826c12b18965f8799bb4ecfd03fdcc713824b6280a16d9eabf42d",
-      "uncompressed_bytes": 360795,
-      "uncompressed_sha256": "dab108a818da68e0db158515a829f7fd0783bcea0da180cf04e5e2e7d105ec92",
+      "bytes": 153036,
+      "sha256": "7dd54d0011ab12d308d55a8a4aa9c3feea5fc778fa37bb705d5321a518da901a",
+      "uncompressed_bytes": 514253,
+      "uncompressed_sha256": "5897ad283f1d2ab5369d19d93573f380ce3c2308322045ed4b9d225f3c8743a4",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L28.json.gz",
       "relative_path": "data/models/pythia-2.8b/L28.json.gz"
     },
     "L29.json.gz": {
-      "bytes": 126540,
-      "sha256": "e1014de241d99466c4f767a23efb27eb8e9c3b45479731c0d646ff2da06c8091",
-      "uncompressed_bytes": 359898,
-      "uncompressed_sha256": "569ce8003129c8b245eb1a22ed13e48f293c38f9d3d8926a668047f5ec6b6353",
+      "bytes": 152108,
+      "sha256": "a97d20378391cdccc548e04e6691a14621b5806148c023b60afbef057f3412f2",
+      "uncompressed_bytes": 515969,
+      "uncompressed_sha256": "4219ddea5eb0ef8655093fc661a39c7d1c3d688829e511ba757fb3ab0337f1b6",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L29.json.gz",
       "relative_path": "data/models/pythia-2.8b/L29.json.gz"
     },
     "L3.json.gz": {
-      "bytes": 122057,
-      "sha256": "554a19fc776cd67ada69006a67cd438fb3b9cbd9ae213b8583eb9a0bd3640ead",
-      "uncompressed_bytes": 347978,
-      "uncompressed_sha256": "ba9dd54047f9c53c14ee6b6e28d58a7032d0c876b1a08e908e82cda8d11278dc",
+      "bytes": 140910,
+      "sha256": "9763d610be70a0514dfcd7aba97961557e3aeffbed0ac49a07febcf4da33248e",
+      "uncompressed_bytes": 506128,
+      "uncompressed_sha256": "d5ac3651ee2bb962198f3a4e25eabd6af146d511ae1d880f997c78e9d89b9e5e",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L3.json.gz",
       "relative_path": "data/models/pythia-2.8b/L3.json.gz"
     },
     "L30.json.gz": {
-      "bytes": 126272,
-      "sha256": "c007fb6c9cc2b83b8fb00a03ed22cf9da04acdbcdd1aff1939b6bc750271aae7",
-      "uncompressed_bytes": 357691,
-      "uncompressed_sha256": "7f55171573a63e5c7d6e61dfeb91c8b2984f7f7e7217aee6d703c5a19953a729",
+      "bytes": 153016,
+      "sha256": "844dbfd8d98621570ee0b3d464134c7b2f6092602e3b54e8caa207c5f9e90279",
+      "uncompressed_bytes": 516657,
+      "uncompressed_sha256": "1a11e912358b7ad0ed92d54314ee0b7711aa0235003bfd7c9b83e6d3f96c1360",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L30.json.gz",
       "relative_path": "data/models/pythia-2.8b/L30.json.gz"
     },
     "L31.json.gz": {
-      "bytes": 122459,
-      "sha256": "4347f0489c76cbd233ab768f38cabce1ca97e1f5de8191792bae0bafd8b181a7",
-      "uncompressed_bytes": 353670,
-      "uncompressed_sha256": "1a1d813a5bbb3dfc693df39984dc664bab1b776848e67cc863f67f0a65d138cd",
+      "bytes": 148492,
+      "sha256": "7f949ad10fefa638eb953a037190fdbc043e42f4c2dfeb7a8a28ccba1c27f2ae",
+      "uncompressed_bytes": 509580,
+      "uncompressed_sha256": "7d52a971bf1799ed84008196576ae43ff6e5069877aa4ac8f875f239cc5f31a8",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L31.json.gz",
       "relative_path": "data/models/pythia-2.8b/L31.json.gz"
     },
     "L4.json.gz": {
-      "bytes": 123996,
-      "sha256": "d0b0d46c09fea3cf40e161023cd5164215316eca27456e4c32c473338d61bc01",
-      "uncompressed_bytes": 351850,
-      "uncompressed_sha256": "910ec08999f8c0635879591fc878454898a474bbb77bee0d97d544c0fea6cc00",
+      "bytes": 144153,
+      "sha256": "e6b91bc24182bfa706257bb5e802a72f5c680dfb81f7d76185f26f35d81f6ecf",
+      "uncompressed_bytes": 514554,
+      "uncompressed_sha256": "09c023b02ddba00b36c112d711df4f8094eef59e5760836abafa5564fb3d09d3",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L4.json.gz",
       "relative_path": "data/models/pythia-2.8b/L4.json.gz"
     },
     "L5.json.gz": {
-      "bytes": 116633,
-      "sha256": "6471fce1707ca9d406f7210149715e23f9c3e25512f1927e5b82ed23de58546c",
-      "uncompressed_bytes": 333056,
-      "uncompressed_sha256": "1d4e0dc816bf1c9e6731a7b6b3a9805e0f1d64ce89dab6139d8bd7097ae9da8f",
+      "bytes": 135450,
+      "sha256": "70841b12c1149729b514f9aa6f1f44ed388a4f18bd8ba60f57a39b4a7df7778b",
+      "uncompressed_bytes": 479303,
+      "uncompressed_sha256": "bcccee9a0a3d7cb3ddd0a63582dc9d4818b505d1d29ecfe25be3b361d74ea319",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L5.json.gz",
       "relative_path": "data/models/pythia-2.8b/L5.json.gz"
     },
     "L6.json.gz": {
-      "bytes": 122661,
-      "sha256": "3713f3e108ddc5ab4a5b0128851fc1408495db52af0d42af8fa7c24222b52b58",
-      "uncompressed_bytes": 343718,
-      "uncompressed_sha256": "01c5c9f17d3eb9531f2fb7f8cf98c1db6f36975e9be5add2940e13b7d66d5444",
+      "bytes": 142882,
+      "sha256": "f3e00086f6e8960d614c9cb81c03c69a87b5a06092c3d7d14846d9b9178e277c",
+      "uncompressed_bytes": 501887,
+      "uncompressed_sha256": "9cb27c017d40a51cdf43a93708e285aab658ec826968a83539e5ffce07a900d6",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L6.json.gz",
       "relative_path": "data/models/pythia-2.8b/L6.json.gz"
     },
     "L7.json.gz": {
-      "bytes": 123295,
-      "sha256": "6293c87b58ea9df54ed7711593f085ec8a7a19e8046843e813511b727fce1213",
-      "uncompressed_bytes": 349952,
-      "uncompressed_sha256": "07368b7720f109b9028096b90491b9ce0b0f2cc67267daf154fdf4dc6e6ee10e",
+      "bytes": 145055,
+      "sha256": "5435c9df1482d62a8c97a45d795344079a8e816af3413ab3a087c06bcc98fa73",
+      "uncompressed_bytes": 502373,
+      "uncompressed_sha256": "c1e23f6f65f95b3ed746257ac8df99873ff0972de5c5af5d44cbc9fff28b6720",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L7.json.gz",
       "relative_path": "data/models/pythia-2.8b/L7.json.gz"
     },
     "L8.json.gz": {
-      "bytes": 123638,
-      "sha256": "e6a256c6667e73b83286c5371e01e9707aa21b1991af3d060b8dea640b9fe32e",
-      "uncompressed_bytes": 348635,
-      "uncompressed_sha256": "74e0b0a47e8b3ee5aaf302a8c98ddb1a3c1b0ffdf0f959a75509534f890fda06",
+      "bytes": 145581,
+      "sha256": "70d1f53a29f447823664a4823cd62635ea8d646fce753a367a3a775e448c8a9b",
+      "uncompressed_bytes": 503014,
+      "uncompressed_sha256": "1df684a5f084efdc2509fb28e1e2dedf086d812764204331aa0893242b24da77",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L8.json.gz",
       "relative_path": "data/models/pythia-2.8b/L8.json.gz"
     },
     "L9.json.gz": {
-      "bytes": 124257,
-      "sha256": "60e6393c91d9cfa193c4cc6b160117e486027e4d3e9e426736a269a420a191b5",
-      "uncompressed_bytes": 351331,
-      "uncompressed_sha256": "b223c664ce49be8e693b26e2ebb80cdecefbcf0c167d335ec7eedc5c62776a65",
+      "bytes": 147459,
+      "sha256": "ac3744f532640987e1c1532b5a6177f4b1e6e01eb91f8b5c214c0f453a7b484a",
+      "uncompressed_bytes": 511234,
+      "uncompressed_sha256": "99ab6d4828ed7fcc97d6586945aa8b6d0413e41e435b4601aed9deb2ea9c701f",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/L9.json.gz",
       "relative_path": "data/models/pythia-2.8b/L9.json.gz"
     },
     "meta.json.gz": {
-      "bytes": 31705,
-      "sha256": "1487996ba246a1e3064828fd6ca635125c8c3d6758ea12b2f4ce77f8e14dfc3c",
-      "uncompressed_bytes": 608293,
-      "uncompressed_sha256": "038a6be24fb49dc429f4ca4dd53811e368ee4d6cd18f3b3e18046b7439141897",
+      "bytes": 35954,
+      "sha256": "6ce5f16deb0511deb6bf644d8de1dd6f5c6d792ec27cd079778ac6949b72c912",
+      "uncompressed_bytes": 643965,
+      "uncompressed_sha256": "9db01c25c6cce461c374d5cadf2d2b9a785551a59e064c55a65bf4142a35ed65",
       "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/meta.json.gz",
       "relative_path": "data/models/pythia-2.8b/meta.json.gz"
     },
@@ -292,7 +294,7 @@
     "id": "pythia-2.8b",
     "label": "Pythia-2.8B",
     "status": "partial",
-    "data_version": "1dbba2e9092fc528f8b5caf100097d639e658af2354939b9638d83d115ee8fab",
+    "data_version": "af815cd2b765d89bb019c787cfb9bf24c9d297e6ee8e8589bd750c791c64f8ea",
     "compression": "gzip",
     "data_path": "data/models/pythia-2.8b",
     "source_language": "en",
@@ -303,16 +305,16 @@
     "translation_model": "gpt-6-luna",
     "counts": {
       "neurons": 640,
-      "published_steps": 2,
+      "published_steps": 3,
       "planned_annotation_steps": 40,
-      "extracted_checkpoints": 12,
+      "extracted_checkpoints": 19,
       "planned_extraction_checkpoints": 154
     },
     "annotation_complete": false,
     "analysis_complete": false,
     "data_packaging_complete": false,
     "source_provenance": {
-      "runtime": 11,
+      "runtime": 18,
       "posthoc": 1,
       "runtime_weight_hashes_unknown": 0,
       "limitation": "Posthoc recovered checkpoints identify current immutable revision metadata; runtime commit/config and missing runtime weight hashes remain unknown. No posthoc value is represented as runtime verification.",
@@ -338,6 +340,13 @@
         512,
         1000,
         2000,
+        3000,
+        4000,
+        5000,
+        6000,
+        7000,
+        8000,
+        10000,
         143000
       ],
       "strict_completion_plan_unchanged": true
@@ -359,27 +368,27 @@
       "count_scope": "Latest record per key in each local table, including unpublished or quarantined records.",
       "explanation_efforts": {
         "legacy_low_from_frozen_config": 1466,
-        "none": 29
+        "none": 508
       },
       "detection_efforts": {
         "legacy_low_from_frozen_config": 1462,
-        "none": 33
+        "none": 510
       },
       "translation_efforts": {
         "legacy_low_from_frozen_config": 1272,
-        "none": 48
+        "none": 673
       },
       "verified_none_counts": {
-        "explanations": 29,
-        "detections": 33,
-        "translations": 48
+        "explanations": 508,
+        "detections": 510,
+        "translations": 673
       }
     }
   },
   "catalog_entry": {
     "server_path": "/mnt/bn/jiang/lang_tts/neuron-evolution/out/pythia-2.8b/panel-data/catalog-entry.json",
     "relative_path": "data/models/pythia-2.8b/catalog-entry.json",
-    "bytes": 2811,
-    "sha256": "1756f0afd92d9831c435f095142daa6371e1a6c80cb0551fc97c762154ecf1d7"
+    "bytes": 2902,
+    "sha256": "7eb941ecf674e4bc8cff888f4ac88d6e162f9025a18e0988bdd1190faa844ee0"
   }
 }

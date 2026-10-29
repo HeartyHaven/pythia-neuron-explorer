@@ -2,7 +2,7 @@
   "id": "pythia-2.8b",
   "label": "Pythia-2.8B",
   "status": "partial",
-  "data_version": "1dbba2e9092fc528f8b5caf100097d639e658af2354939b9638d83d115ee8fab",
+  "data_version": "af815cd2b765d89bb019c787cfb9bf24c9d297e6ee8e8589bd750c791c64f8ea",
   "compression": "gzip",
   "data_path": "data/models/pythia-2.8b",
   "source_language": "en",
@@ -13,16 +13,16 @@
   "translation_model": "gpt-6-luna",
   "counts": {
     "neurons": 640,
-    "published_steps": 2,
+    "published_steps": 3,
     "planned_annotation_steps": 40,
-    "extracted_checkpoints": 12,
+    "extracted_checkpoints": 19,
     "planned_extraction_checkpoints": 154
   },
   "annotation_complete": false,
   "analysis_complete": false,
   "data_packaging_complete": false,
   "source_provenance": {
-    "runtime": 11,
+    "runtime": 18,
     "posthoc": 1,
     "runtime_weight_hashes_unknown": 0,
     "limitation": "Posthoc recovered checkpoints identify current immutable revision metadata; runtime commit/config and missing runtime weight hashes remain unknown. No posthoc value is represented as runtime verification.",
@@ -48,6 +48,13 @@
       512,
       1000,
       2000,
+      3000,
+      4000,
+      5000,
+      6000,
+      7000,
+      8000,
+      10000,
       143000
     ],
     "strict_completion_plan_unchanged": true
@@ -69,20 +76,20 @@
     "count_scope": "Latest record per key in each local table, including unpublished or quarantined records.",
     "explanation_efforts": {
       "legacy_low_from_frozen_config": 1466,
-      "none": 29
+      "none": 508
     },
     "detection_efforts": {
       "legacy_low_from_frozen_config": 1462,
-      "none": 33
+      "none": 510
     },
     "translation_efforts": {
       "legacy_low_from_frozen_config": 1272,
-      "none": 48
+      "none": 673
     },
     "verified_none_counts": {
-      "explanations": 29,
-      "detections": 33,
-      "translations": 48
+      "explanations": 508,
+      "detections": 510,
+      "translations": 673
     }
   }
 }
