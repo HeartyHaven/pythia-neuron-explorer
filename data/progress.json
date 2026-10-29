@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": 1793307665.6559722,
+  "observed_at": 1793308333.6421475,
   "models": {
     "pythia-14m": {
       "extracted_checkpoints": 152,
@@ -9,7 +9,7 @@
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
-      "bilingual_steps": 14,
+      "bilingual_steps": 15,
       "planned_annotation_steps": 40
     },
     "pythia-31m": {
@@ -19,7 +19,7 @@
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": "bc76bfb7e2a31fe9056810239db518450e2dd0bfca86f0aa709957236a53c694",
-      "bilingual_steps": 16,
+      "bilingual_steps": 17,
       "planned_annotation_steps": 40
     },
     "pythia-70m": {
@@ -29,7 +29,7 @@
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
-      "bilingual_steps": 17,
+      "bilingual_steps": 18,
       "planned_annotation_steps": 40
     },
     "pythia-160m-pile10k": {
@@ -39,7 +39,7 @@
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
-      "bilingual_steps": 8,
+      "bilingual_steps": 9,
       "planned_annotation_steps": 40
     },
     "pythia-410m": {
@@ -49,7 +49,7 @@
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
-      "bilingual_steps": 3,
+      "bilingual_steps": 4,
       "planned_annotation_steps": 40
     },
     "pythia-1b": {
@@ -69,7 +69,7 @@
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
-      "bilingual_steps": 3,
+      "bilingual_steps": 4,
       "planned_annotation_steps": 40
     },
     "pythia-2.8b": {
@@ -91,7 +91,7 @@
         64000,
         103000
       ],
-      "source_approved_panel_version": null,
+      "source_approved_panel_version": "1dbba2e9092fc528f8b5caf100097d639e658af2354939b9638d83d115ee8fab",
       "bilingual_steps": 2,
       "planned_annotation_steps": 40
     },
@@ -114,8 +114,8 @@
         50000,
         58000
       ],
-      "source_approved_panel_version": "b761a3b169eab7b0affac7541e439917f0b3106ad46328c84109fab26864ca23",
-      "bilingual_steps": 1,
+      "source_approved_panel_version": null,
+      "bilingual_steps": 2,
       "planned_annotation_steps": 40
     }
   },

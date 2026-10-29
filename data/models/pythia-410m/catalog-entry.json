@@ -2,7 +2,7 @@
   "id": "pythia-410m",
   "label": "Pythia-410M",
   "status": "partial",
-  "data_version": "1b669cf3b7738e07b4bcb4c8fb66277e76e4a19157af5e1c70d2e447f144d5d5",
+  "data_version": "6dc9c9c689225db632dd13b0f49779a511d1c453e602c27712f1eb655d3b8fbb",
   "compression": "gzip",
   "data_path": "data/models/pythia-410m",
   "source_language": "en",
@@ -13,16 +13,16 @@
   "translation_model": "gpt-6-luna",
   "counts": {
     "neurons": 480,
-    "published_steps": 2,
+    "published_steps": 4,
     "planned_annotation_steps": 40,
-    "extracted_checkpoints": 42,
+    "extracted_checkpoints": 70,
     "planned_extraction_checkpoints": 154
   },
   "annotation_complete": false,
   "analysis_complete": false,
   "data_packaging_complete": false,
   "source_provenance": {
-    "runtime": 38,
+    "runtime": 66,
     "posthoc": 4,
     "runtime_weight_hashes_unknown": 0,
     "limitation": "Posthoc recovered checkpoints identify current immutable revision metadata; runtime commit/config and missing runtime weight hashes remain unknown. No posthoc value is represented as runtime verification.",
@@ -33,5 +33,38 @@
   },
   "zh": {
     "message": "已提供真实检查点的中英双语结果，抽取、完整分析或数据打包仍在继续。"
+  },
+  "execution_policy": {
+    "current_plan": {
+      "schema_version": 1,
+      "id": "terra-luna-none-v1",
+      "sha256": "eb02f6836f6dd214d8c33af42592cad3539db0c7f303f4b2f39dbe2bcce13b76",
+      "efforts": {
+        "gpt-6.1-terra": "none",
+        "gpt-6-luna": "none"
+      },
+      "allow_legacy_efforts": [
+        "low"
+      ]
+    },
+    "legacy_results_retained": true,
+    "count_scope": "Latest record per key in each local table, including unpublished or quarantined records.",
+    "explanation_efforts": {
+      "legacy_low_from_frozen_config": 2309,
+      "none": 148
+    },
+    "detection_efforts": {
+      "legacy_low_from_frozen_config": 2307,
+      "none": 149
+    },
+    "translation_efforts": {
+      "legacy_low_from_frozen_config": 1724,
+      "none": 264
+    },
+    "verified_none_counts": {
+      "explanations": 148,
+      "detections": 149,
+      "translations": 264
+    }
   }
 }
