@@ -186,6 +186,7 @@ body.embed details.panel > summary { font-size: 13px; padding: 2px 0; }
   </span>
 </header>
 <dialog id="guidebox" aria-labelledby="guide-h"><h2 id="guide-h"></h2><ol id="guide-list"></ol>
+  <p id="guide-method" class="small"></p>
   <div class="gfoot"><span id="guide-foot"></span><button type="button" id="guide-close"></button></div></dialog>
 <div class="layout">
   <aside id="left">
@@ -426,6 +427,11 @@ function setLang(lang) {
   $("guide-h").textContent = t("guideTitle");
   $("guide-list").innerHTML = t("guideItems").map(([a, b]) => `<li><div><b>${esc(a)}</b><br>${esc(b)}</div></li>`).join("");
   $("guide-foot").textContent = t("guideFoot");
+  const matchedCorpus = CURRENT_MODEL?.corpus === "NeelNanda/pile-10k";
+  $("guide-method").hidden = !matchedCorpus;
+  $("guide-method").textContent = matchedCorpus ? (S.lang === "zh"
+    ? "方法：每层均匀随机抽取 20 个神经元，解释正向高激活；定量抽取覆盖全部 MLP 神经元。固定 pile-10k 探针含 6,356,992 个 token。检测使用 8 个留出高激活文本和 8 个随机文本；随机文本未按低激活阈值筛选。原始 160M 数据使用不同语料，跨模型比较需核对语料与探针。"
+    : "Method: 20 neurons are sampled uniformly per layer for explanations of positive activation extremes; quantitative extraction covers all MLP neurons. The fixed pile-10k probe contains 6,356,992 tokens. Detection uses 8 held-out top-activation and 8 random texts; random texts are not filtered by an inactivity threshold. The original 160M dataset uses a different corpus; check corpus and probe identity before comparing models.") : "";
   $("guide-close").textContent = t("close");
   $("t-grouping").textContent = t("grouping");
   $("t-search").textContent = t("search");
@@ -448,7 +454,9 @@ function setLang(lang) {
     `<option value="${k}">${esc(S.lang === "en" ? g.title_en || g.title : g.title)}</option>`).join("");
   $("grouping").value = S.grouping;
   renderLeft();
-  if (S.rows) renderRight(); else $("right").innerHTML = `<div class="panel">${t("intro")}</div>`;
+  if (S.rows) renderRight(); else $("right").innerHTML = `<div class="panel"><h2>${S.lang === "zh" ? "这是什么" : "What this is"}</h2><p class="about">${esc(S.lang === "zh"
+    ? `${modelLabel()} 中 ${S.meta.neurons.length} 个神经元在 ${S.meta.steps.length} 个已发布训练阶段的解释。从左边选一个神经元开始。`
+    : `Explanations for ${S.meta.neurons.length} neurons of ${modelLabel()} across ${S.meta.steps.length} published training stages. Pick a neuron on the left.`)}</p></div>`;
 }
 
 // ---------- 分组 ----------
