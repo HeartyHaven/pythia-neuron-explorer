@@ -2,6 +2,7 @@
   "id": "pythia-160m-pile10k",
   "label": "Pythia-160M (pile-10k)",
   "status": "partial",
+  "data_version": "9aba95e849e3ab87b6a98bd5080a840239b8c6f74e23116dcf722172ab4041bd",
   "compression": "gzip",
   "data_path": "data/models/pythia-160m-pile10k",
   "source_language": "en",
@@ -12,16 +13,16 @@
   "translation_model": "gpt-6-luna",
   "counts": {
     "neurons": 240,
-    "published_steps": 2,
+    "published_steps": 4,
     "planned_annotation_steps": 40,
-    "extracted_checkpoints": 14,
+    "extracted_checkpoints": 51,
     "planned_extraction_checkpoints": 154
   },
   "annotation_complete": false,
   "analysis_complete": false,
   "data_packaging_complete": false,
   "source_provenance": {
-    "runtime": 11,
+    "runtime": 48,
     "posthoc": 3,
     "runtime_weight_hashes_unknown": 0,
     "limitation": "Posthoc recovered checkpoints identify current immutable revision metadata; runtime commit/config and missing runtime weight hashes remain unknown. No posthoc value is represented as runtime verification.",
