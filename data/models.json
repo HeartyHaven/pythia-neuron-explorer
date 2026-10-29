@@ -210,12 +210,46 @@
     {
       "id": "pythia-2.8b",
       "label": "Pythia-2.8B",
-      "status": "queued",
+      "status": "partial",
+      "data_version": "9a8e0c6d09df7b3eb62b40b4fff617d9979a79e63c2b760ea9e600b69351ff2d",
+      "compression": "gzip",
+      "data_path": "data/models/pythia-2.8b",
+      "source_language": "en",
+      "corpus": "NeelNanda/pile-10k",
+      "probe_sha256": "62be7d14f62a4bdc96cec943eaf9b5225ebcc6a085dff28293a263b896986899",
+      "annotation_model": "gpt-6.1-terra",
+      "review_model": "claude-opus-5-5",
+      "translation_model": "gpt-6-luna",
+      "counts": {
+        "neurons": 640,
+        "published_steps": 1,
+        "planned_annotation_steps": 40,
+        "extracted_checkpoints": 2,
+        "planned_extraction_checkpoints": 154
+      },
+      "annotation_complete": false,
+      "analysis_complete": false,
+      "data_packaging_complete": false,
+      "source_provenance": {
+        "runtime": 1,
+        "posthoc": 1,
+        "runtime_weight_hashes_unknown": 0,
+        "limitation": "Posthoc recovered checkpoints identify current immutable revision metadata; runtime commit/config and missing runtime weight hashes remain unknown. No posthoc value is represented as runtime verification.",
+        "limitation_zh": "部分早期检查点的来源在权重删除后通过版本元数据恢复；当时实际使用的提交、配置及缺失的权重哈希仍未知。事后恢复值不代表运行时验证。"
+      },
       "en": {
-        "message": "This model has no published results yet. Extraction, annotation, review and translation must finish before results are shown."
+        "message": "Real bilingual checkpoint results are available; extraction, final analysis, or data packaging continue."
       },
       "zh": {
-        "message": "该模型尚未发布分析结果。抽取、标注、复核及翻译完成后才会展示。"
+        "message": "已提供真实检查点的中英双语结果，抽取、完整分析或数据打包仍在继续。"
+      },
+      "source_restrictions": {
+        "scope": "Only explicitly verified steps are released; other checkpoints remain quarantined.",
+        "allowed_steps": [
+          0,
+          143000
+        ],
+        "strict_completion_plan_unchanged": true
       }
     },
     {
