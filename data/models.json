@@ -6,6 +6,7 @@
       "id": "pythia-14m",
       "label": "Pythia-14M",
       "status": "partial",
+      "data_version": "d9e7ffa34620db0e9bae1b8775b5692f77bbd6c0584e35d83d2ae921923503db",
       "compression": "gzip",
       "data_path": "data/models/pythia-14m",
       "source_language": "en",
@@ -16,16 +17,16 @@
       "translation_model": "gpt-6-luna",
       "counts": {
         "neurons": 120,
-        "published_steps": 1,
+        "published_steps": 4,
         "planned_annotation_steps": 40,
-        "extracted_checkpoints": 25,
+        "extracted_checkpoints": 83,
         "planned_extraction_checkpoints": 154
       },
       "annotation_complete": false,
       "analysis_complete": false,
       "data_packaging_complete": false,
       "source_provenance": {
-        "runtime": 23,
+        "runtime": 83,
         "posthoc": 0,
         "runtime_weight_hashes_unknown": 0,
         "limitation": "Posthoc recovered checkpoints identify current immutable revision metadata; runtime commit/config and missing runtime weight hashes remain unknown. No posthoc value is represented as runtime verification."
