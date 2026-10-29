@@ -2,7 +2,7 @@
   "id": "pythia-1.4b",
   "label": "Pythia-1.4B",
   "status": "partial",
-  "data_version": "d293e6bb5d1947c0feb94cb2ab446e40d9f27cb2642ec3a3ac39f57fb9a327fd",
+  "data_version": "4f84350e802c7b61ada8b4889308f9fd6cdb4ce881048345ad1077eac576113d",
   "compression": "gzip",
   "data_path": "data/models/pythia-1.4b",
   "source_language": "en",
@@ -13,16 +13,16 @@
   "translation_model": "gpt-6-luna",
   "counts": {
     "neurons": 480,
-    "published_steps": 1,
+    "published_steps": 4,
     "planned_annotation_steps": 40,
-    "extracted_checkpoints": 4,
+    "extracted_checkpoints": 53,
     "planned_extraction_checkpoints": 154
   },
   "annotation_complete": false,
   "analysis_complete": false,
   "data_packaging_complete": false,
   "source_provenance": {
-    "runtime": 3,
+    "runtime": 52,
     "posthoc": 1,
     "runtime_weight_hashes_unknown": 0,
     "limitation": "Posthoc recovered checkpoints identify current immutable revision metadata; runtime commit/config and missing runtime weight hashes remain unknown. No posthoc value is represented as runtime verification.",
@@ -33,5 +33,38 @@
   },
   "zh": {
     "message": "已提供真实检查点的中英双语结果，抽取、完整分析或数据打包仍在继续。"
+  },
+  "execution_policy": {
+    "current_plan": {
+      "schema_version": 1,
+      "id": "terra-luna-none-v1",
+      "sha256": "eb02f6836f6dd214d8c33af42592cad3539db0c7f303f4b2f39dbe2bcce13b76",
+      "efforts": {
+        "gpt-6.1-terra": "none",
+        "gpt-6-luna": "none"
+      },
+      "allow_legacy_efforts": [
+        "low"
+      ]
+    },
+    "legacy_results_retained": true,
+    "count_scope": "Latest record per key in each local table, including unpublished or quarantined records.",
+    "explanation_efforts": {
+      "legacy_low_from_frozen_config": 2323,
+      "none": 125
+    },
+    "detection_efforts": {
+      "legacy_low_from_frozen_config": 2321,
+      "none": 126
+    },
+    "translation_efforts": {
+      "legacy_low_from_frozen_config": 2289,
+      "none": 156
+    },
+    "verified_none_counts": {
+      "explanations": 125,
+      "detections": 126,
+      "translations": 156
+    }
   }
 }
