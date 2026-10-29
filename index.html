@@ -214,6 +214,19 @@ const $ = id => document.getElementById(id);
 const Q = new URLSearchParams(location.search), EMBED = Q.has("embed");
 const FULL_URL = "https://heartyhaven.github.io/pythia-neuron-explorer/";
 let MODELS = [], CURRENT_MODEL = null, DATA_ROOT = "data";
+async function fetchModelJSON(name) {
+  const compressed = CURRENT_MODEL?.compression === "gzip";
+  const response = await fetch(`${DATA_ROOT}/${name}.json${compressed ? ".gz" : ""}`);
+  if (!response.ok) throw new Error(`Model data unavailable: ${response.status}`);
+  if (!compressed) return response.json();
+  const bytes = new Uint8Array(await response.arrayBuffer());
+  if (bytes[0] === 0x1f && bytes[1] === 0x8b) {
+    if (typeof DecompressionStream === "undefined") throw new Error("This browser needs gzip decompression support");
+    const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"));
+    return JSON.parse(await new Response(stream).text());
+  }
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
 const modelLabel = () => CURRENT_MODEL?.label || "Pythia-160M";
 const S = { pin: null, famFocus: null, colorBy: "mech", mapIdx: 39, playing: null, anchor: null, sim: null, mapPos: {}, anim: null, meta: null, layers: {}, grouping: "category", group: null, sel: null, step: null, cmp: null, topn: 5, query: "", lang: "zh" };
 
@@ -483,7 +496,7 @@ function renderList() {
 }
 async function loadSim() {
   if (S.sim) return S.sim;
-  const d = await (await fetch(`${DATA_ROOT}/sim.json`)).json();
+  const d = await fetchModelJSON("sim");
   const N = d.order.length;
   const steps = d.steps.map(b64 => { const bin = atob(b64), a = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i); return a; });
   // 全局尺度：所有时间步、所有神经元两两之间的最大语义差异（不逐时间步归一化）
@@ -599,7 +612,7 @@ function renderLeft() { renderGroups(); renderList(); renderMap(); }
 
 // ---------- 选择神经元 ----------
 async function layerData(l) {
-  if (!S.layers[l]) S.layers[l] = await (await fetch(`${DATA_ROOT}/L${l}.json`)).json();
+  if (!S.layers[l]) S.layers[l] = await fetchModelJSON(`L${l}`);
   return S.layers[l];
 }
 async function select(id, step) {
@@ -663,7 +676,7 @@ function renderRight() {
   $("right").innerHTML = !EMBED ? head + cards + evolutionPanel(n) + table + stepPanel
     : `<div class="panel embhead"><b style="font-size:15px">L${n.layer}/N${n.neuron}</b> <span class="sec">${esc(L(n, "label"))}</span>
         <span class="chip">${t("evo")} <b>${esc(E("rg", n.rg))}</b></span><span class="chip">${t("denoise")} <b>${esc(E("diff", n.diff))}</b></span>
-        <a class="hbtn" href="${FULL_URL}#L${n.layer}-N${n.neuron}" target="_blank" rel="noopener">${t("openFull")} ↗</a></div>`
+        <a class="hbtn" href="${FULL_URL}?model=${encodeURIComponent(CURRENT_MODEL.id)}&lang=${S.lang}#L${n.layer}-N${n.neuron}" target="_blank" rel="noopener">${t("openFull")} ↗</a></div>`
       + evolutionPanel(n) + stepPanel + `<details class="panel"><summary>${t("moreAI")}</summary>${cards}${table}</details>`;
   $("topn").value = String(S.topn);
   $("topn").onchange = e => { S.topn = +e.target.value; renderStep(); };
@@ -1042,9 +1055,7 @@ async function loadModels() {
   await loadModels();
   if (!CURRENT_MODEL.data_path) { renderPendingModel(); return; }
   DATA_ROOT = CURRENT_MODEL.data_path.replace(/\/$/, "");
-  const metaResponse = await fetch(`${DATA_ROOT}/meta.json`);
-  if (!metaResponse.ok) throw new Error(`Model data unavailable: ${metaResponse.status}`);
-  S.meta = await metaResponse.json();
+  S.meta = await fetchModelJSON("meta");
   if (!S.meta.neurons.length || !S.meta.steps.length) { renderPendingModel(); return; }
   const dataset = document.querySelector('a[href*="huggingface.co/datasets/"]');
   if (dataset && CURRENT_MODEL.dataset_url) dataset.href = CURRENT_MODEL.dataset_url;
