@@ -1009,7 +1009,11 @@ const MODEL_STATUS = {
   en: {ready:"Available", partial:"Partial results", queued:"Queued", preparing:"Preparing", running:"Running", blocked_source:"Source under review", blocked_gpu:"Waiting for GPU", failed:"Needs attention"},
   zh: {ready:"已有结果", partial:"部分结果", queued:"待运行", preparing:"准备中", running:"运行中", blocked_source:"来源核对中", blocked_gpu:"等待 GPU", failed:"需要处理"},
 };
-const modelState = m => PROGRESS?.models?.[m.id]?.source_under_review ? "blocked_source" : !m.data_path && PROGRESS?.models?.[m.id]?.extracted_checkpoints > 0 ? "running" : m.status;
+const sourceReviewBlocks = m => {
+  const row = PROGRESS?.models?.[m?.id];
+  return !!row?.source_under_review && (!row.source_approved_panel_version || row.source_approved_panel_version !== m.data_version);
+};
+const modelState = m => sourceReviewBlocks(m) ? "blocked_source" : !m.data_path && PROGRESS?.models?.[m.id]?.extracted_checkpoints > 0 ? "running" : m.status;
 function progressText() {
   const row = PROGRESS?.models?.[CURRENT_MODEL?.id];
   if (!row) return "";
@@ -1032,12 +1036,12 @@ function renderModelPicker() {
 function renderPendingModel() {
   if (!CURRENT_MODEL) return;
   $("hdrinfo").textContent = modelLabel() + " · " + (MODEL_STATUS[S.lang][modelState(CURRENT_MODEL)] || modelState(CURRENT_MODEL));
-  $("nlist").textContent = PROGRESS?.models?.[CURRENT_MODEL.id]?.source_under_review
+  $("nlist").textContent = sourceReviewBlocks(CURRENT_MODEL)
     ? (S.lang === "zh" ? "分析结果暂时隔离，核实来源后恢复展示。" : "Analysis results are withheld while checkpoint sources are verified.")
     : (S.lang === "zh" ? "尚无已发布的分析结果。" : "No analysis results published yet.");
   $("groups").replaceChildren(); $("map").replaceChildren();
   for (const id of ["grouping", "search", "mapstep", "mapplay"]) $(id).disabled = true;
-  const message = (PROGRESS?.models?.[CURRENT_MODEL.id]?.source_under_review ? (S.lang === "zh" ? "正在核对检查点来源，核实前暂不展示分析结果。原始记录已保留。" : "Checkpoint sources are under review. Analysis results are temporarily withheld; original records are preserved.") : CURRENT_MODEL[S.lang]?.message || CURRENT_MODEL.message) || (S.lang === "zh" ? "结果准备好后会出现在这里。" : "Results will appear here when they are ready.");
+  const message = (sourceReviewBlocks(CURRENT_MODEL) ? (S.lang === "zh" ? "正在核对检查点来源，核实前暂不展示分析结果。原始记录已保留。" : "Checkpoint sources are under review. Analysis results are temporarily withheld; original records are preserved.") : CURRENT_MODEL[S.lang]?.message || CURRENT_MODEL.message) || (S.lang === "zh" ? "结果准备好后会出现在这里。" : "Results will appear here when they are ready.");
   $("right").innerHTML = `<section class="panel"><h2>${esc(modelLabel())}</h2><p>${esc(message)}</p>${progressText() ? `<p class="model-status">${esc(progressText())}</p>` : ""}<p class="model-status">${esc(MODEL_STATUS[S.lang][modelState(CURRENT_MODEL)] || modelState(CURRENT_MODEL))}</p></section>`;
 }
 async function loadModels() {
@@ -1090,7 +1094,7 @@ async function loadModels() {
   };
   setLang(Q.get("lang") === "zh" ? "zh" : "en");  // 每次打开都从英文开始（嵌入时跟随博客）
   await loadModels();
-  if (!CURRENT_MODEL.data_path || PROGRESS?.models?.[CURRENT_MODEL.id]?.source_under_review) { renderPendingModel(); return; }
+  if (!CURRENT_MODEL.data_path || sourceReviewBlocks(CURRENT_MODEL)) { renderPendingModel(); return; }
   DATA_ROOT = CURRENT_MODEL.data_path.replace(/\/$/, "");
   S.meta = await fetchModelJSON("meta");
   if (!S.meta.neurons.length || !S.meta.steps.length) { renderPendingModel(); return; }
