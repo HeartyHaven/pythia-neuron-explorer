@@ -2,7 +2,7 @@
   "id": "pythia-2.8b",
   "label": "Pythia-2.8B",
   "status": "partial",
-  "data_version": "af815cd2b765d89bb019c787cfb9bf24c9d297e6ee8e8589bd750c791c64f8ea",
+  "data_version": "02720c6aac31a48504f340a3af0c22e10ad8acd08fbb9dcb275cb1ae8321466e",
   "compression": "gzip",
   "data_path": "data/models/pythia-2.8b",
   "source_language": "en",
@@ -13,7 +13,7 @@
   "translation_model": "gpt-6-luna",
   "counts": {
     "neurons": 640,
-    "published_steps": 3,
+    "published_steps": 4,
     "planned_annotation_steps": 40,
     "extracted_checkpoints": 19,
     "planned_extraction_checkpoints": 154
@@ -76,20 +76,20 @@
     "count_scope": "Latest record per key in each local table, including unpublished or quarantined records.",
     "explanation_efforts": {
       "legacy_low_from_frozen_config": 1466,
-      "none": 508
+      "none": 1170
     },
     "detection_efforts": {
       "legacy_low_from_frozen_config": 1462,
-      "none": 510
+      "none": 1172
     },
     "translation_efforts": {
       "legacy_low_from_frozen_config": 1272,
-      "none": 673
+      "none": 1344
     },
     "verified_none_counts": {
-      "explanations": 508,
-      "detections": 510,
-      "translations": 673
+      "explanations": 1170,
+      "detections": 1172,
+      "translations": 1344
     }
   }
 }
