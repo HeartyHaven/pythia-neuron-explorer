@@ -1,0 +1,28 @@
+{
+  "id": "pythia-70m",
+  "label": "Pythia-70M",
+  "status": "partial",
+  "compression": "gzip",
+  "data_path": "data/models/pythia-70m",
+  "source_language": "en",
+  "corpus": "NeelNanda/pile-10k",
+  "probe_sha256": "62be7d14f62a4bdc96cec943eaf9b5225ebcc6a085dff28293a263b896986899",
+  "annotation_model": "gpt-6.1-terra",
+  "review_model": "claude-opus-5-5",
+  "translation_model": "gpt-6-luna",
+  "counts": {
+    "neurons": 120,
+    "published_steps": 1,
+    "planned_annotation_steps": 40,
+    "extracted_checkpoints": 11,
+    "planned_extraction_checkpoints": 154
+  },
+  "annotation_complete": false,
+  "analysis_complete": false,
+  "en": {
+    "message": "Real bilingual checkpoint results are available; extraction and final analysis continue."
+  },
+  "zh": {
+    "message": "已提供真实检查点的中英双语结果，抽取及完整分析仍在继续。"
+  }
+}
