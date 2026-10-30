@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": 1793360113.983219,
+  "observed_at": 1793361183.2046182,
   "models": {
     "pythia-14m": {
       "extracted_checkpoints": 154,
@@ -96,9 +96,9 @@
       "planned_annotation_steps": 40
     },
     "pythia-6.9b": {
-      "extracted_checkpoints": 93,
+      "extracted_checkpoints": 98,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 93,
+      "usable_extracted_checkpoints": 98,
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
@@ -106,9 +106,9 @@
       "planned_annotation_steps": 40
     },
     "pythia-12b": {
-      "extracted_checkpoints": 80,
+      "extracted_checkpoints": 87,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 80,
+      "usable_extracted_checkpoints": 87,
       "source_under_review": false,
       "source_blocked_steps": [
         50000,
