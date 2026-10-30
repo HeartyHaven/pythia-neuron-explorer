@@ -6,7 +6,7 @@
       "id": "pythia-14m",
       "label": "Pythia-14M",
       "status": "partial",
-      "data_version": "ec8587a89d970ca678572d1c78fadcd8cd822f72f612bd4b41d6dd79dde5d2f7",
+      "data_version": "771d396509f321a949d7b0063df326cbdac8877dd4129f9fa43d63dd6da09693",
       "compression": "gzip",
       "data_path": "data/models/pythia-14m",
       "source_language": "en",
@@ -17,12 +17,12 @@
       "translation_model": "gpt-6-luna",
       "counts": {
         "neurons": 120,
-        "published_steps": 16,
+        "published_steps": 40,
         "planned_annotation_steps": 40,
         "extracted_checkpoints": 152,
         "planned_extraction_checkpoints": 154
       },
-      "annotation_complete": false,
+      "annotation_complete": true,
       "analysis_complete": false,
       "data_packaging_complete": false,
       "source_provenance": {
@@ -54,20 +54,20 @@
         "count_scope": "Latest record per key in each local table, including unpublished or quarantined records.",
         "explanation_efforts": {
           "legacy_low_from_frozen_config": 2074,
-          "none": 237
+          "none": 2726
         },
         "detection_efforts": {
           "legacy_low_from_frozen_config": 2068,
-          "none": 243
+          "none": 2732
         },
         "translation_efforts": {
           "legacy_low_from_frozen_config": 1854,
-          "none": 228
+          "none": 3066
         },
         "verified_none_counts": {
-          "explanations": 237,
-          "detections": 243,
-          "translations": 228
+          "explanations": 2726,
+          "detections": 2732,
+          "translations": 3066
         }
       }
     },
