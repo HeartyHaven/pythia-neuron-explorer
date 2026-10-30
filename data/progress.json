@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": 1793349023.3645842,
+  "observed_at": 1793349577.0183568,
   "models": {
     "pythia-14m": {
       "extracted_checkpoints": 154,
@@ -43,9 +43,9 @@
       "planned_annotation_steps": 40
     },
     "pythia-410m": {
-      "extracted_checkpoints": 138,
+      "extracted_checkpoints": 144,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 138,
+      "usable_extracted_checkpoints": 144,
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
@@ -63,9 +63,9 @@
       "planned_annotation_steps": 40
     },
     "pythia-1.4b": {
-      "extracted_checkpoints": 115,
+      "extracted_checkpoints": 122,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 115,
+      "usable_extracted_checkpoints": 122,
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
@@ -96,9 +96,9 @@
       "planned_annotation_steps": 40
     },
     "pythia-6.9b": {
-      "extracted_checkpoints": 28,
+      "extracted_checkpoints": 30,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 28,
+      "usable_extracted_checkpoints": 30,
       "source_under_review": false,
       "source_blocked_steps": [],
       "source_approved_panel_version": null,
@@ -106,9 +106,9 @@
       "planned_annotation_steps": 40
     },
     "pythia-12b": {
-      "extracted_checkpoints": 23,
+      "extracted_checkpoints": 25,
       "planned_extraction_checkpoints": 154,
-      "usable_extracted_checkpoints": 23,
+      "usable_extracted_checkpoints": 25,
       "source_under_review": false,
       "source_blocked_steps": [
         50000,
